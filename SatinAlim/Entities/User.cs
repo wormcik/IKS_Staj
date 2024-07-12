@@ -10,11 +10,11 @@ namespace SatinAlim.Entities
 		[Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserId { get; set; }
-		
-		[Column(TypeName = "VARCHAR(1000)")]
+		[Required]
+		[Column(TypeName = "VARCHAR(50)")]
 		public string Name{get;set;}
-
-        [Column(TypeName = "VARCHAR(1000)")]
+		[Required]
+        [Column(TypeName = "VARCHAR(50)")]
 		public string LastName { get; set; }
 
     }
