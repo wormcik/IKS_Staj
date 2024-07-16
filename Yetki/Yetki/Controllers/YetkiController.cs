@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using Yetki.Models;
 using Yetki.Services;
 
 namespace Yetki.Controllers
@@ -16,9 +17,9 @@ namespace Yetki.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(bool),(int)HttpStatusCode.OK)]
-        public async Task<ActionResult<bool>> SignUp()
+        public async Task<ActionResult<bool>> SignUp(RegistrationModel registrationModel)
         {
-            var result = yetkiService.SignUpAsync();
+            var result = yetkiService.SignUpAsync(registrationModel);
             return Ok(result);
         }
 
