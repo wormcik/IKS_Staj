@@ -13,11 +13,14 @@ namespace Yetki.Entites
         }
 
         public DbSet<User> Users { get; set; }
-
+        public DbSet<UserType> UserTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasKey(u => u.UserID);
+
+            modelBuilder.Entity<UserType>().HasKey(u => u.TypeId);
+
             var defaultSchema = configuration.GetConnectionString("DefaultSchema");
             if (defaultSchema != null && defaultSchema != "public")
             {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Yetki.Entites;
 
@@ -11,9 +12,11 @@ using Yetki.Entites;
 namespace Yetki.Migrations
 {
     [DbContext(typeof(YetkiDbContext))]
-    partial class YetkiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716102113_UserType")]
+    partial class UserType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,10 +67,6 @@ namespace Yetki.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
@@ -75,20 +74,6 @@ namespace Yetki.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users", "yetki");
-                });
-
-            modelBuilder.Entity("Yetki.Entites.UserType", b =>
-                {
-                    b.Property<int>("TypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(50)");
-
-                    b.HasKey("TypeId");
-
-                    b.ToTable("UserTypes", "yetki");
                 });
 #pragma warning restore 612, 618
         }

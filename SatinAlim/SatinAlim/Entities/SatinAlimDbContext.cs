@@ -15,7 +15,7 @@ namespace SatinAlim.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.HasCollation("my_collation", locale: "tr-TR-u-ks-level2", provider: "icu", deterministic: false); //custom collation
-
+      
             var defaultSchema = configuration.GetConnectionString("DefaultSchema");
             if (defaultSchema != null && defaultSchema != "public")
             {

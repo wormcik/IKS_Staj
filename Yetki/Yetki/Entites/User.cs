@@ -16,7 +16,7 @@ namespace Yetki.Entites
 		[Column(TypeName = "VARCHAR(50)")]
 		public string Name { get; set; }
 
-        [Required]
+        
 		[Column(TypeName = "VARCHAR(50)")]
 		public string LastName { get; set; }
 
@@ -28,8 +28,10 @@ namespace Yetki.Entites
         [Column(TypeName = "VARCHAR(200)")]
 		public string Password { get; set; }
 
-		[Required]
-		public bool Removed { get; set; }
+
+		public string UserType { get; set; }
+
+		public bool Removed { get; set; } = false;
     }
 }
 
