@@ -77,6 +77,17 @@ namespace Yetki.Services
             }
         }
 
+        public string GenerateJwtToken(SignInModel signInModel)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+            };
+
+            // var key = new Symmetric
+        }
+
         //public string GenerateJwtToken(SignInModel signInModel)
         //{
         //    var claims = new[]
