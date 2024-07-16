@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Yetki.Entites;
+using Yetki.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
 // Add services to the container.
+builder.Services.AddScoped<YetkiService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
