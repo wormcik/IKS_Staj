@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Yetki.Entites;
 
@@ -11,9 +12,11 @@ using Yetki.Entites;
 namespace Yetki.Migrations
 {
     [DbContext(typeof(YetkiDbContext))]
-    partial class YetkiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716110914_UserRoleType")]
+    partial class UserRoleType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,7 +109,7 @@ namespace Yetki.Migrations
 
                     b.HasKey("UserRoleTypeId");
 
-                    b.ToTable("UserRoleTypes", "yetki");
+                    b.ToTable("userRoleTypes", "yetki");
                 });
 
             modelBuilder.Entity("Yetki.Entites.UserType", b =>

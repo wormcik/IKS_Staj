@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Yetki.Entites;
 
@@ -11,9 +12,11 @@ using Yetki.Entites;
 namespace Yetki.Migrations
 {
     [DbContext(typeof(YetkiDbContext))]
-    partial class YetkiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716105503_UserRoles")]
+    partial class UserRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,24 +92,6 @@ namespace Yetki.Migrations
                     b.HasKey("UserRoleId");
 
                     b.ToTable("UserRoles", "yetki");
-                });
-
-            modelBuilder.Entity("Yetki.Entites.UserRoleType", b =>
-                {
-                    b.Property<int>("UserRoleTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserRoleName")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(50)");
-
-                    b.Property<string>("UserTypeName")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(50)");
-
-                    b.HasKey("UserRoleTypeId");
-
-                    b.ToTable("UserRoleTypes", "yetki");
                 });
 
             modelBuilder.Entity("Yetki.Entites.UserType", b =>
