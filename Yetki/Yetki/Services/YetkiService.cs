@@ -1,9 +1,21 @@
+using Microsoft.AspNetCore.Identity;
+using Yetki.Entites;
+using Yetki.Models;
+
 namespace Yetki.Services
 {
     public class YetkiService
     {
-        public async Task<bool> SignUpAsync()
+        private readonly YetkiDbContext yetkiDbContext;
+
+        public YetkiService(YetkiDbContext yetkiDbContext)
         {
+            this.yetkiDbContext = yetkiDbContext;
+        }
+
+        public async Task<bool> SignUpAsync(RegistrationModel registrationModel)
+        {
+
             try
             {
                 return true;
@@ -17,6 +29,7 @@ namespace Yetki.Services
         {
             try
             {
+                
                 return true;
             }
             catch (Exception ex)
