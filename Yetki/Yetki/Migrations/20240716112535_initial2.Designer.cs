@@ -12,8 +12,8 @@ using Yetki.Entites;
 namespace Yetki.Migrations
 {
     [DbContext(typeof(YetkiDbContext))]
-    [Migration("20240716102113_UserType")]
-    partial class UserType
+    [Migration("20240716112535_initial2")]
+    partial class initial2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,10 @@ namespace Yetki.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime");
 
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("VARCHAR(50)");
@@ -74,6 +78,52 @@ namespace Yetki.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users", "yetki");
+                });
+
+            modelBuilder.Entity("Yetki.Entites.UserRole", b =>
+                {
+                    b.Property<int>("UserRoleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.HasKey("UserRoleId");
+
+                    b.ToTable("UserRoles", "yetki");
+                });
+
+            modelBuilder.Entity("Yetki.Entites.UserRoleType", b =>
+                {
+                    b.Property<int>("UserRoleTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserRoleName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.Property<string>("UserTypeName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.HasKey("UserRoleTypeId");
+
+                    b.ToTable("UserRoleTypes", "yetki");
+                });
+
+            modelBuilder.Entity("Yetki.Entites.UserType", b =>
+                {
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(50)");
+
+                    b.HasKey("TypeId");
+
+                    b.ToTable("UserTypes", "yetki");
                 });
 #pragma warning restore 612, 618
         }
