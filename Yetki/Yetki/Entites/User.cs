@@ -9,7 +9,7 @@ namespace Yetki.Entites
 
     {
 		[Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }
 
         [Required]

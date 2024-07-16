@@ -18,14 +18,6 @@ namespace Yetki.Entites
         public DbSet<UserRoleType> UserRoleTypes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(u => u.UserID);
-
-            modelBuilder.Entity<UserType>().HasKey(u => u.TypeId);
-
-            modelBuilder.Entity<UserRole>().HasKey(u => u.UserRoleId);
-
-            modelBuilder.Entity<UserRoleType>().HasKey(u => u.UserRoleTypeId);
-
             var defaultSchema = configuration.GetConnectionString("DefaultSchema");
             if (defaultSchema != null && defaultSchema != "public")
             {

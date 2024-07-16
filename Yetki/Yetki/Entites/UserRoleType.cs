@@ -7,7 +7,7 @@ namespace Yetki.Entites
 	public class UserRoleType
 	{
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserRoleTypeId { get; set; }
 
         [Column(TypeName = "VARCHAR(50)")]

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Yetki.Entites
 {
+    //Kayıt Bilgi
 	public class RegistrationInfo
 	{
         public Guid? RegistrationUserCode { get; set; }
