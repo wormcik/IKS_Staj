@@ -8,28 +8,28 @@ namespace Yetki.Entites
 {
 	public class RegistrationInfo
 	{
-        [Required]
-        Guid? RegistrationUserCode { get; set; }
+        
+        public Guid? RegistrationUserCode { get; set; }
 
-        [Required]
+        
         [Column(TypeName = "VARCHAR(50)")]
-        string? RegistrationUserName { get; set; }
+        public string? RegistrationUserName { get; set; }
 
-        [Required]
-        DateTime? RegistrationDate { get; set; }
+        //[Column(TypeName = "date")]
+        public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        [Required]
-        Guid? UpdateUserCode { get; set; }
 
-        [Required]
-        DateTime? UpdateDate { get; set; }
+        public Guid? UpdateUserCode { get; set; }
 
-        [Required]
+        //[Column(TypeName = "datetime")]
+        public DateTime? UpdatedDate { get; set; }
+
+
         [Column(TypeName = "VARCHAR(50)")]
-        string? UpdateUserName { get; set; }
+        public string? UpdateUserName { get; set; }
 
-        [Required]
-        Guid? ProcessCode { get; set; }
+        
+        public Guid? ProcessCode { get; set; }
     }
 }
 

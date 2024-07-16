@@ -34,7 +34,7 @@ namespace Yetki.Entites
         {
             base.ConfigureConventions(configurationBuilder);
 
-            _ = configurationBuilder.Properties<DateTime>().HaveColumnType("timestamp");
+            _ = configurationBuilder.Properties<DateTime>().HaveColumnType("datetime");
         }
 
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Yetki.Entites;
 
@@ -11,9 +12,11 @@ using Yetki.Entites;
 namespace Yetki.Migrations
 {
     [DbContext(typeof(YetkiDbContext))]
-    partial class YetkiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716083021_test6")]
+    partial class test6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +46,9 @@ namespace Yetki.Migrations
                     b.Property<Guid?>("ProcessCode")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("RegistrationDate")
-                        .HasColumnType("datetime");
+                    b.Property<byte[]>("RegistrationDate")
+                        .IsRequired()
+                        .HasColumnType("timestamp");
 
                     b.Property<Guid?>("RegistrationUserCode")
                         .HasColumnType("uniqueidentifier");
@@ -60,9 +64,6 @@ namespace Yetki.Migrations
 
                     b.Property<string>("UpdateUserName")
                         .HasColumnType("VARCHAR(50)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime");
 
                     b.Property<string>("Username")
                         .IsRequired()
