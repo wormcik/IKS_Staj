@@ -12,7 +12,7 @@ namespace Yetki.Entites
 
         [Column(TypeName = "VARCHAR(50)")]
         public string? RegistrationUserName { get; set; }
-        public DateTime RegistrationDate { get; set; } = DateTime.Now;
+        public DateTime? RegistrationDate { get; set; } = DateTime.Now;
         public Guid? UpdateUserCode { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
@@ -20,6 +20,6 @@ namespace Yetki.Entites
         public string? UpdateUserName { get; set; }
         
         public Guid? ProcessCode { get; set; }
-    }
+    } 
 }
 
