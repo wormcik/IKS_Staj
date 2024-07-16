@@ -18,7 +18,22 @@ namespace Yetki.Services
 
             try
             {
-                return true;
+                var objUser = yetkiDbContext.Users.FirstOrDefault(x => x.Username == registrationModel.Username);
+                if (objUser == null)
+                {
+                    var user = new User();
+                    user.Username = registrationModel.Username;
+                    user.Name = registrationModel.Name;
+                    user.LastName = registrationModel.LastName;
+                    user.Password = registrationModel.Password;
+                    user.UserType = registrationModel.UserType;
+                    user.RegistrationDate = DateTime.Now;
+                    yetkiDbContext.Users.Add(user);
+                    return true;
+                }
+                else
+                    return false;
+                
             }
             catch (Exception ex)
             {
