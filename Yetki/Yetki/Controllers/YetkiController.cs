@@ -25,12 +25,13 @@ namespace Yetki.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
-        public async  Task<ActionResult<bool>> SingIn()
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<string>> SingIn(SignInModel signInModel)
         {
-            var result = yetkiService.SignInAsync();
+            var result = yetkiService.SignInAsync(signInModel);
             return Ok(result);
         }
-       
+
+
     }
 }

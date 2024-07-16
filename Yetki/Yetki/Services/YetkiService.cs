@@ -48,18 +48,47 @@ namespace Yetki.Services
                 throw ex;
             }
         }
-        public async Task<bool> SignInAsync()
+        public async Task<bool> SignInAsync(SignInModel signInModel)
         {
             try
             {
-                
+                var user = await yetkiDbContext.Users.FirstOrDefaultAsync(u => u.Username == signInModel.Username);
+                if (user == null)
+                {
+                    return false;
+                }
+
+                if (user.Password != signInModel.Password)
+                {
+                    return false;
+                }
+
                 return true;
+                // create jwt token
+               // var resultJwt = JwtMaker(signInModel);
+
+
+
+              //  return resultJwt;
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
+
+        public string GenerateJwtToken(SignInModel signInModel)
+        {
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+            };
+
+            // var key = new Symmetric
+        }
+
+        //JwtMaker
 
         private string HashPassword(string password)
         {
