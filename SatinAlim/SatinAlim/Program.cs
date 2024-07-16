@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SatinAlim.Entities;
+using SatinAlim.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
 // Add services to the container.
-
+builder.Services.AddScoped<SatinAlimService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
