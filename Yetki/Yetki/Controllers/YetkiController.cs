@@ -4,8 +4,7 @@ using Yetki.Services;
 
 namespace Yetki.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [ApiController, Route("api/v1/yetki/[controller]/[action]")]
     public class YetkiController : ControllerBase
     {
         private readonly YetkiService yetkiService;
@@ -27,7 +26,7 @@ namespace Yetki.Controllers
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async  Task<ActionResult<bool>> SingIn()
         {
-            var result = yetkiService.SignUpAsync();
+            var result = yetkiService.SignInAsync();
             return Ok(result);
         }
        
