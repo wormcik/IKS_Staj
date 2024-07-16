@@ -1,6 +1,8 @@
+using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using System.Security.Cryptography;
 using Yetki.Entites;
 using Yetki.Helpers;
 using Yetki.Models;
@@ -58,5 +60,15 @@ namespace Yetki.Services
                 throw ex;
             }
         }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                return Convert.ToBase64String(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
+            }
+        }
+
+
     }
 }
