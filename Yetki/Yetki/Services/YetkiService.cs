@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Azure.Identity;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace Yetki.Services
 {
@@ -31,18 +32,10 @@ namespace Yetki.Services
 
             try
             {
-                var roleList = GetUserTypeRoles("TypeC");/////////
-                var b = roleList[0];
-                b = null;
-                foreach (var a in roleList)
-                    b += a;
-
-
-
                 var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
                 if (objUser != null)
                 {
-                    return new ProcessResult<bool>().Failed("User already exists in the database."+b);
+                    return new ProcessResult<bool>().Failed("User already exists in the database.");
                 }
 
                 if (!IsStringPartOfEnum<UserTypeEnum>(registrationModel.UserType))
@@ -93,7 +86,7 @@ namespace Yetki.Services
                 
 
                 var resultJwt = GenerateJwtToken(signInModel);
-
+                
 
                 return new ProcessResult<string>().Successful(resultJwt);
 
@@ -111,6 +104,7 @@ namespace Yetki.Services
 
             var claims = new[]
             {
+                
                 new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
                // new Claim(JwtRegisteredClaimNames.Jti,)
             };
@@ -181,5 +175,17 @@ namespace Yetki.Services
                 return results;
         }
 
+
+
+        public List<string> GetUserRoles(string token)
+        {
+            var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            string username = jwt.Claims.First(c => c.Type == "Username").Value;
+
+            var objUser = yetkiDbContext.User.FirstOrDefault(x => x.Username == username);
+
+
+            return GetUserTypeRoles(objUser.UserType);
+        }
     }
 }
