@@ -6,6 +6,11 @@ using System.Security.Cryptography;
 using Yetki.Entites;
 using Yetki.Helpers;
 using Yetki.Models;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Azure.Identity;
 
 namespace Yetki.Services
 {
@@ -49,28 +54,28 @@ namespace Yetki.Services
                 throw ex;
             }
         }
-        public async Task<bool> SignInAsync(SignInModel signInModel)
+        public async Task<ProcessResult<string>> SignInAsync(SignInModel signInModel)
         {
             try
             {
                 var user = await yetkiDbContext.User.FirstOrDefaultAsync(u => u.Username == signInModel.Username);
                 if (user == null)
                 {
-                    return false;
+                    return new ProcessResult<string>().Failed("No user with this username");
                 }
 
                 if (user.Password != signInModel.Password)
                 {
-                    return false;
+                    return new ProcessResult<string>().Failed("No user with this username and password");
                 }
 
-                return true;
-                // create jwt token
-               // var resultJwt = JwtMaker(signInModel);
+                
+
+                var resultJwt = GenerateJwtToken(signInModel);
 
 
+                return new ProcessResult<string>().Successful(resultJwt);
 
-              //  return resultJwt;
             }
             catch (Exception ex)
             {
@@ -78,38 +83,27 @@ namespace Yetki.Services
             }
         }
 
-        //public string GenerateJwtToken(SignInModel signInModel)
-        //{
-        //    var claims = new[]
-        //    {
-        //        new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-        //        new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-        //    };
+    
 
-        //    // var key = new Symmetric
-        //}
-
-        //public string GenerateJwtToken(SignInModel signInModel)
-        //{
-        //    var claims = new[]
-        //    {
-        //        new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-        //        new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-        //    };
-
-        //    // var key = new Symmetric
-        //}
-
-        //JwtMaker
-
-        private string HashPassword(string password)
+        public string GenerateJwtToken(SignInModel signInModel)
         {
-            using (var sha256 = SHA256.Create())
+           
+            var claims = new[]
             {
-                return Convert.ToBase64String(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
-            }
-        }
+                new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signInModel.Password));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var expires = DateTime.Now.AddMinutes(30);
+
+
+
+            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expires, signingCredentials: creds);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
 
     }
 }
