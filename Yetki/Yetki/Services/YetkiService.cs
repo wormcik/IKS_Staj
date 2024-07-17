@@ -89,9 +89,10 @@ namespace Yetki.Services
                     return new ProcessResult<string>().Failed("No user with this username and password");
                 }
 
-                
+                var roles = GetUserTypeRoles(user.UserType);
 
-                var resultJwt = GenerateJwtToken(signInModel);
+
+                var resultJwt = GenerateJwtToken(signInModel,roles);
                 
 
                 return new ProcessResult<string>().Successful(resultJwt);
@@ -104,15 +105,15 @@ namespace Yetki.Services
         }
 
 
-        public string GenerateJwtToken(SignInModel signInModel)
+        public string GenerateJwtToken(SignInModel signInModel,List<String> roles)
         {
             var uniqueId = configuration["AppSettings:UniqueId"]; // Ensure this is long enough
-            var roles = new List<string> { "satýnçekmeyetki", "satýnvermeyetki", "satýnalmayetki" }; // Example roles
+           // var roles = new List<string> { "satýnçekmeyetki", "satýnvermeyetki", "satýnalmayetki" }; // Example roles
 
             var claims = new List<Claim>
-    {
-        new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
-    };
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
+            };
 
             // Add roles to claims
             foreach (var role in roles)
