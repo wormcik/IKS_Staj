@@ -6,6 +6,9 @@ using System.Security.Cryptography;
 using Yetki.Entites;
 using Yetki.Helpers;
 using Yetki.Models;
+using Yetki.Models.Enums;
+using System.Text.RegularExpressions;
+using System;
 
 namespace Yetki.Services
 {
@@ -23,17 +26,35 @@ namespace Yetki.Services
 
             try
             {
+                var roleList = GetUserTypeRoles("TypeC");/////////
+                var b = roleList[0];
+                b = null;
+                foreach (var a in roleList)
+                    b += a;
+
+
+
                 var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
                 if (objUser != null)
                 {
-                    return new ProcessResult<bool>().Failed("User already exists in the database.");
-
+                    return new ProcessResult<bool>().Failed("User already exists in the database."+b);
                 }
+
+                if (!IsStringPartOfEnum<UserTypeEnum>(registrationModel.UserType))
+                {
+                    return new ProcessResult<bool>().Failed("Invalid User Type.");
+                }
+
+                if (!IsPasswordEligible(registrationModel.Password))
+                {
+                    return new ProcessResult<bool>().Failed("Invalid Password.");
+                }
+
                 var user = new User();
                 user.Username = registrationModel.Username;
                 user.Name = registrationModel.Name;
                 user.LastName = registrationModel.LastName;
-                user.Password = registrationModel.Password;
+                user.Password = ComputeSha256Hash(registrationModel.Password);
                 user.UserType = registrationModel.UserType;
                 user.RegistrationUserCode = Guid.NewGuid();
                 user.ProcessCode = Guid.NewGuid();
@@ -102,12 +123,58 @@ namespace Yetki.Services
 
         //JwtMaker
 
-        private string HashPassword(string password)
+
+        static string ComputeSha256Hash(string rawData)
         {
-            using (var sha256 = SHA256.Create())
+            using (SHA256 sha256Hash = SHA256.Create())
             {
-                return Convert.ToBase64String(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
+
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString().ToUpper();
             }
+        }
+
+
+        static bool IsStringPartOfEnum<TEnum>(string value) where TEnum : struct
+        {
+            return Enum.TryParse(value, true, out TEnum _);
+        }
+
+
+        static bool IsPasswordEligible(string password)
+        {
+            if (password.Length < 8)
+            {
+                return false;
+            }
+            string numberPattern = @"\d";
+            if (Regex.Matches(password, numberPattern).Count < 1)
+            {
+                return false;
+            }
+            string specialCharPattern = @"[!@#$%^&*(),.?""':{}|<>\+\-]";
+            if (!Regex.IsMatch(password, specialCharPattern))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
+        public List<string> GetUserTypeRoles(string userType)
+        {
+                var results = yetkiDbContext.UserRoleType
+                                     .Where(x => x.UserTypeName == userType)
+                                     .Select(x => x.UserRoleName)
+                                     .ToList();
+                return results;
         }
 
 
