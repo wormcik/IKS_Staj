@@ -107,23 +107,29 @@ namespace Yetki.Services
 
         public string GenerateJwtToken(SignInModel signInModel)
         {
-            var deneme = configuration["Appsettings:UniqueId"];
-            var claims = new[]
-            {
-                
-                new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, configuration["Appsettings:UniqueId"])
-            };
+            var uniqueId = configuration["AppSettings:UniqueId"];
+            var roles = new List<string> { "satýnçekmeyetki", "satýnvermeyetki", "satýnalmayetki" }; // Example roles
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signInModel.Password));
+            var claims = new List<Claim>
+    {
+        new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
+    };
+
+            // Add roles to claims
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            // Ensure the UniqueId is used as a key
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(uniqueId));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.UtcNow.AddMinutes(30); // Use UtcNow for expiration time
+            var expires = DateTime.UtcNow.AddMinutes(30);
 
-            // Correctly create the token
             var token = new JwtSecurityToken(
-                issuer: null, // You can specify an issuer if needed
-                audience: null, // You can specify an audience if needed
+                issuer: null,
+                audience: null,
                 claims: claims,
                 expires: expires,
                 signingCredentials: creds
@@ -133,8 +139,6 @@ namespace Yetki.Services
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
-
-
 
 
 
