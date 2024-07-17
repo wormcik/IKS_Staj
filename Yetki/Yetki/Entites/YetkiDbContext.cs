@@ -12,10 +12,10 @@ namespace Yetki.Entites
             this.configuration = configuration;
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserType> UserTypes { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
-        public DbSet<UserRoleType> UserRoleTypes { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<UserType> UserType { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<UserRoleType> UserRoleType { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var defaultSchema = configuration.GetConnectionString("DefaultSchema");

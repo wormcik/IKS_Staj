@@ -17,10 +17,10 @@ namespace Yetki.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(bool),(int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ProcessResult<bool>),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<bool>>> SignUp(RegistrationModel registrationModel)
         {
-            var result = yetkiService.SignUpAsync(registrationModel);
+            var result = await yetkiService.SignUpAsync(registrationModel);
             return Ok(result);
         }
 

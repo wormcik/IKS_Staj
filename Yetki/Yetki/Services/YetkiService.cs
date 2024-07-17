@@ -23,10 +23,11 @@ namespace Yetki.Services
 
             try
             {
-                var objUser = await yetkiDbContext.Users.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
+                var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
                 if (objUser != null)
                 {
                     return new ProcessResult<bool>().Failed("User already exists in the database.");
+
                 }
                 var user = new User();
                 user.Username = registrationModel.Username;
@@ -37,7 +38,7 @@ namespace Yetki.Services
                 user.RegistrationUserCode = Guid.NewGuid();
                 user.ProcessCode = Guid.NewGuid();
                 user.RegistrationDate = DateTime.Now;
-                yetkiDbContext.Users.Add(user);
+                yetkiDbContext.User.Add(user);
 
                     yetkiDbContext.SaveChanges();
                 return new ProcessResult<bool>().Successful();
@@ -52,7 +53,7 @@ namespace Yetki.Services
         {
             try
             {
-                var user = await yetkiDbContext.Users.FirstOrDefaultAsync(u => u.Username == signInModel.Username);
+                var user = await yetkiDbContext.User.FirstOrDefaultAsync(u => u.Username == signInModel.Username);
                 if (user == null)
                 {
                     return false;
@@ -77,16 +78,16 @@ namespace Yetki.Services
             }
         }
 
-        public string GenerateJwtToken(SignInModel signInModel)
-        {
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
-            };
+        //public string GenerateJwtToken(SignInModel signInModel)
+        //{
+        //    var claims = new[]
+        //    {
+        //        new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+        //        new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
+        //    };
 
-            // var key = new Symmetric
-        }
+        //    // var key = new Symmetric
+        //}
 
         //public string GenerateJwtToken(SignInModel signInModel)
         //{
