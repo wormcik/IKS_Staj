@@ -105,7 +105,7 @@ namespace Yetki.Services
         }
 
 
-        public string GenerateJwtToken(SignInModel signInModel,List<String> roles)
+        public string GenerateJwtToken(SignInModel signInModel,List<string> roles)
         {
             var uniqueId = configuration["AppSettings:UniqueId"]; // Ensure this is long enough
            // var roles = new List<string> { "satýnçekmeyetki", "satýnvermeyetki", "satýnalmayetki" }; // Example roles
@@ -213,7 +213,7 @@ namespace Yetki.Services
         }
 
 
-
+        yetkiDbContext.
 
         public List<string> GetUserRoles2(string token)
         {
