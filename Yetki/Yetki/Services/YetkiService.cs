@@ -15,16 +15,20 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Azure.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.Extensions.Configuration;
 
 namespace Yetki.Services
 {
     public class YetkiService
     {
         private readonly YetkiDbContext yetkiDbContext;
+        private readonly string uniqueId;
+        private readonly IConfiguration configuration;
 
-        public YetkiService(YetkiDbContext yetkiDbContext)
+        public YetkiService(YetkiDbContext yetkiDbContext,IConfiguration configuration)
         {
             this.yetkiDbContext = yetkiDbContext;
+            this.configuration = configuration;
         }
 
         public async Task<ProcessResult<bool>> SignUpAsync(RegistrationModel registrationModel)
@@ -101,23 +105,31 @@ namespace Yetki.Services
 
         public string GenerateJwtToken(SignInModel signInModel)
         {
-
             var claims = new[]
             {
-                
-                new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
-               // new Claim(JwtRegisteredClaimNames.Jti,)
-            };
+        new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
+        new Claim(JwtRegisteredClaimNames.Jti, uniqueId) // Use the uniqueId from the constructor
+    };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signInModel.Password));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.Now.AddMinutes(30);
-            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expires, signingCredentials: creds);
+            var expires = DateTime.UtcNow.AddMinutes(30); // Use UtcNow for expiration time
+
+            // Correctly create the token
+            var token = new JwtSecurityToken(
+                issuer: null, // You can specify an issuer if needed
+                audience: null, // You can specify an audience if needed
+                claims: claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
+
 
 
 
