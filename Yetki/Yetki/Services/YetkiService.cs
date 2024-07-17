@@ -112,7 +112,7 @@ namespace Yetki.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+               // new Claim(JwtRegisteredClaimNames.Jti,)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signInModel.Password));
