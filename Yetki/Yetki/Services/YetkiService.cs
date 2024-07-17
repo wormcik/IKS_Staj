@@ -104,10 +104,9 @@ namespace Yetki.Services
         }
 
 
-
         public string GenerateJwtToken(SignInModel signInModel)
         {
-            var uniqueId = configuration["AppSettings:UniqueId"];
+            var uniqueId = configuration["AppSettings:UniqueId"]; // Ensure this is long enough
             var roles = new List<string> { "satýnçekmeyetki", "satýnvermeyetki", "satýnalmayetki" }; // Example roles
 
             var claims = new List<Claim>
@@ -121,7 +120,7 @@ namespace Yetki.Services
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            // Ensure the UniqueId is used as a key
+            // Use UniqueId as signing key
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(uniqueId));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -139,7 +138,6 @@ namespace Yetki.Services
             var tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
-
 
 
         static string ComputeSha256Hash(string rawData)
