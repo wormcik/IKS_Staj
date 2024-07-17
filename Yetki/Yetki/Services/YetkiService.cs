@@ -25,14 +25,12 @@ namespace Yetki.Services
         private readonly IConfiguration configuration;
         private readonly YetkiDbContext yetkiDbContext;
         private readonly string uniqueId;
-        private readonly IConfiguration configuration;
 
         public YetkiService(YetkiDbContext yetkiDbContext,IConfiguration configuration)
         {
 
             this.configuration = configuration;
             this.yetkiDbContext = yetkiDbContext;
-            this.configuration = configuration;
         }
 
         public async Task<ProcessResult<bool>> SignUpAsync(RegistrationModel registrationModel)
@@ -109,6 +107,7 @@ namespace Yetki.Services
 
         public string GenerateJwtToken(SignInModel signInModel)
         {
+            var deneme = configuration["Appsettings:UniqueId"];
             var claims = new[]
             {
                 
