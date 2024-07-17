@@ -85,7 +85,7 @@ namespace Yetki.Services
                     return new ProcessResult<string>().Failed("No user with this username");
                 }
 
-                if (user.Password != signInModel.Password)
+                if (user.Password != ComputeSha256Hash(signInModel.Password))
                 {
                     return new ProcessResult<string>().Failed("No user with this username and password");
                 }
@@ -120,13 +120,15 @@ namespace Yetki.Services
 
             var expires = DateTime.Now.AddMinutes(30);
             var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expires, signingCredentials: creds);
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenString = tokenHandler.WriteToken(token);
+            return tokenString;
         }
 
 
 
 
-            static string ComputeSha256Hash(string rawData)
+        static string ComputeSha256Hash(string rawData)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
