@@ -104,11 +104,11 @@ namespace Yetki.Services
             }
         }
 
-    
+
 
         public string GenerateJwtToken(SignInModel signInModel)
         {
-           
+
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
@@ -119,11 +119,14 @@ namespace Yetki.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var expires = DateTime.Now.AddMinutes(30);
+            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims, expires: expires, signingCredentials: creds);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
 
 
 
 
-        static string ComputeSha256Hash(string rawData)
+            static string ComputeSha256Hash(string rawData)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
