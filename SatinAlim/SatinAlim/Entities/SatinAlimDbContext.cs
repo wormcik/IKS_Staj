@@ -11,7 +11,11 @@ namespace SatinAlim.Entities
             this.configuration = configuration;
         }
 
-        public DbSet<TestProduct> TestProducts { get; set; }
+        public DbSet<Personel> Personel { get; set; }
+        public DbSet<SatinAlmaBirim> SatinAlmaBirim { get; set; }
+        public DbSet<SatinAlmaBirimOnayci> SatinAlmaBirimOnayci { get; set; }
+
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.HasCollation("my_collation", locale: "tr-TR-u-ks-level2", provider: "icu", deterministic: false); //custom collation

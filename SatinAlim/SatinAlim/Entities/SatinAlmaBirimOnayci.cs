@@ -15,16 +15,14 @@ namespace SatinAlim.Entities
         [ForeignKey("SatinAlmaBirim")]
         public int SatinAlmaBirimKod { get; set; }
 
-
         [ForeignKey("Personel")]
         public int OnayPersonelKod { get; set; }
 
         [Required]
-        public int OnaySıra { get; set; }
+        public int OnaySıra { get; set; } 
 
         [Required]
-        public bool Sureli { get; set; }
-
+        public bool Sureli { get; set; } 
 
         public DateTime BaslangicTarih { get; set; }
 
