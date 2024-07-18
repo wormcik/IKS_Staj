@@ -11,18 +11,22 @@ namespace SatinAlim.Entities
         public long SatinAlmaHizmetKod { get; set; }
 
         [ForeignKey("SatinAlmaTalep")]
+        [Required]
         public long SatinAlmaTalepKod { get; set; }
 
         [Column(TypeName = "NUMERIC(18,2)")]
+        [Required]
         public decimal Miktar { get; set; }
 
         [Column(TypeName = "VARCHAR(10)")]
+        [Required]
         public string? PbKod { get; set; }
 
         [Column(TypeName = "NUMERIC(18,2)")]
+        [Required]
         public decimal BirimFiyat { get; set; }
 
-        public  SatinAlmaTalep? SatinAlmaTalep { get; set; }
+        public  SatinAlmaTalep SatinAlmaTalep { get; set; }
 
 
 

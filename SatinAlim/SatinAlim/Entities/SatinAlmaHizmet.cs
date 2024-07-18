@@ -10,13 +10,14 @@ namespace SatinAlim.Entities
         public int SatinAlmaHizmetKod { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
-        public string Tanim { get; set; }
+        [Required]
+        public string Tanim { get; set; } = null!;
 
         [Column(TypeName = "VARCHAR(2000)")]
-        public string Aciklama { get; set; }
+        public string? Aciklama { get; set; }
 
         [Column(TypeName = "VARCHAR(20)")]
-        public string Birim { get; set; }
+        public string? Birim { get; set; }
 
         public ICollection<SatinAlmaBirimHizmet>? SatinAlmaBirimHizmet { get; set; }
 

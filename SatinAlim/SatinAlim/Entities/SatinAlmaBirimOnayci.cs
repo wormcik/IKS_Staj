@@ -13,9 +13,11 @@ namespace SatinAlim.Entities
         public int SatinAlmaBirimOnayciKod { get; set; }
 
         [ForeignKey("SatinAlmaBirim")]
+        [Required]
         public int SatinAlmaBirimKod { get; set; }
 
         [ForeignKey("Personel")]
+        [Required]
         public int OnayPersonelKod { get; set; }
 
         [Required]
@@ -29,10 +31,10 @@ namespace SatinAlim.Entities
         public DateTime BitisTarih { get; set; }
 
         [JsonIgnore]
-        public  Personel? Personel { get; set; }
+        public  Personel Personel { get; set; }
 
         [JsonIgnore]
-        public  SatinAlmaBirim? SatinAlmaBirim { get; set; }
+        public  SatinAlmaBirim SatinAlmaBirim { get; set; }
     }
 }
 

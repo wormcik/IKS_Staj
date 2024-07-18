@@ -12,17 +12,19 @@ namespace SatinAlim.Entities
         public int SatınAlmaBirimPersonelKod { get; set; }
 
         [ForeignKey("SatinAlmaBirim")]
+        [Required]
         public int SatinAlmaBirimKod { get; set; }
 
         [ForeignKey("Personel")]
+        [Required]
         public int PersonelKod { get; set; }
 
 
         [JsonIgnore]
-        public Personel? Personel { get; set; }
+        public Personel Personel { get; set; }
 
         [JsonIgnore]
-        public SatinAlmaBirim? SatınAlmaBirim { get; set; }
+        public SatinAlmaBirim SatınAlmaBirim { get; set; }
 
 
     }

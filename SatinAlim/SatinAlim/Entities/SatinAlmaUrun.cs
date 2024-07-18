@@ -11,7 +11,8 @@ namespace SatinAlim.Entities
         public int SatinAlmaUrunKod { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
-        public string? Tanim { get; set; }
+        [Required]
+        public string Tanim { get; set; } = null!;
 
         [Column(TypeName = "VARCHAR(2000)")]
         public string? Aciklama { get; set; }

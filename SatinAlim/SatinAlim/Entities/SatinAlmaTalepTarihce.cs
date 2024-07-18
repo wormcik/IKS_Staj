@@ -12,30 +12,36 @@ namespace SatinAlim.Entities
         public long SatinAlmaTalepTarihceKod { get; set; }
 
         [ForeignKey("SatinAlmaTalep")]
+        [Required]
         public long SatinAlmaTalepKod { get; set; }
 
         [ForeignKey("Personel")]
+        [Required]
         public int PersonelKod { get; set; }
 
         [ForeignKey("SatinAlmaTalepDurum")]
         [Column(TypeName ="VARCHAR(20)")]
+        [Required]
         public string? SatinAlmaTalepDurumKod { get; set; }
 
+        [Required]
         public int OnaySira { get; set; }
 
         [Column(TypeName = "VARCHAR(2000)")]
+        [Required]
         public string? Aciklama { get; set; }
 
+        [Required]
         public DateTime IslemTarih { get; set; }
 
         [JsonIgnore]
-        public SatinAlmaTalepDurum? SatinAlmaTalepDurum { get; set; }
+        public SatinAlmaTalepDurum SatinAlmaTalepDurum { get; set; }
 
         [JsonIgnore]
-        public SatinAlmaTalep? SatinAlmaTalep { get; set; }
+        public SatinAlmaTalep SatinAlmaTalep { get; set; }
 
         [JsonIgnore]
-        public Personel? Personel { get; set; }
+        public Personel Personel { get; set; }
     }
 }
 
