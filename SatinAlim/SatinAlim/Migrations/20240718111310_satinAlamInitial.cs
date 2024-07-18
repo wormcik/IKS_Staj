@@ -6,14 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SatinAlim.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class satinAlamInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "TestProducts",
-                schema: "satinAlma");
+            migrationBuilder.EnsureSchema(
+                name: "satinAlma");
 
             migrationBuilder.CreateTable(
                 name: "Personel",
@@ -84,7 +83,8 @@ namespace SatinAlim.Migrations
                 schema: "satinAlma",
                 columns: table => new
                 {
-                    SatınAlmaBirimPersonelKod = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SatınAlmaBirimPersonelKod = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SatinAlmaBirimKod = table.Column<int>(type: "int", nullable: false),
                     PersonelKod = table.Column<int>(type: "int", nullable: false)
                 },
@@ -150,18 +150,6 @@ namespace SatinAlim.Migrations
             migrationBuilder.DropTable(
                 name: "SatinAlmaBirim",
                 schema: "satinAlma");
-
-            migrationBuilder.CreateTable(
-                name: "TestProducts",
-                schema: "satinAlma",
-                columns: table => new
-                {
-                    TestProductID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TestProducts", x => x.TestProductID);
-                });
         }
     }
 }

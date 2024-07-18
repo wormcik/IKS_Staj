@@ -12,8 +12,8 @@ using SatinAlim.Entities;
 namespace SatinAlim.Migrations
 {
     [DbContext(typeof(SatinAlimDbContext))]
-    [Migration("20240718105943_test")]
-    partial class test
+    [Migration("20240718111310_satinAlamInitial")]
+    partial class satinAlamInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,9 +107,11 @@ namespace SatinAlim.Migrations
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaBirimPersonel", b =>
                 {
-                    b.Property<string>("SatınAlmaBirimPersonelKod")
+                    b.Property<int>("SatınAlmaBirimPersonelKod")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SatınAlmaBirimPersonelKod"));
 
                     b.Property<int>("PersonelKod")
                         .HasColumnType("int");
