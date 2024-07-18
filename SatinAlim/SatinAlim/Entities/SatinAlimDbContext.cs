@@ -14,7 +14,7 @@ namespace SatinAlim.Entities
         public DbSet<Personel> Personel { get; set; }
         public DbSet<SatinAlmaBirim> SatinAlmaBirim { get; set; }
         public DbSet<SatinAlmaBirimOnayci> SatinAlmaBirimOnayci { get; set; }
-
+        public DbSet<SatinAlmaBirimPersonel> SatinAlmaBirimPersonel { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

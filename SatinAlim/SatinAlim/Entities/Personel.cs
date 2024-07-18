@@ -22,6 +22,7 @@ namespace SatinAlim.Entities
         public string? Pozisyon { get; set; }
 
         public ICollection<SatinAlmaBirimOnayci>? SatinAlmaBirimOnaycilar { get; set; }
+        public ICollection<SatinAlmaBirimPersonel>? SatinAlmaBirimPersonel { get; set; }
     }
 }
 

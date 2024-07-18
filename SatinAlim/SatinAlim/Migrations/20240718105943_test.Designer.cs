@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SatinAlim.Entities;
 
@@ -11,9 +12,11 @@ using SatinAlim.Entities;
 namespace SatinAlim.Migrations
 {
     [DbContext(typeof(SatinAlimDbContext))]
-    partial class SatinAlimDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240718105943_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,11 +107,9 @@ namespace SatinAlim.Migrations
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaBirimPersonel", b =>
                 {
-                    b.Property<int>("SatınAlmaBirimPersonelKod")
+                    b.Property<string>("SatınAlmaBirimPersonelKod")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SatınAlmaBirimPersonelKod"));
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("PersonelKod")
                         .HasColumnType("int");
