@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace SatinAlim.Entities
 {
@@ -15,10 +16,11 @@ namespace SatinAlim.Entities
 
         [ForeignKey("SatinAlmaHizmet")]
         public int SatinAlmaHizmetKod { get; set; }
-
+        [JsonIgnore]
         public SatinAlmaBirim? SatınAlmaBirim { get; set; }
-
+        [JsonIgnore]
         public SatinAlmaHizmet? SatinAlmaHizmet { get; set; }
+
         
     }
 }

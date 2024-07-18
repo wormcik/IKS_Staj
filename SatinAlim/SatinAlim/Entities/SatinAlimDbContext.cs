@@ -15,6 +15,16 @@ namespace SatinAlim.Entities
         public DbSet<SatinAlmaBirim> SatinAlmaBirim { get; set; }
         public DbSet<SatinAlmaBirimOnayci> SatinAlmaBirimOnayci { get; set; }
         public DbSet<SatinAlmaBirimPersonel> SatinAlmaBirimPersonel { get; set; }
+
+        public DbSet<SatinAlmaUrun> SatinAlmaUrun { get; set; }
+        public DbSet<SatinAlmaHizmet> SatinAlmaHizmet { get; set; }
+        public DbSet<SatinAlmaBirimUrun> SatinAlmaBirimUrun { get; set; }
+        public DbSet<SatinAlmaBirimHizmet> SatinAlmaBirimHizmet { get; set; }
+        public DbSet<SatinAlmaTalepDurum> GetSatinAlmaTalepDurum { get; set; }
+
+
+
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

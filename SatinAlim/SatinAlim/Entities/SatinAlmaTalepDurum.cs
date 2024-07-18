@@ -8,7 +8,7 @@ namespace SatinAlim.Entities
 	{
 		[Key]
         [Column(TypeName = "VARCHAR(20)")]
-        public int SatinAlmaTalepDurumKod { get; set; }
+        public string SatinAlmaTalepDurumKod { get; set; }
 
     }
 }
