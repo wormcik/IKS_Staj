@@ -12,7 +12,7 @@ namespace SatinAlim.Entities
         public int SatinAlmaBirimHizmetKod { get; set; }
 
         [ForeignKey("SatinAlmaBirim")]
-        public int SatinAlmaBirim { get; set; }
+        public int SatinAlmaBirimKod { get; set; }
 
         [ForeignKey("SatinAlmaHizmet")]
         public int SatinAlmaHizmetKod { get; set; }

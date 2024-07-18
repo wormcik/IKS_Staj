@@ -15,7 +15,7 @@ namespace SatinAlim.Entities
         [Column(TypeName = "VARCHAR(2000)")]
         public string Aciklama { get; set; }
 
-        [Column(TypeName = "VARCHAR(20")]
+        [Column(TypeName = "VARCHAR(20)")]
         public string Birim { get; set; }
 
         public ICollection<SatinAlmaBirimHizmet>? SatinAlmaBirimHizmet { get; set; }
