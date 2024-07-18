@@ -17,6 +17,14 @@ using Azure.Identity;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.Extensions.Configuration;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Security.Principal;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Data;
+using System.Net.Http.Json;
+using Newtonsoft.Json;
+using Microsoft.OpenApi.Validations;
 
 namespace Yetki.Services
 {
@@ -26,7 +34,7 @@ namespace Yetki.Services
         private readonly YetkiDbContext yetkiDbContext;
         private readonly string uniqueId;
 
-        public YetkiService(YetkiDbContext yetkiDbContext,IConfiguration configuration)
+        public YetkiService(YetkiDbContext yetkiDbContext, IConfiguration configuration)
         {
 
             this.configuration = configuration;
@@ -38,6 +46,7 @@ namespace Yetki.Services
 
             try
             {
+
                 var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
                 if (objUser != null)
                 {
@@ -65,9 +74,10 @@ namespace Yetki.Services
                 user.RegistrationDate = DateTime.Now;
                 yetkiDbContext.User.Add(user);
 
-                    yetkiDbContext.SaveChanges();
+                yetkiDbContext.SaveChanges();
+
                 return new ProcessResult<bool>().Successful();
-                
+
             }
             catch (Exception ex)
             {
@@ -92,8 +102,8 @@ namespace Yetki.Services
                 var roles = GetUserTypeRoles(user.UserType);
 
 
-                var resultJwt = GenerateJwtToken(signInModel,roles);
-                
+                var resultJwt = GenerateJwtToken(signInModel, roles);
+
 
                 return new ProcessResult<string>().Successful(resultJwt);
 
@@ -105,14 +115,14 @@ namespace Yetki.Services
         }
 
 
-        public string GenerateJwtToken(SignInModel signInModel,List<string> roles)
+        public string GenerateJwtToken(SignInModel signInModel, List<string> roles)
         {
             var uniqueId = configuration["AppSettings:UniqueId"]; // Ensure this is long enough
-           // var roles = new List<string> { "satýnçekmeyetki", "satýnvermeyetki", "satýnalmayetki" }; // Example roles
-
+                                                                  // var roles = new List<string> { "satï¿½nï¿½ekmeyetki", "satï¿½nvermeyetki", "satï¿½nalmayetki" }; // Example roles
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
+               //new Claim("roles", JsonConvert.SerializeObject(roles)) //////////////////////
             };
 
             // Add roles to claims
@@ -187,33 +197,33 @@ namespace Yetki.Services
 
         public List<string> GetUserTypeRoles(string userType)
         {
-                var results = yetkiDbContext.UserRoleType
-                                     .Where(x => x.UserTypeName == userType)
-                                     .Select(x => x.UserRoleName)
-                                     .ToList();
-                return results;
+            var results = yetkiDbContext.UserRoleType
+                                 .Where(x => x.UserTypeName == userType)
+                                 .Select(x => x.UserRoleName)
+                                 .ToList();
+            return results;
         }
 
 
 
         public List<string> GetUserRoles(string token)
         {
-            /* var jwt = new JwtSecurityTokenHandler().ReadJwtToken(token);
-             string username = jwt.Claims.First(c => c.Type == "Username").Value;*/
 
             var handler = new JwtSecurityTokenHandler();
 
             var jwt = handler.ReadJwtToken(token);
 
-            string username = jwt.Claims.First(c => c.Type == "Sub").Value;
+            List<string> roles = new List<string>();
+            foreach (var claim in jwt.Claims.Where(c => c.Type == ClaimTypes.Role))
+            {
+                roles.Add(claim.Value);
+            }
 
-            var objUser = yetkiDbContext.User.FirstOrDefault(x => x.Username == username);
-
-            return GetUserTypeRoles(objUser.UserType);
+            return roles;
         }
 
 
-        yetkiDbContext.
+
 
         public List<string> GetUserRoles2(string token)
         {
@@ -230,31 +240,28 @@ namespace Yetki.Services
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero // Adjust if necessary
+                    ClockSkew = TimeSpan.Zero
                 };
 
-                // Validate the JWT token
                 SecurityToken validatedToken;
                 var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out validatedToken);
 
-                // Extract username from claims
-                var username = principal.Claims.First(c => c.Type == "Sub").Value;
+                var userRoles = principal.Claims
+                                    .Where(c => c.Type == ClaimTypes.Role)
+                                    .Select(c => c.Value)
+                                    .ToList();
 
-                // Fetch user from the database
-                var objUser = yetkiDbContext.User.FirstOrDefault(x => x.Username == username);
-
-                if (objUser == null)
+                if (userRoles == null)
                 {
                     throw new Exception("User not found.");
                 }
 
-                // Retrieve roles based on user type
-                return GetUserTypeRoles(objUser.UserType);
+                return userRoles;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Exception while validating token: {ex.Message}");
-                return new List<string>();
+                throw ex;
             }
         }
     }
