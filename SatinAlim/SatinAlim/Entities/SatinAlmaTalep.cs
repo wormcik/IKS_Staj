@@ -7,9 +7,9 @@ using System.Xml;
 
 namespace SatinAlim.Entities
 {
-	public class SatinAlmaTalep
-	{
-		[Key]
+    public class SatinAlmaTalep
+    {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 
         public long SatinAlmaTalepKod { get; set; }
@@ -48,6 +48,8 @@ namespace SatinAlim.Entities
         public Personel? Personel { get; set; }
 
         public ICollection<SatinAlmaTalepTarihce>? SatinAlmaTalepTarihce { get; set; }
+        public ICollection<SatinAlmaTalepHizmet>? SatinAlmaTalepHizmet { get; set; }
+
     }
 }
 
