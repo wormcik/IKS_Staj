@@ -19,6 +19,7 @@ namespace SatinAlim.Entities
 		public int OnaySayi { get; set; }
 
         public ICollection<SatinAlmaBirimOnayci>? SatinAlmaBirimOnaycilar { get; set; }
+        public ICollection<SatinAlmaBirimPersonel>? SatinAlmaBirimPersonel { get; set; }
     }
 }
 

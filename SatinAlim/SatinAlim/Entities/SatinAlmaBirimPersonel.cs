@@ -9,13 +9,12 @@ namespace SatinAlim.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string SatınAlmaBirimPersonelKod { get; set; }
+        public int SatınAlmaBirimPersonelKod { get; set; }
 
         [ForeignKey("SatınAlmaBirim")]
         public int SatinAlmaBirimKod { get; set; }
 
         [ForeignKey("Personel")]
-
         public int PersonelKod { get; set; }
 
 
@@ -27,5 +26,6 @@ namespace SatinAlim.Entities
 
 
     }
+}
 
 
