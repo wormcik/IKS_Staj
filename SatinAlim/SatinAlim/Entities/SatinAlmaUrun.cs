@@ -11,14 +11,14 @@ namespace SatinAlim.Entities
         public int SatinAlmaUrunKod { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
-        public string Tanim { get; set; }
+        public string? Tanim { get; set; }
 
         [Column(TypeName = "VARCHAR(2000)")]
-        public string Aciklama { get; set; }
+        public string? Aciklama { get; set; }
 
         [Column(TypeName = "VARCHAR(20)")]
-        public string Birim { get; set; }
+        public string? Birim { get; set; }
 
-        public ICollection<SatinAlmaBirimUrun> SatinAlmaBirimUrun { get; set; }
+        public ICollection<SatinAlmaBirimUrun>? SatinAlmaBirimUrun { get; set; }
     }
 }

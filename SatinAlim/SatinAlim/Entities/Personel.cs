@@ -23,6 +23,8 @@ namespace SatinAlim.Entities
 
         public ICollection<SatinAlmaBirimOnayci>? SatinAlmaBirimOnaycilar { get; set; }
         public ICollection<SatinAlmaBirimPersonel>? SatinAlmaBirimPersonel { get; set; }
+        public ICollection<SatinAlmaTalep>? SatinAlmaTalep { get; set; }
+        public ICollection<SatinAlmaTalepTarihce>? SatinAlmaTalepTarihce { get; set; }
     }
 }
 

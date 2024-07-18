@@ -10,6 +10,8 @@ namespace SatinAlim.Entities
         [Column(TypeName = "VARCHAR(20)")]
         public string SatinAlmaTalepDurumKod { get; set; }
 
+        public ICollection<SatinAlmaTalep>? SatinAlmaTalep { get; set; }
+        public ICollection<SatinAlmaTalepTarihce>? SatinAlmaTalepTarihce { get; set; }
     }
 }
 
