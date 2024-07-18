@@ -8,7 +8,7 @@ namespace SatinAlim.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int SatinAlmaUrunKod() { get; set; }
+        public int SatinAlmaUrunKod { get; set; }
 
         [Column(TypeName = "VARCHAR(200)")]
         public string Tanim { get; set; }
@@ -18,5 +18,7 @@ namespace SatinAlim.Entities
 
         [Column(TypeName = "VARCHAR(20)")]
         public string Birim { get; set; }
+
+        public ICollection<SatinAlmaBirimUrun> SatinAlmaBirimUrun { get; set; }
     }
 }
