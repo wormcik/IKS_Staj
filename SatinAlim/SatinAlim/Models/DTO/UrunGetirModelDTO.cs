@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SatinAlim.Models
 {
-	public class UrunBulModelDTO
+	public class UrunGetirModelDTO
 	{
         public int SatinAlmaUrunKod { get; set; }
 

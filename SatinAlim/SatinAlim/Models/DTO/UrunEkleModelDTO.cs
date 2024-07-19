@@ -5,7 +5,6 @@ namespace SatinAlim.Models
 {
 	public class UrunEkleModelDTO
 	{
-        public int SatinAlmaUrunKod { get; set; }
 
         public string Tanim { get; set; } = null!;
 

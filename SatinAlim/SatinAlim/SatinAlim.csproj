@@ -23,9 +23,11 @@
     <None Remove="Entities\" />
     <None Remove="Models\" />
     <None Remove="Models\DTO\" />
+    <None Remove="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Models\DTO\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

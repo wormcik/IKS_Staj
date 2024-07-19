@@ -2,16 +2,17 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SatinAlim.Entities;
+using SatinAlim.Helpers;
 using SatinAlim.Models;
 
 namespace SatinAlim.Services
 {
-	public class SatinAlimUrunService
+	public class UrunService
 	{
         private readonly IConfiguration configuration;
         private readonly SatinAlimDbContext satinAlimDbContext;
 
-        public SatinAlimUrunService(SatinAlimDbContext satinAlimDbContext, IConfiguration configuration)
+        public UrunService(SatinAlimDbContext satinAlimDbContext, IConfiguration configuration)
         {
 
             this.configuration = configuration;
@@ -19,30 +20,29 @@ namespace SatinAlim.Services
         }
 
 
-        public async Task<UrunEkleModelDTO> UrunEkleAsync(UrunEkleSorguModel urun)
+        public async Task<ProcessResult<UrunEkleModelDTO>> UrunEkleAsync(UrunEkleSorguModel urun)
         {
             try
             {
                 var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.Tanim == urun.Tanim);
                 if(objUrun != null)
                 {
-                    return null;
+                    return new ProcessResult<UrunEkleModelDTO>().Failed("Urun tanımı baska bir urune ait.");
                 }
 
                 var yeni_urun = new SatinAlmaUrun();
                 yeni_urun.Tanim = urun.Tanim;
                 yeni_urun.Aciklama = urun.Aciklama;
-                yeni_urun.Birim = urun.Birim;
+                yeni_urun.Birim = urun.Birim.ToUpper();
                 satinAlimDbContext.SatinAlmaUrun.Add(yeni_urun);
-                satinAlimDbContext.SaveChanges();
+                await satinAlimDbContext.SaveChangesAsync();
 
-                objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.Tanim == urun.Tanim);
                 var result = new UrunEkleModelDTO();
-                result.Tanim = objUrun.Tanim;
-                result.Aciklama = objUrun.Aciklama;
-                result.Birim = objUrun.Birim;
-                result.SatinAlmaUrunKod = objUrun.SatinAlmaUrunKod;
-                return result;
+                result.Tanim = yeni_urun.Tanim;
+                result.Aciklama = yeni_urun.Aciklama;
+                result.Birim = yeni_urun.Birim;
+                
+                return new ProcessResult<UrunEkleModelDTO>().Successful(result);
 
             }
             catch (Exception ex)
@@ -52,18 +52,18 @@ namespace SatinAlim.Services
         }
 
 
-        public async Task<bool> UrunSilAsync(int id)
+        public async Task<ProcessResult<bool>> UrunSilAsync(int urunKod)
         {
             try
             {
-                var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.SatinAlmaUrunKod == id);
+                var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.SatinAlmaUrunKod == urunKod);
                 if(objUrun == null)
                 {
-                    return false;
+                    return new ProcessResult<bool>().Failed("Ürün bulunamadı");
                 }
                 satinAlimDbContext.SatinAlmaUrun.Remove(objUrun);
                 await satinAlimDbContext.SaveChangesAsync();
-                return true;
+                return new ProcessResult<bool>().Successful();
             }
             catch(Exception ex)
             {
@@ -72,21 +72,21 @@ namespace SatinAlim.Services
         }
 
 
-        public async Task<UrunBulModelDTO> UrunBulAsync(int id)
+        public async Task<ProcessResult<UrunGetirModelDTO>> UrunGetirAsync(int urunKod)
         {
             try
             {
-                var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.SatinAlmaUrunKod == id);
+                var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.SatinAlmaUrunKod == urunKod);
                 if (objUrun == null)
                 {
-                    return null;
+                    return new ProcessResult<UrunGetirModelDTO>().Failed("Ürün bulunamadı");
                 }
-                UrunBulModelDTO urun = new UrunBulModelDTO();
+                UrunGetirModelDTO urun = new UrunGetirModelDTO();
                 urun.SatinAlmaUrunKod = objUrun.SatinAlmaUrunKod;
                 urun.Tanim = objUrun.Tanim;
                 urun.Birim = objUrun.Birim;
                 urun.Aciklama = objUrun.Aciklama;
-                return urun;
+                return new ProcessResult<UrunGetirModelDTO>().Successful(urun);
             }
             catch(Exception ex)
             {
@@ -94,32 +94,32 @@ namespace SatinAlim.Services
             }
         }
 
-        public async Task<List<UrunListeleModelDTO>> UrunListeleAsync(UrunListeleSorguModel sorgu)
+        public async Task<ProcessResult<List<UrunListeleModelDTO>>> UrunListeleAsync(UrunListeleSorguModel sorgu)
         {
             try
             {
                 var urunList = await satinAlimDbContext.SatinAlmaUrun.Where(
-                    x => (x.Birim == sorgu.Birim || String.IsNullOrEmpty(sorgu.Birim)) &&
-                    x.Aciklama.Contains(sorgu.Aciklama) &&
-                    (x.Tanim == sorgu.Tanim || String.IsNullOrEmpty(sorgu.Tanim))
+                    x => (x.Birim == sorgu.Birim.ToUpper() || String.IsNullOrEmpty(sorgu.Birim)) &&
+                    x.Aciklama.ToUpper().Contains(sorgu.Aciklama.ToUpper()) &&
+                    (x.Tanim.ToUpper() == sorgu.Tanim.ToUpper() || String.IsNullOrEmpty(sorgu.Tanim))
                     ).ToListAsync();
                 
                 if(urunList == null)
                 {
-                    return null;
+                    return new ProcessResult<List<UrunListeleModelDTO>>().Failed("Urun bulunamadı");
                 }
                 var result = new List<UrunListeleModelDTO>();
-                var temp = new UrunListeleModelDTO();
+                
                 foreach (var urun in urunList)
                 {
-                    temp = new UrunListeleModelDTO();
+                    var temp = new UrunListeleModelDTO();
                     temp.Aciklama = urun.Aciklama;
                     temp.Birim = urun.Birim;
                     temp.SatinAlmaUrunKod = urun.SatinAlmaUrunKod;
                     temp.Tanim = urun.Tanim;
                     result.Add(temp);
                 }
-                return result;
+                return new ProcessResult<List<UrunListeleModelDTO>>().Successful(result);
             }
             catch(Exception ex)
             {
@@ -129,23 +129,21 @@ namespace SatinAlim.Services
 
 
 
-        public async Task<UrunGuncelleModelDTO> UrunGuncelleAsync(UrunGuncelleSorguModel urun)
+        public async Task<ProcessResult<UrunGuncelleModelDTO>> UrunGuncelleAsync(UrunGuncelleSorguModel urun)
         {
             try
             {
                 var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.SatinAlmaUrunKod == urun.SatinAlmaUrunKod);
                 if (objUrun == null)
                 {
-                    return null;
+                    return new ProcessResult<UrunGuncelleModelDTO>().Failed("Urun bulunamadı");
                 }
-                objUrun.Birim = urun.Birim;
+                objUrun.Birim = urun.Birim.ToUpper();
                 objUrun.Aciklama = urun.Aciklama;
                 objUrun.Tanim = urun.Tanim;
                 satinAlimDbContext.Entry(objUrun).State = EntityState.Modified;
 
                 await satinAlimDbContext.SaveChangesAsync();
-
-                objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.SatinAlmaUrunKod == urun.SatinAlmaUrunKod);
 
                 var result = new UrunGuncelleModelDTO();
                 result.Aciklama = objUrun.Aciklama;
@@ -153,7 +151,7 @@ namespace SatinAlim.Services
                 result.SatinAlmaUrunKod = objUrun.SatinAlmaUrunKod;
                 result.Tanim = objUrun.Tanim;
 
-                return result;
+                return new ProcessResult<UrunGuncelleModelDTO>().Successful(result);
             }
             catch(Exception ex)
             {
