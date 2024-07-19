@@ -31,7 +31,7 @@ namespace Yetki.Controllers
             var result = await yetkiService.SignInAsync(signInModel);
             return Ok(result);
         }
-
+        
 
     }
 }

@@ -23,7 +23,6 @@ using System.Text.Json.Serialization;
 using System.Text.Json;
 using System.Data;
 using System.Net.Http.Json;
-using Newtonsoft.Json;
 using Microsoft.OpenApi.Validations;
 
 namespace Yetki.Services
@@ -40,13 +39,12 @@ namespace Yetki.Services
             this.configuration = configuration;
             this.yetkiDbContext = yetkiDbContext;
         }
-
+        
         public async Task<ProcessResult<bool>> SignUpAsync(RegistrationModel registrationModel)
         {
 
             try
             {
-
                 var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
                 if (objUser != null)
                 {
