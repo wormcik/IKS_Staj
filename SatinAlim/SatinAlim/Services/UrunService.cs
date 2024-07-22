@@ -27,7 +27,7 @@ namespace SatinAlim.Services
                 var objUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x => x.Tanim == urun.Tanim);
                 if(objUrun != null)
                 {
-                    return new ProcessResult<UrunEkleModelDTO>().Failed("Urun tanımı baska bir urune ait.");
+                    return new ProcessResult<UrunEkleModelDTO>().Failed("Ürün tanımı baska bir ürüne ait.");
                 }
 
                 var yeni_urun = new SatinAlmaUrun();

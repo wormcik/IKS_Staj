@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SatinAlim.Controllers;
 
 namespace SatinAlim.Entities
 {
