@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SatinAlim.Entities;
 using SatinAlim.Helpers;
@@ -14,6 +15,7 @@ using SatinAlim.Services;
 namespace SatinAlim.Controllers
 {
     [ApiController, Route("api/v1/satinAlim/[controller]/[action]")]
+
     public class SatinAlmaUrunController : ControllerBase
     {
         private readonly UrunService satinAlmaUrunService;

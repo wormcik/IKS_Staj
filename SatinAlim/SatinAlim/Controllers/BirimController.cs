@@ -27,8 +27,7 @@ namespace SatinAlim.Controllers
         }
 
         
-        [HttpPost,AuthorizationController("admin", "manager")]
-        [ProducesResponseType(typeof(ProcessResult<BirimEkleModelDTO>), (int)HttpStatusCode.OK)]
+        [HttpPost]
         public async Task<ActionResult<ProcessResult<BirimEkleModelDTO>>> BirimEkle(BirimEkleSorguModel sorgu)
         {
             var result = await birimService.BirimEkleAsync(sorgu);
