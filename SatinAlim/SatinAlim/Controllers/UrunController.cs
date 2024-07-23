@@ -15,21 +15,20 @@ using SatinAlim.Services;
 namespace SatinAlim.Controllers
 {
     [ApiController, Route("api/v1/satinAlim/[controller]/[action]")]
-
-    public class SatinAlmaUrunController : ControllerBase
+    public class UrunController : ControllerBase
     {
-        private readonly UrunService satinAlmaUrunService;
+        private readonly UrunService UrunService;
 
-        public SatinAlmaUrunController(UrunService satinAlmaUrunService)
+        public UrunController(UrunService satinAlmaUrunService)
         {
-            this.satinAlmaUrunService = satinAlmaUrunService;
+            this.UrunService = satinAlmaUrunService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ProcessResult<UrunEkleModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<UrunEkleModelDTO>>> UrunEkle(UrunEkleSorguModel urun)
         {
-            var result = await satinAlmaUrunService.UrunEkleAsync(urun);
+            var result = await UrunService.UrunEkleAsync(urun);
             return Ok(result);
         }
 
@@ -38,7 +37,7 @@ namespace SatinAlim.Controllers
         [ProducesResponseType(typeof(ProcessResult<bool>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<bool>>> UrunSil(int id)
         {
-            var result = await satinAlmaUrunService.UrunSilAsync(id);
+            var result = await UrunService.UrunSilAsync(id);
             return Ok(result);
         }
 
@@ -47,7 +46,7 @@ namespace SatinAlim.Controllers
         [ProducesResponseType(typeof(ProcessResult<UrunGetirModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<UrunGetirModelDTO>>> UrunGetir(int id)
         {
-            var result = await satinAlmaUrunService.UrunGetirAsync(id);
+            var result = await UrunService.UrunGetirAsync(id);
             return Ok(result);
         }
 
@@ -55,7 +54,7 @@ namespace SatinAlim.Controllers
         [ProducesResponseType(typeof(ProcessResult<List<UrunListeleModelDTO>>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<List<UrunListeleModelDTO>>>> UrunListele(UrunListeleSorguModel sorgu)
         {
-            var result = await satinAlmaUrunService.UrunListeleAsync(sorgu);
+            var result = await UrunService.UrunListeleAsync(sorgu);
             return Ok(result);
         }
 
@@ -63,7 +62,7 @@ namespace SatinAlim.Controllers
         [ProducesResponseType(typeof(ProcessResult<UrunGuncelleModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<UrunGuncelleModelDTO>>> UrunGuncelle(UrunGuncelleSorguModel urun)
         {
-            var result = await satinAlmaUrunService.UrunGuncelleAsync(urun);
+            var result = await UrunService.UrunGuncelleAsync(urun);
             return Ok(result);
         }
 

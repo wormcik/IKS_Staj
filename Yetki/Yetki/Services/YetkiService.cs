@@ -56,10 +56,10 @@ namespace Yetki.Services
                     return new ProcessResult<bool>().Failed("Invalid User Type.");
                 }
 
-                if (!IsPasswordEligible(registrationModel.Password))
+                /*if (!IsPasswordEligible(registrationModel.Password))
                 {
                     return new ProcessResult<bool>().Failed("Invalid Password.");
-                }
+                }*/
 
                 var user = new User();
                 user.Username = registrationModel.Username;
@@ -126,7 +126,7 @@ namespace Yetki.Services
             // Add roles to claims
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim("role", role));
             }
 
             // Use UniqueId as signing key

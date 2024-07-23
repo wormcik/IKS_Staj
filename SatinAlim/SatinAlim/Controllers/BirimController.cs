@@ -27,7 +27,7 @@ namespace SatinAlim.Controllers
         }
 
         
-        [HttpPost]
+        [HttpPost,CustomAuthorize("UrunEkle")]
         public async Task<ActionResult<ProcessResult<BirimEkleModelDTO>>> BirimEkle(BirimEkleSorguModel sorgu)
         {
             var result = await birimService.BirimEkleAsync(sorgu);

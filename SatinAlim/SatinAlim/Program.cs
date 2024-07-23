@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SatinAlim.Controllers;
 using SatinAlim.Entities;
 using SatinAlim.Services;
-using static CustomAuthorizeAttribute;
+using static SatinAlim.Controllers.CustomAuthorizeAttribute;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
@@ -19,7 +20,7 @@ builder.Services.AddScoped<BirimService>();
 
 
 
-/*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -43,8 +44,6 @@ builder.Services.AddSingleton<JwtTokenService>(new JwtTokenService(
     builder.Configuration["Jwt:Audience"],
     builder.Configuration["Jwt:Key"]
 ));
-
-
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -74,10 +73,9 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
-});*/
+});
 
-
-
+builder.Logging.AddConsole();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -88,19 +86,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<SatinAlimDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-
-
 var app = builder.Build();
 
-
-
-/*
 app.UseAuthentication();
-app.UseAuthorization();
-*/
-
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
