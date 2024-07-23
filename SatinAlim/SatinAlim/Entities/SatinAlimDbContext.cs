@@ -21,10 +21,6 @@ namespace SatinAlim.Entities
         public DbSet<SatinAlmaHizmet> SatinAlmaHizmet { get; set; }
         public DbSet<SatinAlmaBirimUrun> SatinAlmaBirimUrun { get; set; }
         public DbSet<SatinAlmaBirimHizmet> SatinAlmaBirimHizmet { get; set; }
-        public DbSet<SatinAlmaTalepDurum> GetSatinAlmaTalepDurum { get; set; }
-
-        public DbSet<SatinAlmaTalepHizmet> GetSatinAlmaTalepHizmet { get; set; }
-
 
 
 
