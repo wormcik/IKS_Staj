@@ -155,11 +155,11 @@ namespace SatinAlimHizmet.Services
             }
         }
 
-        public async Task<ProcessResult<bool>> HizmetSilAsync(int urunKod)
+        public async Task<ProcessResult<bool>> HizmetSilAsync(int hizmetKod)
         {
             try
             {
-                var obj = await satinAlmaDbContext.SatinAlmaHizmet.FirstOrDefaultAsync(x => x.SatinAlmaHizmetKod == urunKod);
+                var obj = await satinAlmaDbContext.SatinAlmaHizmet.FirstOrDefaultAsync(x => x.SatinAlmaHizmetKod == hizmetKod);
                 if (obj == null)
                 {
                     return new ProcessResult<bool>().Failed("Hizmet bulunamadı");
