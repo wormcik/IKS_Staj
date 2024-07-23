@@ -18,11 +18,6 @@ namespace SatinAlim.Entities
         [Required]
         public int SatinAlmaBirimKod { get; set; }
 
-        [Column(TypeName = "VARCHAR(20)")]
-        [ForeignKey("SatinAlmaTalepDurum")]
-        [Required]
-        public string SatinalmaTalepDurumKod { get; set; } = null!;
-
         [ForeignKey("Personel")]
         [Required]
         public int TalepPersonelKod { get; set; }
@@ -50,10 +45,11 @@ namespace SatinAlim.Entities
         [Required]
         public DateTime IslemTarih { get; set; }
 
+
+
         [JsonIgnore]
         public SatinAlmaBirim SatinAlmaBirim { get; set; }
-        [JsonIgnore]
-        public SatinAlmaTalepDurum SatinAlmaTalepDurum { get; set; }
+
         [JsonIgnore]
         public Personel Personel { get; set; }
 

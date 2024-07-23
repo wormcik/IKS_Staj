@@ -6,9 +6,10 @@ namespace SatinAlim.Entities
 {
     public class SatinAlmaTalepHizmet
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long SatinAlmaTalepHizmetKod { get; set; }
+        public long SatinAlmaHizmetKod { get; set; }
 
         [ForeignKey("SatinAlmaTalep")]
         [Required]
@@ -27,7 +28,6 @@ namespace SatinAlim.Entities
         public decimal BirimFiyat { get; set; }
 
         public  SatinAlmaTalep SatinAlmaTalep { get; set; }
-
 
 
 
