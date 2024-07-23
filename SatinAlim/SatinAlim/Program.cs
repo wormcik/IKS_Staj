@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using SatinAlim.Controllers;
 using SatinAlim.Entities;
 using SatinAlim.Services;
+using SatinAlimHizmet.Services;
 using static SatinAlim.Controllers.CustomAuthorizeAttribute;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<SatinAlimService>();
 builder.Services.AddScoped<UrunService>();
 builder.Services.AddScoped<BirimService>();
+builder.Services.AddScoped<HizmetService>();
 
 
 
