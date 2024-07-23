@@ -8,7 +8,8 @@ namespace Yetki.Models.Enums
 		Client,
 		Approve1,
 		Approve2,
-		Approve3
+		Approve3,
+		Admin
 	}
 }
 

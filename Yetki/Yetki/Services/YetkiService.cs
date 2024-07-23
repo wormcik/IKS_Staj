@@ -56,10 +56,10 @@ namespace Yetki.Services
                     return new ProcessResult<bool>().Failed("Invalid User Type.");
                 }
 
-                /*if (!IsPasswordEligible(registrationModel.Password))
+                if (!IsPasswordEligible(registrationModel.Password))
                 {
                     return new ProcessResult<bool>().Failed("Invalid Password.");
-                }*/
+                }
 
                 var user = new User();
                 user.Username = registrationModel.Username;
@@ -133,7 +133,7 @@ namespace Yetki.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(uniqueId));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expires = DateTime.UtcNow.AddMinutes(30);
+            var expires = DateTime.UtcNow.AddDays(1);
 
             var token = new JwtSecurityToken(
                 issuer: null,

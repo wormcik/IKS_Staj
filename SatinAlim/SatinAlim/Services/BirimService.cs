@@ -100,7 +100,6 @@ namespace SatinAlim.Services
                 BirimGuncelleModelDTO yeniBirim = new BirimGuncelleModelDTO();
                 yeniBirim.BirimAd = objBirim.BirimAd;
                 yeniBirim.OnaySayi = objBirim.OnaySayi;
-                yeniBirim.SatinAlmaBirimKod = yeniBirim.SatinAlmaBirimKod;
 
                 return new ProcessResult<BirimGuncelleModelDTO>().Successful(yeniBirim);
             }

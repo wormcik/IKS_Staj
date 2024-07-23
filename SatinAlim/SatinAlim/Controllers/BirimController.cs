@@ -27,7 +27,8 @@ namespace SatinAlim.Controllers
         }
 
         
-        [HttpPost,CustomAuthorize("UrunEkle")]
+        [HttpPost]
+        [CustomAuthorize("BirimEkle")]
         public async Task<ActionResult<ProcessResult<BirimEkleModelDTO>>> BirimEkle(BirimEkleSorguModel sorgu)
         {
             var result = await birimService.BirimEkleAsync(sorgu);
@@ -36,6 +37,7 @@ namespace SatinAlim.Controllers
 
 
         [HttpDelete]
+        [CustomAuthorize("BirimSil")]
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<bool>> BirimSil(int BirimKod)
         {
@@ -45,6 +47,7 @@ namespace SatinAlim.Controllers
 
 
         [HttpGet]
+        [CustomAuthorize("BirimGetir")]
         [ProducesResponseType(typeof(ProcessResult<BirimGetirModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<BirimGetirModelDTO>>> BirimGetir(int BirimKod)
         {
@@ -54,8 +57,9 @@ namespace SatinAlim.Controllers
 
 
         [HttpPut]
-        [ProducesResponseType(typeof(ProcessResult<BirimGuncelleSorguModel>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ProcessResult<BirimGuncelleSorguModel>>> BirimGuncelle(BirimGuncelleSorguModel sorgu)
+        [CustomAuthorize("BirimGuncelle")]
+        [ProducesResponseType(typeof(ProcessResult<BirimGuncelleModelDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<BirimGuncelleModelDTO>>> BirimGuncelle(BirimGuncelleSorguModel sorgu)
         {
             var result = await birimService.BirimGuncelleAsync(sorgu);
             return Ok(result);
@@ -63,6 +67,7 @@ namespace SatinAlim.Controllers
 
 
         [HttpPost]
+        [CustomAuthorize("BirimListele")]
         [ProducesResponseType(typeof(ProcessResult<List<BirimListeleModelDTO>>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<List<BirimListeleModelDTO>>>> BirimListele(BirimListeleSorguModel sorgu)
         {

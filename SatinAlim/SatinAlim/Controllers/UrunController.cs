@@ -25,6 +25,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("UrunEkle")]
         [ProducesResponseType(typeof(ProcessResult<UrunEkleModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<UrunEkleModelDTO>>> UrunEkle(UrunEkleSorguModel urun)
         {
@@ -34,6 +35,7 @@ namespace SatinAlim.Controllers
 
 
         [HttpDelete]
+        [CustomAuthorize("UrunSil")]
         [ProducesResponseType(typeof(ProcessResult<bool>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<bool>>> UrunSil(int id)
         {
@@ -43,6 +45,7 @@ namespace SatinAlim.Controllers
 
 
         [HttpGet]
+        [CustomAuthorize("UrunGetir")]
         [ProducesResponseType(typeof(ProcessResult<UrunGetirModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<UrunGetirModelDTO>>> UrunGetir(int id)
         {
@@ -51,6 +54,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("UrunListele")]
         [ProducesResponseType(typeof(ProcessResult<List<UrunListeleModelDTO>>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<List<UrunListeleModelDTO>>>> UrunListele(UrunListeleSorguModel sorgu)
         {
@@ -59,6 +63,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPut]
+        [CustomAuthorize("UrunGuncelle")]
         [ProducesResponseType(typeof(ProcessResult<UrunGuncelleModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<UrunGuncelleModelDTO>>> UrunGuncelle(UrunGuncelleSorguModel urun)
         {
