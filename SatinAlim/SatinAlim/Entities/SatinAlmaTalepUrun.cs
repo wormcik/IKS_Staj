@@ -10,7 +10,6 @@ namespace SatinAlim.Entities
 	{
 		[Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public long SatinAlmaTalepUrunKod { get; set; }
 
 		[ForeignKey("SatinAlmaTalep")]
