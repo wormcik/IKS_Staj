@@ -21,6 +21,9 @@ namespace SatinAlim.Entities
         [Column(TypeName = "VARCHAR(100)")]
         public string? Pozisyon { get; set; }
 
+        [Required]
+        public Guid KullanıcıKod { get; set; }
+
         public ICollection<SatinAlmaBirimOnayci>? SatinAlmaBirimOnaycilar { get; set; }
         public ICollection<SatinAlmaBirimPersonel>? SatinAlmaBirimPersonel { get; set; }
         public ICollection<SatinAlmaTalep>? SatinAlmaTalep { get; set; }

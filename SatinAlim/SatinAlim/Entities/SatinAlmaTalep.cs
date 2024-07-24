@@ -27,7 +27,7 @@ namespace SatinAlim.Entities
 
         [Column(TypeName = "NUMERIC(18,2)")]
         [Required]
-        public decimal OngorulenTutar;
+        public decimal OngorulenTutar { get; set; }
 
         [Required]
         public string? OngorulenTutarPbKod { get; set; }

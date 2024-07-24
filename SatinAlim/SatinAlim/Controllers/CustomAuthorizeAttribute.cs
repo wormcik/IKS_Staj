@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using SatinAlim.Helpers;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Http;
 
 namespace SatinAlim.Controllers
 {
@@ -84,12 +85,14 @@ namespace SatinAlim.Controllers
         private readonly string _issuer;
         private readonly string _audience;
         private readonly string _key;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public JwtTokenService(string issuer, string audience, string key)
+        public JwtTokenService(string issuer, string audience, string key, IHttpContextAccessor httpContextAccessor)
         {
             _issuer = issuer;
             _audience = audience;
             _key = key;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public string GenerateToken(string username, string[] roles)
@@ -109,6 +112,20 @@ namespace SatinAlim.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+        public Guid GetUserGuid()
+        {
+            var user = _httpContextAccessor.HttpContext.User;
+            var userGuidClaim = user.Claims.FirstOrDefault(c => c.Type == "UserGuid");
+
+            if (userGuidClaim == null)
+            {
+                throw new Exception("UserGuid claim not found in token.");
+            }
+
+            return Guid.Parse(userGuidClaim.Value);
         }
     }
 

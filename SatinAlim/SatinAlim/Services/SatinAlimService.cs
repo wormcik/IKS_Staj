@@ -27,10 +27,10 @@ namespace SatinAlim.Services
         }
 
         
-        public async Task<ProcessResult<TalepEkleModelDTO>> TalepEkleAsync(TalepEkleSorguModel sorgu)
+        public async Task<ProcessResult<TalepEkleModelDTO>> TalepEkleAsync(TalepEkleSorguModel sorgu,Guid KullanıcıKod)
         {
             var personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
-            x.PersonelKod==sorgu.TalepPersonelKod);
+            x.KullanıcıKod==KullanıcıKod);
 
             if (personel == null)
             {

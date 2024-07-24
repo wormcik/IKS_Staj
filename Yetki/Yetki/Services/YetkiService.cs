@@ -100,7 +100,7 @@ namespace Yetki.Services
                 var roles = GetUserTypeRoles(user.UserType);
 
 
-                var resultJwt = GenerateJwtToken(signInModel, roles);
+                var resultJwt = GenerateJwtToken(signInModel, roles,user.RegistrationUserCode);
 
 
                 return new ProcessResult<string>().Successful(resultJwt);
@@ -113,23 +113,21 @@ namespace Yetki.Services
         }
 
 
-        public string GenerateJwtToken(SignInModel signInModel, List<string> roles)
+        public string GenerateJwtToken(SignInModel signInModel, List<string> roles,Guid? kullanıcıKod)
         {
-            var uniqueId = configuration["AppSettings:UniqueId"]; // Ensure this is long enough
-                                                                  // var roles = new List<string> { "sat�n�ekmeyetki", "sat�nvermeyetki", "sat�nalmayetki" }; // Example roles
+            var uniqueId = configuration["AppSettings:UniqueId"]; 
+                                                                 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),
-               //new Claim("roles", JsonConvert.SerializeObject(roles)) //////////////////////
+                new Claim(JwtRegisteredClaimNames.Sub, signInModel.Username),               
             };
-
-            // Add roles to claims
+            
             foreach (var role in roles)
             {
                 claims.Add(new Claim("role", role));
             }
-
-            // Use UniqueId as signing key
+            claims.Add(new Claim("KullanıcıKod", kullanıcıKod.ToString()));
+            
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(uniqueId));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

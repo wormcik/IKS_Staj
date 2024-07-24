@@ -13,7 +13,7 @@ namespace SatinAlim.Models.DTO
 
         public DateTime TalepTarih { get; set; }//
 
-        public decimal OngorulenTutar;
+        public decimal OngorulenTutar { get; set; }
 
         public string? OngorulenTutarPbKod { get; set; }
 

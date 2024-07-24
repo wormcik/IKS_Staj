@@ -12,10 +12,12 @@ namespace SatinAlim.Controllers
     public class SatinAlimController : ControllerBase
     {
         private readonly SatinAlimService satinAlimService;
+        private readonly JwtTokenService jwtTokenService;
 
-        public SatinAlimController(SatinAlimService satinAlimService)
+        public SatinAlimController(SatinAlimService satinAlimService,JwtTokenService jwtTokenService)
         {
             this.satinAlimService = satinAlimService;
+            this.jwtTokenService = jwtTokenService;
         }
 
         [HttpGet]
@@ -31,7 +33,8 @@ namespace SatinAlim.Controllers
         [ProducesResponseType(typeof(ProcessResult<TalepEkleModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<TalepEkleModelDTO>>> TalepEkle(TalepEkleSorguModel sorgu)
         {
-            var result = await satinAlimService.TalepEkleAsync(sorgu);
+            var KullanıcıKod = jwtTokenService.GetUserGuid();
+            var result = await satinAlimService.TalepEkleAsync(sorgu,KullanıcıKod);
             return Ok(result);
         }
 

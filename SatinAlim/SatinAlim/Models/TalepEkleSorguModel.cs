@@ -16,7 +16,7 @@ namespace SatinAlim.Models
         public int TalepPersonelKod { get; set; }
 
         //[Column(TypeName = "NUMERIC(18,2)")]
-        public decimal OngorulenTutar;
+        public decimal OngorulenTutar { get; set; }
 
         //[Required]
         public string? OngorulenTutarPbKod { get; set; }
