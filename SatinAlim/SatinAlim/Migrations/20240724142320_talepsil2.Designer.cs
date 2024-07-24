@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SatinAlim.Entities;
 
@@ -11,9 +12,11 @@ using SatinAlim.Entities;
 namespace SatinAlim.Migrations
 {
     [DbContext(typeof(SatinAlimDbContext))]
-    partial class SatinAlimDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724142320_talepsil2")]
+    partial class talepsil2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,52 +206,6 @@ namespace SatinAlim.Migrations
                     b.ToTable("SatinAlmaHizmet", "satinAlma");
                 });
 
-            modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalep", b =>
-                {
-                    b.Property<long>("SatinAlmaTalepKod")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("SatinAlmaTalepKod"));
-
-                    b.Property<string>("Aciklama")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(8000)");
-
-                    b.Property<DateTime>("IslemTarih")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("OnaySira")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("OngorulenTutar")
-                        .HasColumnType("NUMERIC(18,2)");
-
-                    b.Property<string>("OngorulenTutarPbKod")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PersonelKod")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SatinAlmaBirimKod")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("TalepTarih")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid>("TransactionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("SatinAlmaTalepKod");
-
-                    b.HasIndex("PersonelKod");
-
-                    b.HasIndex("SatinAlmaBirimKod");
-
-                    b.ToTable("SatinAlmaTalep", "satinAlma");
-                });
-
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalepHizmet", b =>
                 {
                     b.Property<long>("SatinAlmaTalepHizmetKod")
@@ -276,8 +233,6 @@ namespace SatinAlim.Migrations
                     b.HasKey("SatinAlmaTalepHizmetKod");
 
                     b.HasIndex("SatinAlmaHizmetKod");
-
-                    b.HasIndex("SatinAlmaTalepKod");
 
                     b.ToTable("SatinAlmaTalepHizmet", "satinAlma");
                 });
@@ -310,8 +265,6 @@ namespace SatinAlim.Migrations
 
                     b.HasIndex("PersonelKod");
 
-                    b.HasIndex("SatinAlmaTalepKod");
-
                     b.ToTable("SatinAlmaTalepTarihce", "satinAlma");
                 });
 
@@ -340,8 +293,6 @@ namespace SatinAlim.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("SatinAlmaTalepUrunKod");
-
-                    b.HasIndex("SatinAlmaTalepKod");
 
                     b.HasIndex("SatinAlmaUrunKod");
 
@@ -446,25 +397,6 @@ namespace SatinAlim.Migrations
                     b.Navigation("SatinAlmaUrun");
                 });
 
-            modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalep", b =>
-                {
-                    b.HasOne("SatinAlim.Entities.Personel", "Personel")
-                        .WithMany("SatinAlmaTalep")
-                        .HasForeignKey("PersonelKod")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SatinAlim.Entities.SatinAlmaBirim", "SatinAlmaBirim")
-                        .WithMany("SatinAlmaTalep")
-                        .HasForeignKey("SatinAlmaBirimKod")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Personel");
-
-                    b.Navigation("SatinAlmaBirim");
-                });
-
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalepHizmet", b =>
                 {
                     b.HasOne("SatinAlim.Entities.SatinAlmaHizmet", "SatinAlmaHizmet")
@@ -473,15 +405,7 @@ namespace SatinAlim.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SatinAlim.Entities.SatinAlmaTalep", "SatinAlmaTalep")
-                        .WithMany("SatinAlmaTalepHizmet")
-                        .HasForeignKey("SatinAlmaTalepKod")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("SatinAlmaHizmet");
-
-                    b.Navigation("SatinAlmaTalep");
                 });
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalepTarihce", b =>
@@ -492,32 +416,16 @@ namespace SatinAlim.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SatinAlim.Entities.SatinAlmaTalep", "SatinAlmaTalep")
-                        .WithMany("SatinAlmaTalepTarihce")
-                        .HasForeignKey("SatinAlmaTalepKod")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Personel");
-
-                    b.Navigation("SatinAlmaTalep");
                 });
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalepUrun", b =>
                 {
-                    b.HasOne("SatinAlim.Entities.SatinAlmaTalep", "SatinAlmaTalep")
-                        .WithMany("SatinAlmaTalepUrun")
-                        .HasForeignKey("SatinAlmaTalepKod")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SatinAlim.Entities.SatinAlmaUrun", "SatinAlmaUrun")
                         .WithMany("SatinAlmaTalepUrun")
                         .HasForeignKey("SatinAlmaUrunKod")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("SatinAlmaTalep");
 
                     b.Navigation("SatinAlmaUrun");
                 });
@@ -527,8 +435,6 @@ namespace SatinAlim.Migrations
                     b.Navigation("SatinAlmaBirimOnaycilar");
 
                     b.Navigation("SatinAlmaBirimPersonel");
-
-                    b.Navigation("SatinAlmaTalep");
 
                     b.Navigation("SatinAlmaTalepTarihce");
                 });
@@ -542,8 +448,6 @@ namespace SatinAlim.Migrations
                     b.Navigation("SatinAlmaBirimPersonel");
 
                     b.Navigation("SatinAlmaBirimUrun");
-
-                    b.Navigation("SatinAlmaTalep");
                 });
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaHizmet", b =>
@@ -551,15 +455,6 @@ namespace SatinAlim.Migrations
                     b.Navigation("SatinAlmaBirimHizmet");
 
                     b.Navigation("SatinAlmaTalepHizmet");
-                });
-
-            modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalep", b =>
-                {
-                    b.Navigation("SatinAlmaTalepHizmet");
-
-                    b.Navigation("SatinAlmaTalepTarihce");
-
-                    b.Navigation("SatinAlmaTalepUrun");
                 });
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaUrun", b =>

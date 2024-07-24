@@ -18,7 +18,7 @@ namespace SatinAlim.Entities
 
         [ForeignKey("Personel")]
         [Required]
-        public int OnayPersonelKod { get; set; }
+        public int PersonelKod { get; set; }
 
         [Required]
         public int OnaySıra { get; set; } 

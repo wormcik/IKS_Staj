@@ -20,7 +20,7 @@ namespace SatinAlim.Entities
 
         [ForeignKey("Personel")]
         [Required]
-        public int TalepPersonelKod { get; set; }
+        public int PersonelKod { get; set; }
 
         [Required]
         public DateTime TalepTarih { get; set; }

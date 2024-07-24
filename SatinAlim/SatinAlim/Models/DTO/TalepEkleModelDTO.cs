@@ -9,7 +9,7 @@ namespace SatinAlim.Models.DTO
 	{
         public int SatinAlmaBirimKod { get; set; }
 
-        public int TalepPersonelKod { get; set; }
+        public int PersonelKod { get; set; }
 
         public DateTime TalepTarih { get; set; }//
 

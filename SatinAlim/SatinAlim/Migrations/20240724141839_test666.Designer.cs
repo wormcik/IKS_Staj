@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SatinAlim.Entities;
 
@@ -11,9 +12,11 @@ using SatinAlim.Entities;
 namespace SatinAlim.Migrations
 {
     [DbContext(typeof(SatinAlimDbContext))]
-    partial class SatinAlimDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724141839_test666")]
+    partial class test666
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,9 +223,6 @@ namespace SatinAlim.Migrations
 
                     b.Property<int>("OnaySira")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("OngorulenTutar")
-                        .HasColumnType("NUMERIC(18,2)");
 
                     b.Property<string>("OngorulenTutarPbKod")
                         .IsRequired()

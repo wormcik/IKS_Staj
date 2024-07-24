@@ -20,7 +20,7 @@ namespace SatinAlim.Entities
         public int SatinAlmaUrunKod { get; set; }
 
         [JsonIgnore]
-        public SatinAlmaBirim SatınAlmaBirim { get; set; }
+        public SatinAlmaBirim SatinAlmaBirim { get; set; }
 
         [JsonIgnore]
         public SatinAlmaUrun SatinAlmaUrun { get; set; }
