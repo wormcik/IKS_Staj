@@ -17,6 +17,7 @@ builder.Services.AddScoped<SatinAlimService>();
 builder.Services.AddScoped<UrunService>();
 builder.Services.AddScoped<BirimService>();
 builder.Services.AddScoped<HizmetService>();
+builder.Services.AddScoped<PersonelService>();
 
 
 
@@ -40,12 +41,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 builder.Services.AddAuthorization();
-
-builder.Services.AddSingleton<JwtTokenService>(new JwtTokenService(
-    builder.Configuration["Jwt:Issuer"],
-    builder.Configuration["Jwt:Audience"],
-    builder.Configuration["Jwt:Key"]
-));
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<JwtTokenService>(provider =>
+{
+    var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var issuer = configuration["Jwt:Issuer"];
+    var audience = configuration["Jwt:Audience"];
+    var key = configuration["Jwt:Key"];
+    return new JwtTokenService(issuer, audience, key, httpContextAccessor, configuration);
+});
 
 builder.Services.AddSwaggerGen(c =>
 {

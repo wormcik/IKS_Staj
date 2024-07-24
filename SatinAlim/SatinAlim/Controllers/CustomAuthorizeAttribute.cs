@@ -86,13 +86,15 @@ namespace SatinAlim.Controllers
         private readonly string _audience;
         private readonly string _key;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
 
-        public JwtTokenService(string issuer, string audience, string key, IHttpContextAccessor httpContextAccessor)
+        public JwtTokenService(string issuer, string audience, string key, IHttpContextAccessor httpContextAccessor,IConfiguration configuration)
         {
             _issuer = issuer;
             _audience = audience;
             _key = key;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public string GenerateToken(string username, string[] roles)
