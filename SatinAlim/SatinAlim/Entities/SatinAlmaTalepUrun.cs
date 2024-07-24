@@ -15,6 +15,9 @@ namespace SatinAlim.Entities
 		[ForeignKey("SatinAlmaTalep")]
         [Required]
         public long SatinAlmaTalepKod { get; set; }
+        [ForeignKey("SatinAlmaUrun")]
+        [Required]
+        public int SatinAlmaUrunKod { get; set; }
 
         [Column(TypeName = "NUMERIC(18,2)")]
         [Required]
@@ -29,7 +32,9 @@ namespace SatinAlim.Entities
         public decimal BirimFiyat { get; set; }
 
         [JsonIgnore]
-        public SatinAlmaTalep SatinAlmaTalep { get; set; }
+        public SatinAlmaTalep SatinAlmaTalep { get; set; }  
+        [JsonIgnore]
+        public SatinAlmaUrun SatinAlmaUrun { get; set; }
     }
 }
 

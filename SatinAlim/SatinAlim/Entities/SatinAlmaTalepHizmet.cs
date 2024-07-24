@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace SatinAlim.Entities
 {
@@ -9,11 +10,15 @@ namespace SatinAlim.Entities
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long SatinAlmaHizmetKod { get; set; }
+        public long SatinAlmaTalepHizmetKod { get; set; }
 
         [ForeignKey("SatinAlmaTalep")]
         [Required]
         public long SatinAlmaTalepKod { get; set; }
+
+        [ForeignKey("SatinAlmaHizmet")]
+        [Required]
+        public int SatinAlmaHizmetKod { get; set; }
 
         [Column(TypeName = "NUMERIC(18,2)")]
         [Required]
@@ -27,7 +32,10 @@ namespace SatinAlim.Entities
         [Required]
         public decimal BirimFiyat { get; set; }
 
-        public  SatinAlmaTalep SatinAlmaTalep { get; set; }
+        [JsonIgnore]
+        public SatinAlmaTalep SatinAlmaTalep { get; set; }
+        [JsonIgnore]
+        public SatinAlmaHizmet SatinAlmaHizmet { get; set; }
 
 
 

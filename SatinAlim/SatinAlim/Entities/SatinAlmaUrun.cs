@@ -21,5 +21,6 @@ namespace SatinAlim.Entities
         public string? Birim { get; set; }
 
         public ICollection<SatinAlmaBirimUrun>? SatinAlmaBirimUrun { get; set; }
+        public ICollection<SatinAlmaTalepUrun>? SatinAlmaTalepUrun { get; set; }
     }
 }

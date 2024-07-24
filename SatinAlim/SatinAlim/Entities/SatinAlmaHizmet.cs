@@ -21,5 +21,7 @@ namespace SatinAlim.Entities
 
         public ICollection<SatinAlmaBirimHizmet>? SatinAlmaBirimHizmet { get; set; }
 
+        public ICollection<SatinAlmaTalepHizmet>? SatinAlmaTalepHizmet { get; set; }
+
     }
 }

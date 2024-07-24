@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SatinAlim.Entities;
 
@@ -11,9 +12,11 @@ using SatinAlim.Entities;
 namespace SatinAlim.Migrations
 {
     [DbContext(typeof(SatinAlimDbContext))]
-    partial class SatinAlimDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240724083116_satinalmatalephizmetrelations2")]
+    partial class satinalmatalephizmetrelations2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,15 +267,10 @@ namespace SatinAlim.Migrations
                         .IsRequired()
                         .HasColumnType("VARCHAR(10)");
 
-                    b.Property<int>("SatinAlmaHizmetKod")
-                        .HasColumnType("int");
-
                     b.Property<long>("SatinAlmaTalepKod")
                         .HasColumnType("bigint");
 
                     b.HasKey("SatinAlmaTalepHizmetKod");
-
-                    b.HasIndex("SatinAlmaHizmetKod");
 
                     b.HasIndex("SatinAlmaTalepKod");
 
@@ -464,19 +462,11 @@ namespace SatinAlim.Migrations
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalepHizmet", b =>
                 {
-                    b.HasOne("SatinAlim.Entities.SatinAlmaHizmet", "SatinAlmaHizmet")
-                        .WithMany("SatinAlmaTalepHizmet")
-                        .HasForeignKey("SatinAlmaHizmetKod")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("SatinAlim.Entities.SatinAlmaTalep", "SatinAlmaTalep")
                         .WithMany("SatinAlmaTalepHizmet")
                         .HasForeignKey("SatinAlmaTalepKod")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("SatinAlmaHizmet");
 
                     b.Navigation("SatinAlmaTalep");
                 });
@@ -546,8 +536,6 @@ namespace SatinAlim.Migrations
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaHizmet", b =>
                 {
                     b.Navigation("SatinAlmaBirimHizmet");
-
-                    b.Navigation("SatinAlmaTalepHizmet");
                 });
 
             modelBuilder.Entity("SatinAlim.Entities.SatinAlmaTalep", b =>
