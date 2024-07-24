@@ -50,10 +50,29 @@ namespace SatinAlim.Services
             talep.OnaySira = sorgu.OnaySira;
             talep.OngorulenTutar = sorgu.OngorulenTutar;
             talep.OngorulenTutarPbKod = sorgu.OngorulenTutarPbKod;
-            talep.TalepPersonelKod = sorgu.TalepPersonelKod;
             talep.SatinAlmaBirimKod = sorgu.SatinAlmaBirimKod;
-            talep.TalepTarih = DateTime.Now;
+            talep.TalepTarih = sorgu.TalepTarih;
             talep.TransactionId = Guid.NewGuid();
+
+            foreach (var urun in sorgu.TalepUrunSorguModelListe)
+            {
+                var eklenecekUrun = new SatinAlmaTalepUrun();
+                eklenecekUrun.BirimFiyat = sorgu.BirimFiyat;
+                eklenecekUrun.Miktar = sorgu.Miktar;
+                eklenecekUrun.PbKod = sorgu.OngorulenTutarPbKod;
+                talep.SatinAlmaTalepUrun.Add(eklenecekUrun);
+            }
+
+            foreach(var hizmet in sorgu.TalepHizmetSorguModelListe)
+            {
+                var eklenecekHizmet = new SatinAlmaTalepHizmet();
+                eklenecekHizmet.BirimFiyat = hizmet.BirimFiyat;
+                eklenecekHizmet.Miktar = hizmet.Miktar;
+                eklenecekHizmet.PbKod = hizmet.PbKod;
+                talep.SatinAlmaTalepHizmet.Add(eklenecekHizmet);
+            }
+
+            personel.SatinAlmaTalep.Add(talep);
 
             await satinAlimDbContext.SatinAlmaTalep.AddAsync(talep);
             await satinAlimDbContext.SaveChangesAsync();

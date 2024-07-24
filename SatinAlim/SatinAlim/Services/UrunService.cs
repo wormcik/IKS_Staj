@@ -141,8 +141,8 @@ namespace SatinAlim.Services
                 objUrun.Birim = urun.Birim.ToUpper();
                 objUrun.Aciklama = urun.Aciklama;
                 objUrun.Tanim = urun.Tanim;
-                satinAlimDbContext.Entry(objUrun).State = EntityState.Modified;
-
+                //satinAlimDbContext.Entry(objUrun).State = EntityState.Modified;
+                satinAlimDbContext.Update(objUrun);
                 await satinAlimDbContext.SaveChangesAsync();
 
                 var result = new UrunGuncelleModelDTO();

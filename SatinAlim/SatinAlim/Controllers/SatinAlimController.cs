@@ -4,6 +4,7 @@ using SatinAlim.Helpers;
 using SatinAlim.Models;
 using SatinAlim.Models.DTO;
 using SatinAlim.Services;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 
 namespace SatinAlim.Controllers
@@ -13,11 +14,13 @@ namespace SatinAlim.Controllers
     {
         private readonly SatinAlimService satinAlimService;
         private readonly JwtTokenService jwtTokenService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public SatinAlimController(SatinAlimService satinAlimService,JwtTokenService jwtTokenService)
+        public SatinAlimController(SatinAlimService satinAlimService,JwtTokenService jwtTokenService,IHttpContextAccessor httpContextAccessor)
         {
             this.satinAlimService = satinAlimService;
             this.jwtTokenService = jwtTokenService;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -33,7 +36,21 @@ namespace SatinAlim.Controllers
         [ProducesResponseType(typeof(ProcessResult<TalepEkleModelDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<TalepEkleModelDTO>>> TalepEkle(TalepEkleSorguModel sorgu)
         {
-            var KullanıcıKod = jwtTokenService.GetUserGuid();
+            //var KullanıcıKod = jwtTokenService.GetUserGuid();
+            //var KullanıcıKod = new Guid();
+            var claims = User.Claims.ToList();
+
+
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullanıcıKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+                /*User.Claims.FirstOrDefault(c => c.Type == "role");*/
+            var KullanıcıKod = Guid.Parse(KullanıcıKod_Value.Value);
             var result = await satinAlimService.TalepEkleAsync(sorgu,KullanıcıKod);
             return Ok(result);
         }

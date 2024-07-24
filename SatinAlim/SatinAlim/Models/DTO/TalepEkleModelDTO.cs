@@ -24,6 +24,7 @@ namespace SatinAlim.Models.DTO
         public int OnaySira { get; set; }
 
         public DateTime IslemTarih { get; set; }//
+
     }
 }
 

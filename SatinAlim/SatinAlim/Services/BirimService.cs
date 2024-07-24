@@ -94,7 +94,8 @@ namespace SatinAlim.Services
                 }
                 objBirim.BirimAd = sorgu.BirimAd;
                 objBirim.OnaySayi = sorgu.OnaySayi;
-                satinAlimDbContext.Entry(objBirim).State = EntityState.Modified;
+
+                satinAlimDbContext.Update(objBirim);
                 await satinAlimDbContext.SaveChangesAsync();
 
                 BirimGuncelleModelDTO yeniBirim = new BirimGuncelleModelDTO();

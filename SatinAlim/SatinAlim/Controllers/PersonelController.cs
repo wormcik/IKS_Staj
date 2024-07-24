@@ -22,7 +22,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPost]
-        // [CustomAuthorize("PersonelEkle")]
+        [CustomAuthorize("PersonelEkle")]
         [ProducesResponseType(typeof(ProcessResult<PersonelEkleModelDTO>),(int)HttpStatusCode.OK)]
 
         public async Task<ActionResult<ProcessResult<PersonelEkleModelDTO>>> PersonelEkle(PersonelEkleSorguModel personel)
