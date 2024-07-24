@@ -63,7 +63,7 @@ namespace SatinAlim.Services
                 }
                 satinAlmaDbContext.Personel.Remove(obj);
                 await satinAlmaDbContext.SaveChangesAsync();
-                return new ProcessResult<bool>().Successful();
+                return new ProcessResult<bool>().Successful(true);
             }
             catch (Exception ex)
             {

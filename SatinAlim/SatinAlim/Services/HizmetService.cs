@@ -166,7 +166,7 @@ namespace SatinAlimHizmet.Services
                 }
                 satinAlmaDbContext.SatinAlmaHizmet.Remove(obj);
                 await satinAlmaDbContext.SaveChangesAsync();
-                return new ProcessResult<bool>().Successful();
+                return new ProcessResult<bool>().Successful(true);
             }
             catch (Exception ex)
             {
