@@ -3,6 +3,7 @@ using SatinAlim.Entities;
 using SatinAlim.Helpers;
 using SatinAlim.Models;
 using SatinAlim.Models.DTO;
+using System.Runtime.ConstrainedExecution;
 
 namespace SatinAlim.Services
 {
@@ -32,9 +33,14 @@ namespace SatinAlim.Services
             var personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
             x.KullaniciKod==KullaniciKod);
 
+           
             if (personel == null)
             {
                 return new ProcessResult<TalepEkleModelDTO>().Failed("Personel bulunamadı");
+            }
+            if (personel.SatinAlmaTalep == null)
+            {
+                personel.SatinAlmaTalep = new List<SatinAlmaTalep>();    
             }
             var satinAlmaBirim = await satinAlimDbContext.SatinAlmaBirim.FirstOrDefaultAsync(x =>
             x.SatinAlmaBirimKod == sorgu.SatinAlmaBirimKod);
@@ -53,6 +59,8 @@ namespace SatinAlim.Services
             talep.SatinAlmaBirimKod = sorgu.SatinAlmaBirimKod;
             talep.TalepTarih = sorgu.TalepTarih;
             talep.TransactionId = Guid.NewGuid();
+            talep.SatinAlmaTalepUrun = new List<SatinAlmaTalepUrun>();
+            talep.SatinAlmaTalepHizmet = new List<SatinAlmaTalepHizmet>();
 
             foreach (var urun in sorgu.TalepUrunSorguModelListe)
             {

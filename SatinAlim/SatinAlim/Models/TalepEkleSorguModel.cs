@@ -36,9 +36,9 @@ namespace SatinAlim.Models
 
         public DateTime TalepTarih { get; set; }
 
-        public List<TalepUrunSorguModel> TalepUrunSorguModelListe { get; set; }
+        public List<TalepUrunSorguModel>? TalepUrunSorguModelListe { get; set; }
 
-        public List<TalepHizmetSorguModel> TalepHizmetSorguModelListe { get; set; }
+        public List<TalepHizmetSorguModel>? TalepHizmetSorguModelListe { get; set; }
     }
 }
 

@@ -48,10 +48,10 @@ namespace SatinAlim.Controllers
             var jwtHandler = new JwtSecurityTokenHandler();
             var jwtToken = jwtHandler.ReadJwtToken(token);
 
-            var KullanıcıKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
                 /*User.Claims.FirstOrDefault(c => c.Type == "role");*/
-            var KullanıcıKod = Guid.Parse(KullanıcıKod_Value.Value);
-            var result = await satinAlimService.TalepEkleAsync(sorgu,KullanıcıKod);
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+            var result = await satinAlimService.TalepEkleAsync(sorgu,KullaniciKod);
             return Ok(result);
         }
 
