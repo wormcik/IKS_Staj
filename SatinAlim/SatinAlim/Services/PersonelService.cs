@@ -26,7 +26,7 @@ namespace SatinAlim.Services
             try
             {
                 var obj = await satinAlmaDbContext.Personel.FirstOrDefaultAsync(x => x.Ad == personel.Ad);
-                if (obj == null)
+                if (obj != null)
                 {
                     return new ProcessResult<PersonelEkleModelDTO>().Failed("Boyle bir personel var!");
                 }
@@ -56,12 +56,12 @@ namespace SatinAlim.Services
         {
             try
             {
-                var obj = await satinAlmaDbContext.SatinAlmaBirimPersonel.FirstOrDefaultAsync(x => x.SatınAlmaBirimPersonelKod == personelKod);
+                var obj = await satinAlmaDbContext.Personel.FirstOrDefaultAsync(x => x.PersonelKod == personelKod);
                 if (obj == null)
                 {
                     return new ProcessResult<bool>().Failed("Personel Bulunamadi");
                 }
-                satinAlmaDbContext.SatinAlmaBirimPersonel.Remove(obj);
+                satinAlmaDbContext.Personel.Remove(obj);
                 await satinAlmaDbContext.SaveChangesAsync();
                 return new ProcessResult<bool>().Successful();
             }

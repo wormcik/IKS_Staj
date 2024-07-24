@@ -22,6 +22,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPost]
+        // [CustomAuthorize("PersonelEkle")]
         [ProducesResponseType(typeof(ProcessResult<PersonelEkleModelDTO>),(int)HttpStatusCode.OK)]
 
         public async Task<ActionResult<ProcessResult<PersonelEkleModelDTO>>> PersonelEkle(PersonelEkleSorguModel personel)
@@ -31,6 +32,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpGet]
+        [CustomAuthorize("PersonelGetir")]
         [ProducesResponseType(typeof(ProcessResult<PersonelGetirModelDTO>),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<PersonelGetirModelDTO>>> PersonelGetir(int id)
         {
@@ -39,6 +41,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("PersonelListele")]
         [ProducesResponseType(typeof(ProcessResult<List<PersonelListeleModelDTO>>),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<List<PersonelListeleModelDTO>>>> PersonelListele(PersonelListeleSorguModel  sorgu)
         {
@@ -47,6 +50,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpPut]
+        [CustomAuthorize("PersonelGuncelle")]
         [ProducesResponseType(typeof(ProcessResult<PersonelGuncelleModelDTO>),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<PersonelGuncelleModelDTO>>> PersonelGuncelle(PersonelGuncelleSorguModel sorgu)
         {
@@ -55,6 +59,7 @@ namespace SatinAlim.Controllers
         }
 
         [HttpDelete]
+        [CustomAuthorize("PersonelSil")]
         [ProducesResponseType(typeof(ProcessResult<bool>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<bool>>> PersonelSil(int id)
         {

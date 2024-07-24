@@ -114,7 +114,7 @@ namespace SatinAlimHizmet.Services
                 obj.Birim = hizmet.Birim.ToUpper();
                 obj.Aciklama = hizmet.Aciklama;
                 obj.Tanim = hizmet.Tanim;
-                satinAlmaDbContext.Entry(obj).State = EntityState.Modified;
+                satinAlmaDbContext.Update(obj);
 
                 await satinAlmaDbContext.SaveChangesAsync();
 
