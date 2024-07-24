@@ -69,6 +69,16 @@ namespace SatinAlim.Controllers
                 {
                     context.Result = new ForbidResult();
                 }
+
+                var userGuidClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+
+                if (userGuidClaim == null)
+                {
+                    context.Result = new UnauthorizedResult();
+                    return;
+                }
+
+                var userGuid = userGuidClaim.Value;
             }
             else
             {
@@ -117,18 +127,7 @@ namespace SatinAlim.Controllers
         }
 
 
-        public Guid GetUserGuid()
-        {
-            var user = _httpContextAccessor.HttpContext.User;
-            var userGuidClaim = user.Claims.FirstOrDefault(c => c.Type == "UserGuid");
 
-            if (userGuidClaim == null)
-            {
-                throw new Exception("UserGuid claim not found in token.");
-            }
-
-            return Guid.Parse(userGuidClaim.Value);
-        }
     }
 
 }

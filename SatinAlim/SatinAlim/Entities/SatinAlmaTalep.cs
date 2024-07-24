@@ -55,6 +55,7 @@ namespace SatinAlim.Entities
 
         public ICollection<SatinAlmaTalepTarihce>? SatinAlmaTalepTarihce { get; set; }
         public ICollection<SatinAlmaTalepHizmet>? SatinAlmaTalepHizmet { get; set; }
+        public ICollection<SatinAlmaTalepUrun>? SatinAlmaTalepUrun { get; set; }
 
     }
 }

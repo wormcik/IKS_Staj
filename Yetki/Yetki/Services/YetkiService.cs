@@ -126,7 +126,7 @@ namespace Yetki.Services
             {
                 claims.Add(new Claim("role", role));
             }
-            claims.Add(new Claim("KullanıcıKod", kullanıcıKod.ToString()));
+            claims.Add(new Claim("KullanıcıKod", kullanıcıKod.ToString().ToUpper()));
             
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(uniqueId));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
