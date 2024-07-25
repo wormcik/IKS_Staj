@@ -17,7 +17,7 @@ namespace SatinAlim.Entities
         [ForeignKey("SatinAlmaHizmet")]
         public int SatinAlmaHizmetKod { get; set; }
         [JsonIgnore]
-        public SatinAlmaBirim? SatınAlmaBirim { get; set; }
+        public SatinAlmaBirim? SatinAlmaBirim { get; set; }
         [JsonIgnore]
         public SatinAlmaHizmet? SatinAlmaHizmet { get; set; }
 

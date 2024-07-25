@@ -70,10 +70,16 @@ namespace SatinAlim.Services
                 eklenecekUrun.BirimFiyat = sorgu.BirimFiyat;
                 eklenecekUrun.Miktar = sorgu.Miktar;
                 eklenecekUrun.PbKod = sorgu.OngorulenTutarPbKod;
-                eklenecekUrun.SatinAlmaUrunKod = sorgu.SatinAlmaUrunKod;
                 talep.SatinAlmaTalepUrun.Add(eklenecekUrun);
-                dbdekiUrun.SatinAlmaTalepUrun.Add(eklenecekUrun);
-
+                if (dbdekiUrun.SatinAlmaBirimUrun == null)
+                {
+                    dbdekiUrun.SatinAlmaTalepUrun = new List<SatinAlmaTalepUrun>();
+                    dbdekiUrun.SatinAlmaTalepUrun.Add(eklenecekUrun);
+                }
+                else
+                {
+                    dbdekiUrun.SatinAlmaTalepUrun.Add(eklenecekUrun);
+                }
             }
 
             foreach(var hizmet in sorgu.TalepHizmetSorguModelListe)
@@ -91,6 +97,18 @@ namespace SatinAlim.Services
 
             await satinAlimDbContext.SatinAlmaTalep.AddAsync(talep);
             await satinAlimDbContext.SaveChangesAsync();
+
+            var deneme = await satinAlimDbContext.SatinAlmaTalep
+                .Include(x => x.SatinAlmaTalepUrun)
+                    .ThenInclude(x => x.SatinAlmaUrun)
+                        .ThenInclude(x => x.SatinAlmaBirimUrun)
+                            .ThenInclude(x => x.SatinAlmaBirim)
+                .Include(x => x.SatinAlmaTalepHizmet)
+                    .ThenInclude(x => x.SatinAlmaHizmet)
+                        .ThenInclude(x => x.SatinAlmaBirimHizmet)
+                            .ThenInclude(x => x.SatinAlmaBirim)
+                .ToListAsync();
+
 
             var result = new TalepEkleModelDTO();
 

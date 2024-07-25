@@ -56,7 +56,7 @@ builder.Services.AddSingleton<JwtTokenService>(provider =>
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SatınAlım", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SatinAlim", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
