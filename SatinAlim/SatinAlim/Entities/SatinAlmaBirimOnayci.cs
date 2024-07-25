@@ -21,7 +21,7 @@ namespace SatinAlim.Entities
         public int PersonelKod { get; set; }
 
         [Required]
-        public int OnaySıra { get; set; } 
+        public int OnaySira { get; set; } 
 
         [Required]
         public bool Sureli { get; set; } 
