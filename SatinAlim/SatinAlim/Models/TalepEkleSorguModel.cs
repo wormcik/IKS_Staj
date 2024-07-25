@@ -18,8 +18,6 @@ namespace SatinAlim.Models
 
         public string Aciklama { get; set; } = null!;
 
-        public int OnaySira { get; set; }
-
         public int Miktar{ get; set; }
 
         public int BirimFiyat{ get; set; }

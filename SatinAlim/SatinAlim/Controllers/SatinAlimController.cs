@@ -33,7 +33,7 @@ namespace SatinAlim.Controllers
 
         [HttpPost]
         [CustomAuthorize("TalepEkle")]
-        [ProducesResponseType(typeof(ProcessResult<TalepModelDTO>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ProcessResult<List<TalepModelDTO>>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<List<TalepModelDTO>>>> TalepEkle(TalepEkleSorguModel sorgu)
         {
             //var KullanıcıKod = jwtTokenService.GetUserGuid();
@@ -54,6 +54,36 @@ namespace SatinAlim.Controllers
             var result = await satinAlimService.TalepEkleAsync(sorgu,KullaniciKod);
             return Ok(result);
         }
+
+
+
+        [HttpPost]
+        [ProducesResponseType(typeof(ProcessResult<List<TalepModelDTO>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<List<TalepModelDTO>>>> TalepListele()
+        {
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            /*User.Claims.FirstOrDefault(c => c.Type == "role");*/
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+            var result =await satinAlimService.TalepListeleAsync(KullaniciKod);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ProcessResult<TalepModelDTO>), (int)HttpStatusCode.OK)]
+
+        public async Task<ActionResult<ProcessResult<TalepModelDTO>>> TalepGetir(long TalepKod)
+        {
+            var result = await satinAlimService.TalepGetirAsync(TalepKod);
+            return Ok(result);
+        }
+
 
     }
 }

@@ -5,11 +5,9 @@ namespace Yetki.Models.Enums
 {
 	public enum UserTypeEnum
 	{
-		Client,
-		Approve1,
-		Approve2,
-		Approve3,
-		Admin
+		Admin,
+		Onaycı,
+		Müşteri
 	}
 }
 
