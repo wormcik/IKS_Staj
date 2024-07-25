@@ -7,11 +7,7 @@ namespace SatinAlim.Models
 {
 	public class TalepUrunSorguModel
 	{
-        [ForeignKey("SatinAlmaTalep")]
-        [Required]
-        public long SatinAlmaTalepKod { get; set; }
-        [ForeignKey("SatinAlmaUrun")]
-        [Required]
+        public int SatinAlmaBirimKod { get; set; }
         public int SatinAlmaUrunKod { get; set; }
 
         public decimal Miktar { get; set; }//

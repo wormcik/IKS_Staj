@@ -49,6 +49,7 @@ namespace SatinAlim.Services
             {
                 return new ProcessResult<TalepEkleModelDTO>().Failed("Birim bulunamadı");
             }
+            
 
             var talep = new SatinAlmaTalep();
             talep.Aciklama = sorgu.Aciklama;
@@ -64,20 +65,26 @@ namespace SatinAlim.Services
 
             foreach (var urun in sorgu.TalepUrunSorguModelListe)
             {
+                var dbdekiUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(q => q.SatinAlmaUrunKod == urun.SatinAlmaUrunKod);
                 var eklenecekUrun = new SatinAlmaTalepUrun();
                 eklenecekUrun.BirimFiyat = sorgu.BirimFiyat;
                 eklenecekUrun.Miktar = sorgu.Miktar;
                 eklenecekUrun.PbKod = sorgu.OngorulenTutarPbKod;
+                eklenecekUrun.SatinAlmaUrunKod = sorgu.SatinAlmaUrunKod;
                 talep.SatinAlmaTalepUrun.Add(eklenecekUrun);
+                dbdekiUrun.SatinAlmaTalepUrun.Add(eklenecekUrun);
+
             }
 
             foreach(var hizmet in sorgu.TalepHizmetSorguModelListe)
-            {
+            {;
+                var dbdekiHizmet = await satinAlimDbContext.SatinAlmaHizmet.FirstOrDefaultAsync(q => q.SatinAlmaHizmetKod == hizmet.SatinAlmaHizmetKod);
                 var eklenecekHizmet = new SatinAlmaTalepHizmet();
                 eklenecekHizmet.BirimFiyat = hizmet.BirimFiyat;
                 eklenecekHizmet.Miktar = hizmet.Miktar;
                 eklenecekHizmet.PbKod = hizmet.PbKod;
                 talep.SatinAlmaTalepHizmet.Add(eklenecekHizmet);
+                dbdekiHizmet.SatinAlmaTalepHizmet.Add(eklenecekHizmet);
             }
 
             personel.SatinAlmaTalep.Add(talep);

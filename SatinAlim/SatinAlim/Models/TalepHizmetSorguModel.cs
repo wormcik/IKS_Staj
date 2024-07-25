@@ -8,6 +8,10 @@ namespace SatinAlim.Models
 {
 	public class TalepHizmetSorguModel
 	{
+        public int SatinAlmaBirimKod { get; set; }
+        public int SatinAlmaHizmetKod { get; set; }
+
+
         public decimal Miktar { get; set; }
 
         public string? PbKod { get; set; }
