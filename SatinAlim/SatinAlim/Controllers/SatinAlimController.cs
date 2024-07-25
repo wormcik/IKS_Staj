@@ -33,8 +33,8 @@ namespace SatinAlim.Controllers
 
         [HttpPost]
         [CustomAuthorize("TalepEkle")]
-        [ProducesResponseType(typeof(ProcessResult<TalepEkleModelDTO>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ProcessResult<TalepEkleModelDTO>>> TalepEkle(TalepEkleSorguModel sorgu)
+        [ProducesResponseType(typeof(ProcessResult<TalepModelDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<List<TalepModelDTO>>>> TalepEkle(TalepEkleSorguModel sorgu)
         {
             //var KullanıcıKod = jwtTokenService.GetUserGuid();
             //var KullanıcıKod = new Guid();
