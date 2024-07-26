@@ -45,9 +45,9 @@ namespace SatinAlim.Entities
         [Required]
         public DateTime IslemTarih { get; set; }
 
-        public bool? Reddedildi { get; set; }
+        public bool? Reddedildi { get; set; } = false;
 
-        public bool? Onaylandi { get; set; }
+        public bool? Onaylandi { get; set; } = false;
 
 
 
