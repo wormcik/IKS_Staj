@@ -80,7 +80,18 @@ namespace SatinAlim.Controllers
 
         public async Task<ActionResult<ProcessResult<TalepModelDTO>>> TalepGetir(long TalepKod)
         {
-            var result = await satinAlimService.TalepGetirAsync(TalepKod);
+
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
+            var result = await satinAlimService.TalepGetirAsync(TalepKod,KullaniciKod);
             return Ok(result);
         }
 

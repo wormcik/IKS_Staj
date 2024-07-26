@@ -263,7 +263,7 @@ namespace SatinAlim.Services
 
 
 
-        public async Task<ProcessResult<TalepModelDTO>> TalepGetirAsync(long TalepKod)
+        public async Task<ProcessResult<TalepModelDTO>> TalepGetirAsync(long TalepKod,Guid KullanıcıKod)
         {
             var talep = await satinAlimDbContext.SatinAlmaTalep
     .Include(x => x.SatinAlmaTalepUrun)
@@ -280,6 +280,22 @@ namespace SatinAlim.Services
                 return new ProcessResult<TalepModelDTO>().Failed("Talep bulunamamdı.");
             }
 
+            var Personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
+            x.KullaniciKod == KullanıcıKod);
+
+            if(Personel == null)
+            {
+                return new ProcessResult<TalepModelDTO>().Failed("Personel bulunamamdı.");
+
+            }
+
+            var BirimPersonel = await satinAlimDbContext.SatinAlmaBirimPersonel.FirstOrDefaultAsync(x =>
+            x.PersonelKod == Personel.PersonelKod);
+
+            if(BirimPersonel.SatinAlmaBirimKod != talep.SatinAlmaBirimKod)
+            {
+                return new ProcessResult<TalepModelDTO>().Failed("Personel birimi talep biriminden farklı.");
+            }
 
             var result = new TalepModelDTO();
             result.SatinAlmaTalepKod = talep.SatinAlmaTalepKod;
@@ -382,7 +398,7 @@ namespace SatinAlim.Services
             }
 
             var talepTarihce = new SatinAlmaTalepTarihce();
-            talepTarihce.Aciklama = talep.Aciklama;
+            talepTarihce.Aciklama = personel.Ad + " " + personel.Soyad + " " + TalepKod + " numaralı talebi onayladı";
             talepTarihce.IslemTarih = talep.IslemTarih;
             talepTarihce.OnaySira = talep.OnaySira;
             talepTarihce.PersonelKod = personel.PersonelKod;
@@ -449,7 +465,7 @@ namespace SatinAlim.Services
             talep.Reddedildi = true;
 
             var talepTarihce = new SatinAlmaTalepTarihce();
-            talepTarihce.Aciklama = talep.Aciklama;
+            talepTarihce.Aciklama = personel.Ad+" "+personel.Soyad+" "+TalepKod+" numaralı talebi reddeti";
             talepTarihce.IslemTarih = talep.IslemTarih;
             talepTarihce.OnaySira = talep.OnaySira;
             talepTarihce.PersonelKod = personel.PersonelKod;
