@@ -69,8 +69,8 @@ namespace SatinAlim.Controllers
             var jwtToken = jwtHandler.ReadJwtToken(token);
 
             var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
-            /*User.Claims.FirstOrDefault(c => c.Type == "role");*/
             var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
             var result =await satinAlimService.TalepListeleAsync(KullaniciKod);
             return Ok(result);
         }
@@ -85,5 +85,43 @@ namespace SatinAlim.Controllers
         }
 
 
+        [HttpPut]
+        [ProducesResponseType(typeof(ProcessResult<bool>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<bool>>> TalepOnayla(long TalepKod)
+        {
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
+            var result = await satinAlimService.TalepOnaylaAsync(TalepKod,KullaniciKod);
+
+            return Ok(result);
+        }
+
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ProcessResult<bool>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<bool>>> TalepReddet(long TalepKod)
+        {
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
+            var result = await satinAlimService.TalepReddetAsync(TalepKod, KullaniciKod);
+
+            return Ok(result);
+        }
     }
 }

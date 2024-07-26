@@ -45,6 +45,12 @@ namespace SatinAlim.Entities
         [Required]
         public DateTime IslemTarih { get; set; }
 
+        [Required]
+        public bool Reddedildi { get; set; }
+
+        [Required]
+        public bool Onaylandi { get; set; }
+
 
 
         [JsonIgnore]

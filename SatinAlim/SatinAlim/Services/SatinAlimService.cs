@@ -55,7 +55,7 @@ namespace SatinAlim.Services
             var talep = new SatinAlmaTalep();
             talep.Aciklama = sorgu.Aciklama;
             talep.IslemTarih = DateTime.Now;
-            talep.OnaySira = 0; 
+            talep.OnaySira = 1; 
             talep.OngorulenTutar = sorgu.OngorulenTutar;
             talep.OngorulenTutarPbKod = sorgu.OngorulenTutarPbKod;
             talep.SatinAlmaBirimKod = sorgu.SatinAlmaBirimKod;
@@ -63,7 +63,8 @@ namespace SatinAlim.Services
             talep.TransactionId = Guid.NewGuid();
             talep.SatinAlmaTalepUrun = new List<SatinAlmaTalepUrun>();
             talep.SatinAlmaTalepHizmet = new List<SatinAlmaTalepHizmet>();
-
+            talep.Onaylandi = false;
+            talep.Reddedildi = false;
 
             var talepTarihce = new SatinAlmaTalepTarihce();
             talepTarihce.Aciklama = talep.Aciklama;
@@ -149,6 +150,7 @@ namespace SatinAlim.Services
             foreach(var temp in deneme)
             {
                 var result = new TalepModelDTO();
+                result.SatinAlmaTalepKod = temp.SatinAlmaTalepKod;
                 result.Aciklama = temp.Aciklama;
                 result.IslemTarih = temp.IslemTarih;
                 result.OnaySira = temp.OnaySira;
@@ -197,8 +199,10 @@ namespace SatinAlim.Services
             {
                 return new ProcessResult<List<TalepModelDTO>>().Failed("Personel bulunamadı.");
             }
+            var BirimPersonel = await satinAlimDbContext.SatinAlmaBirimPersonel.FirstOrDefaultAsync(x=>
+            x.PersonelKod == personel.PersonelKod);
 
-            var TalepListe = await satinAlimDbContext.SatinAlmaTalep.Where(x=> x.PersonelKod == personel.PersonelKod)
+            var TalepListe = await satinAlimDbContext.SatinAlmaTalep.Where(x=> x.SatinAlmaBirimKod == BirimPersonel.SatinAlmaBirimKod)
                 .Include(x => x.SatinAlmaTalepUrun)
                     .ThenInclude(x => x.SatinAlmaUrun)
                         .ThenInclude(x => x.SatinAlmaBirimUrun)
@@ -220,6 +224,7 @@ namespace SatinAlim.Services
             foreach (var temp in TalepListe)
             {
                 var result = new TalepModelDTO();
+                result.SatinAlmaTalepKod = temp.SatinAlmaTalepKod;
                 result.Aciklama = temp.Aciklama;
                 result.IslemTarih = temp.IslemTarih;
                 result.OnaySira = temp.OnaySira;
@@ -275,7 +280,9 @@ namespace SatinAlim.Services
                 return new ProcessResult<TalepModelDTO>().Failed("Talep bulunamamdı.");
             }
 
+
             var result = new TalepModelDTO();
+            result.SatinAlmaTalepKod = talep.SatinAlmaTalepKod;
             result.Aciklama = talep.Aciklama;
             result.IslemTarih = talep.IslemTarih;
             result.OnaySira = talep.OnaySira;
@@ -312,5 +319,149 @@ namespace SatinAlim.Services
             return new ProcessResult<TalepModelDTO>().Successful(result);
 
         }
+
+
+        public async Task<ProcessResult<bool>> TalepOnaylaAsync(long TalepKod,Guid KullaniciKod)
+        {
+            var personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
+            x.KullaniciKod == KullaniciKod);
+            if (personel == null)
+            {
+                return new ProcessResult<bool>().Failed("Personel bulunamadı");
+            }
+
+          var talep = await satinAlimDbContext.SatinAlmaTalep
+            .Include(x => x.SatinAlmaTalepUrun)
+                .ThenInclude(x => x.SatinAlmaUrun)
+                    .ThenInclude(x => x.SatinAlmaBirimUrun)
+                        .ThenInclude(x => x.SatinAlmaBirim)
+                .Include(x => x.SatinAlmaTalepHizmet)
+                    .ThenInclude(x => x.SatinAlmaHizmet)
+                        .ThenInclude(x => x.SatinAlmaBirimHizmet)
+                .ThenInclude(x => x.SatinAlmaBirim).FirstOrDefaultAsync(x => x.SatinAlmaTalepKod == TalepKod);
+
+            if (talep == null)
+            {
+                return new ProcessResult<bool>().Failed("Talep bulunamamdı.");
+            }
+
+            if(talep.Onaylandi == true)
+            {
+                return new ProcessResult<bool>().Failed("Talep onceden onaylanmıs.");
+            }
+
+            if(talep.Reddedildi == true)
+            {
+                return new ProcessResult<bool>().Failed("Talep onceden reddedilmis.");
+            }
+
+            var OnayciPersonel = await satinAlimDbContext.SatinAlmaBirimOnayci.FirstOrDefaultAsync(x =>
+            x.PersonelKod == personel.PersonelKod);
+
+            if(OnayciPersonel.SatinAlmaBirim != talep.SatinAlmaBirim)
+            {
+                return new ProcessResult<bool>().Failed("Personel talebin yapiligi birimde bulunmamaktadır.");
+            }
+
+            if(OnayciPersonel.OnaySira != talep.OnaySira)
+            {
+                return new ProcessResult<bool>().Failed("Personel onay sırası talebin onay sırasından farklı.");
+            }
+
+            var OnaycıBirim = await satinAlimDbContext.SatinAlmaBirim.FirstOrDefaultAsync(x =>
+            x.SatinAlmaBirimKod==OnayciPersonel.SatinAlmaBirimKod);
+
+            if (OnaycıBirim.OnaySayi >= talep.OnaySira + 1)
+            {
+                talep.OnaySira++;
+            }
+
+            else
+            {
+                talep.Onaylandi = true;
+            }
+
+            var talepTarihce = new SatinAlmaTalepTarihce();
+            talepTarihce.Aciklama = talep.Aciklama;
+            talepTarihce.IslemTarih = talep.IslemTarih;
+            talepTarihce.OnaySira = talep.OnaySira;
+            talepTarihce.PersonelKod = personel.PersonelKod;
+            talepTarihce.SatinAlmaTalepKod = talep.SatinAlmaTalepKod;
+
+            await satinAlimDbContext.SatinAlmaTalepTarihce.AddAsync(talepTarihce);
+            satinAlimDbContext.Update(talep);
+            await satinAlimDbContext.SaveChangesAsync();
+
+            return new ProcessResult<bool>().Successful(true);
+        }
+
+
+
+
+
+        public async Task<ProcessResult<bool>> TalepReddetAsync(long TalepKod, Guid KullaniciKod)
+        {
+            var personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
+            x.KullaniciKod == KullaniciKod);
+            if (personel == null)
+            {
+                return new ProcessResult<bool>().Failed("Personel bulunamadı");
+            }
+
+            var talep = await satinAlimDbContext.SatinAlmaTalep
+              .Include(x => x.SatinAlmaTalepUrun)
+                  .ThenInclude(x => x.SatinAlmaUrun)
+                      .ThenInclude(x => x.SatinAlmaBirimUrun)
+                          .ThenInclude(x => x.SatinAlmaBirim)
+                  .Include(x => x.SatinAlmaTalepHizmet)
+                      .ThenInclude(x => x.SatinAlmaHizmet)
+                          .ThenInclude(x => x.SatinAlmaBirimHizmet)
+                  .ThenInclude(x => x.SatinAlmaBirim).FirstOrDefaultAsync(x => x.SatinAlmaTalepKod == TalepKod);
+
+            if (talep == null)
+            {
+                return new ProcessResult<bool>().Failed("Talep bulunamamdı.");
+            }
+
+            if (talep.Onaylandi == true)
+            {
+                return new ProcessResult<bool>().Failed("Talep onceden onaylanmıs.");
+            }
+
+            if (talep.Reddedildi == true)
+            {
+                return new ProcessResult<bool>().Failed("Talep onceden reddedilmis.");
+            }
+
+            var OnayciPersonel = await satinAlimDbContext.SatinAlmaBirimOnayci.FirstOrDefaultAsync(x =>
+            x.PersonelKod == personel.PersonelKod);
+
+            if (OnayciPersonel.SatinAlmaBirim != talep.SatinAlmaBirim)
+            {
+                return new ProcessResult<bool>().Failed("Personel talebin yapiligi birimde bulunmamaktadır.");
+            }
+
+            if (OnayciPersonel.OnaySira != talep.OnaySira)
+            {
+                return new ProcessResult<bool>().Failed("Personel onay sırası talebin onay sırasından farklı.");
+            }
+
+            talep.Reddedildi = true;
+
+            var talepTarihce = new SatinAlmaTalepTarihce();
+            talepTarihce.Aciklama = talep.Aciklama;
+            talepTarihce.IslemTarih = talep.IslemTarih;
+            talepTarihce.OnaySira = talep.OnaySira;
+            talepTarihce.PersonelKod = personel.PersonelKod;
+            talepTarihce.SatinAlmaTalepKod = talep.SatinAlmaTalepKod;
+
+            await satinAlimDbContext.SatinAlmaTalepTarihce.AddAsync(talepTarihce);
+            satinAlimDbContext.Update(talep);
+            await satinAlimDbContext.SaveChangesAsync();
+
+            return new ProcessResult<bool>().Successful(true);
+        }
     }
+
+
 }
