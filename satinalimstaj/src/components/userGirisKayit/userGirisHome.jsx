@@ -9,10 +9,10 @@ const Temp = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/KullaniciGiris2">Go to Kullanici Giris</Link>
+            <Link to="/kullanici/giris">Go to Kullanici Giris</Link>
           </li>
           <li>
-            <Link to="/KullaniciKayit">Go to Kullanici Kayit</Link>
+            <Link to="/kullanici/kayit">Go to Kullanici Kayit</Link>
           </li>
         </ul>
       </nav>

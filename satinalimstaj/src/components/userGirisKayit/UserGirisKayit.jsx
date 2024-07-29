@@ -7,8 +7,8 @@ const UserGirisKayit = () => {
   return (
     <Routes>
       <Route exact path="/" element ={<UserGirisHome/>} ></Route>
-        <Route exact path = "/KullaniciGiris2" element={<UserGiris/>}></Route>
-        <Route exact path = "/KullaniciKayit" element={<UserGiris/>}></Route>
+        <Route exact path = "/giris" element={<UserGiris/>}></Route>
+        <Route exact path = "/kayit" element={<UserGiris/>}></Route>
     </Routes>
 )
 };

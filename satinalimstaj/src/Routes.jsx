@@ -11,10 +11,10 @@ const AppRoutes = () => {
   
       <Routes>
         <Route exact path="/" element={<Temp />} />
-        <Route exact path="/kullaniciGiris/*" element={<UserGirisKayit />} />
+        <Route exact path="/kullanici/*" element={<UserGirisKayit />} />
         <Route exact path="/satinAlim/*" element={<SatinAlim />} />
-        <Route exact path="/KullaniciGiris2/*" element={<UserGiris/>} />
-        <Route exact path="/KullaniciKayit/*" element = {<UserKayit/>} />
+        <Route exact path="/kullanici/giris/*" element={<UserGiris/>} />
+        <Route exact path="/kullanici/kayit/*" element = {<UserKayit/>} />
       </Routes>
     
   );
