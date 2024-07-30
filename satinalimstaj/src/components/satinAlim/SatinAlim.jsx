@@ -6,12 +6,15 @@ import './satinAlim.css';
 const SatinAlim = () => {
   const navigate = useNavigate();
   const [talepListesi, setTalepListesi] = useState([]);
+  const jwtToken = localStorage.getItem('jwt');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepListele');
-        setTalepListesi(response.data);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+        const response = await axios.post('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepListele');
+        setTalepListesi(response.data.model);
+        debugger
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -31,7 +34,7 @@ const SatinAlim = () => {
   return (
     <div className='satinalimcontainer'>
       <button className="addButton" onClick={handleButtonClick} >Ekle</button>
-      <button className="logOutButton" onClick={handleLogOutButtonClick}>Güvenli Çýkýþ</button>
+      <button className="logOutButton" onClick={handleLogOutButtonClick}>Gï¿½venli ï¿½ï¿½kï¿½ï¿½</button>
       <h1>Satin Alim</h1>
       <table>
         <thead>
@@ -42,11 +45,11 @@ const SatinAlim = () => {
           </tr>
         </thead>
         <tbody>
-          {talepListesi.map((item, index) => (
+          {talepListesi?.map((item, index) => (
             <tr key={index}>
-              <td>{item.tarih}</td>
-              <td>{item.ad}</td>
-              <td>{item.miktar}</td>
+              <td>{item.talepTarih}</td>
+              <td>{item.aciklama}</td>
+              <td>{item.ongorulenTutar}</td>
             </tr>
           ))}
         </tbody>
