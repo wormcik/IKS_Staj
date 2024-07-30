@@ -26,7 +26,13 @@ const SignInForm = () => {
       if (Success && Model != null) {
         localStorage.setItem('jwt', Model);
         console.log('JWT:', Model);
-        navigate("/");
+        navigate("/satinAlim");
+        window.location.reload();
+
+      }
+      else {
+        //snackbar error
+        
       }
 
     } catch (error) {

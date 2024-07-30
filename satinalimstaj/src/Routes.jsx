@@ -12,15 +12,20 @@ const AppRoutes = () => {
   const navigation = useNavigate();
 const [signed_in,setSigned_in] = useState(false);
   useEffect(() => {
-  const a = localStorage.getItem('jwt');
+  const jwt = localStorage.getItem('jwt');
   
-  setSigned_in(a != null);
-  if(signed_in){
+  if(jwt){
     const jwt = jwtDecode(localStorage.getItem('jwt'));
     const currentTime = Date.now() / 1000;
-    /*signed_in = */setSigned_in(jwt.exp < (currentTime));
+    if (jwt.exp < currentTime) {
+      localStorage.removeItem('jwt');
+    }
+      else {
+        setSigned_in(true);
+        navigation('/satinAlim');
+      }
   }
-  if(!signed_in){
+  if(!jwt){
     const currentPath = window.location.pathname;
     if(currentPath != '/kayit')
     navigation('/giris');
@@ -33,12 +38,10 @@ const [signed_in,setSigned_in] = useState(false);
 
   return (
       <Routes>
-        {signed_in && <Route exact path="/" element={<Temp />} />}
-        <Route exact path="/satinAlim/*" element={<SatinAlim />} />
-        {signed_in && <Route exact path="/giris" element={<UserGiris/>} />}
-        {signed_in && <Route exact path="/kayit" element = {<UserKayit/>} />} 
-        <Route exact path="/kullanici/*" element = {<UserGirisKayit/>}/>
-        <Route path = "*" element = {<Temp/>}/>
+        {signed_in &&  <Route exact path="/satinAlim/" element={<SatinAlim />} />}
+        {!signed_in && <Route exact path="/giris" element={<UserGiris/>} />}
+        {!signed_in && <Route exact path="/kayit" element = {<UserKayit/>} />} 
+        <Route exact path="/kullanici/" element = {<UserGirisKayit/>}/>
       </Routes>
     
   );
