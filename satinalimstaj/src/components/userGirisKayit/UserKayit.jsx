@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './userGirisKayit.css'; // Correctly import the CSS file
+import { Link } from 'react-router-dom';
 
 const UserTypeOptions = [
   { value: 'Select User Type', label: 'Select User Type' },
@@ -118,6 +119,7 @@ const SignUpForm = () => {
         </select>
       </div>
       <button type="submit">Sign Up</button>
+      <Link to="/giris">Go to Kullanici Giris</Link>
     </form>
   );
 };

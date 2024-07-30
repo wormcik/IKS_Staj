@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './userGirisKayit.css'; // Correctly import the CSS file
+import { Link } from 'react-router-dom';
 
 const SignInForm = () => {
   const [username, setUsername] = useState('');
@@ -56,6 +57,7 @@ const SignInForm = () => {
         />
       </div>
       <button type="submit">Sign In</button>
+      <Link to="/kayit">Go to Kullanici Kayit</Link>
     </form>
   );
 };
