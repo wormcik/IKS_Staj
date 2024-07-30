@@ -1,31 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Ensure you import axios
 import './satinAlim.css';
 
 const SatinAlim = () => {
-
   const navigate = useNavigate();
-  const talepListesi = [
-    { tarih: '2024-07-01', ad: 'Ürün A', miktar: 10 },
-    { tarih: '2024-07-02', ad: 'Ürün B', miktar: 5 },
-    { tarih: '2024-07-03', ad: 'Ürün C', miktar: 12 },
-    { tarih: '2024-07-04', ad: 'Ürün D', miktar: 7 },
-    { tarih: '2024-07-05', ad: 'Ürün E', miktar: 20 },
-    { tarih: '2024-07-06', ad: 'Ürün F', miktar: 15 },
-    { tarih: '2024-07-07', ad: 'Ürün G', miktar: 8 },
-    { tarih: '2024-07-08', ad: 'Ürün H', miktar: 25 },
-    { tarih: '2024-07-09', ad: 'Ürün I', miktar: 30 },
-    { tarih: '2024-07-10', ad: 'Ürün J', miktar: 22 }
-  ];
+  const [talepListesi, setTalepListesi] = useState([]);
 
-  const handleButtonClick = () =>
-  {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepListele');
+        setTalepListesi(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleButtonClick = () => {
     navigate('/satinAlim/ekle');
-  }
+  };
 
   return (
     <div className='satinalimcontainer'>
-      <button className="addButton" onClick={handleButtonClick} >Ekle</button>
+      <button className="addButton" onClick={handleButtonClick}>Ekle</button>
       <h1>Satin Alim</h1>
       <table>
         <thead>

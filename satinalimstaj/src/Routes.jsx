@@ -6,6 +6,7 @@ import UserGirisKayit from "./components/userGirisKayit/UserGirisKayit";
 import Temp from "./components/Temp";
 import UserGiris from "./components/userGirisKayit/UserGiris";
 import UserKayit from "./components/userGirisKayit/UserKayit";
+import axios from 'axios';
 
 const AppRoutes = () => {
   return (
