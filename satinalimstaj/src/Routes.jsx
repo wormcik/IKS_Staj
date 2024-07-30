@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate} from "react-router-dom";
 import SatinAlim from "./components/satinAlim/SatinAlim";
 import SatinAlimEkle from "./components/satinAlim/satinAlimEkle";
-import UserGirisKayit from "./components/userGirisKayit/UserGirisKayit";
 import Temp from "./components/Temp";
 import UserGiris from "./components/userGirisKayit/UserGiris";
 import UserKayit from "./components/userGirisKayit/UserKayit";
@@ -13,7 +12,6 @@ const AppRoutes = () => {
 const [signed_in,setSigned_in] = useState(false);
   useEffect(() => {
   const jwt = localStorage.getItem('jwt');
-  
   if(jwt){
     const jwt = jwtDecode(localStorage.getItem('jwt'));
     const currentTime = Date.now() / 1000;
@@ -41,7 +39,6 @@ const [signed_in,setSigned_in] = useState(false);
         {signed_in &&  <Route exact path="/satinAlim/" element={<SatinAlim />} />}
         {!signed_in && <Route exact path="/giris" element={<UserGiris/>} />}
         {!signed_in && <Route exact path="/kayit" element = {<UserKayit/>} />} 
-        <Route exact path="/kullanici/" element = {<UserGirisKayit/>}/>
       </Routes>
     
   );

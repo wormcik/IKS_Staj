@@ -56,6 +56,9 @@ const SignUpForm = () => {
           console.error('Sign-in error:', error);
         }
       }
+      else{
+        alert(response.data.message);
+      }
     } catch (error) {
       console.error('Sign-up error:', error);
     }

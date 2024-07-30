@@ -22,10 +22,15 @@ const SatinAlim = () => {
   {
     navigate('/satinAlim/ekle');
   }
-
+  const handleLogOutButtonClick = () =>
+  {
+    localStorage.removeItem('jwt');
+    window.location.reload();
+  }
   return (
     <div className='satinalimcontainer'>
       <button className="addButton" onClick={handleButtonClick} >Ekle</button>
+      <button className="logOutButton" onClick={handleLogOutButtonClick}>Güvenli Çıkış</button>
       <h1>Satin Alim</h1>
       <table>
         <thead>

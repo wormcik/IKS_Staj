@@ -31,8 +31,7 @@ const SignInForm = () => {
 
       }
       else {
-        //snackbar error
-        
+        alert(response.data.message);
       }
 
     } catch (error) {
