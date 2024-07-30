@@ -201,7 +201,10 @@ namespace SatinAlim.Services
             }
             var BirimPersonel = await satinAlimDbContext.SatinAlmaBirimPersonel.FirstOrDefaultAsync(x=>
             x.PersonelKod == personel.PersonelKod);
-
+            if (BirimPersonel ==null)
+            {
+                return new ProcessResult<List<TalepModelDTO>>().Failed("Personel birimi bulunamadı.");
+            }
             var TalepListe = await satinAlimDbContext.SatinAlmaTalep.Where(x=> x.SatinAlmaBirimKod == BirimPersonel.SatinAlmaBirimKod)
                 .Include(x => x.SatinAlmaTalepUrun)
                     .ThenInclude(x => x.SatinAlmaUrun)
