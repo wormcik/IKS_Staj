@@ -4,20 +4,35 @@ import { useNavigate } from 'react-router-dom';
 import './userGirisKayit.css'; // Correctly import the CSS file
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
 
-const PozisyonOptions = [
-  { value: 'Select User Type', label: 'Select User Type' },
-  { value: 'Admin', label: 'Admin' },
-  { value: 'Birim', label: 'Birim' },
-];
 
-const SignUpForm = () => {
+
+
+
+const SignUpForm = (props) => {
+
+  const [BirimData, setBirimData] = useState([]);
+
+useEffect(() => {
+const BirimAd = "";
+const OnaySayi = 0;
+const PozisyonOptions =  axios.post('https://localhost:7092/api/v1/satinAlim/Birim/BirimListele', {
+  BirimAd,
+  OnaySayi
+});
+  setBirimData(PozisyonOptions.data);
+},[])
+
   const [Username, setUsername] = useState('');
   const [Password, setPassword] = useState('');
   const [Name, setName] = useState('');
   const [LastName, setLastName] = useState('');
   const [Pozisyon, setPozisyon] = useState('');
   const navigate = useNavigate();
+
+
+    
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,16 +65,13 @@ const SignUpForm = () => {
             localStorage.setItem('jwt', Model);
             console.log('JWT:', Model);
             //navigate("/");
-
-            const jwt = jwtDecode(localStorage.getItem('jwt'));///////
-            const KullaniciKod = jwt.KullaniciKod;            
+            const jwt = Model
+            const KullaniciKod = jwtDecode(jwt).KullaniciKod;            
             const Ad = Name;
             const Soyad = LastName;
             try {
+              axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
               const response = await axios.post('https://localhost:7092/api/v1/satinAlim/Personel/PersonelEkle', {
-                header: {
-                  Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                },
                 Ad,
                 Soyad,
                 Pozisyon,
@@ -134,8 +146,8 @@ const SignUpForm = () => {
           onChange={(e) => setPozisyon(e.target.value)}
           required
         >
-          {PozisyonOptions.map((option) => (
-            <option key={option.value} value={option.value}>
+          {BirimData.map((option) => (
+            <option key={option.BirimAd} value={option.SatinAlmaBirimKod}>
               {option.label}
             </option>
           ))}

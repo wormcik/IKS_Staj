@@ -34,8 +34,13 @@ namespace SatinAlim.Services
                 new_personel.Ad = personel.Ad;
                 new_personel.Soyad = personel.Soyad;
                 new_personel.Pozisyon = personel.Pozisyon;
+                new_personel.SatinAlmaBirimPersonel = new List<SatinAlmaBirimPersonel>();
                 new_personel.KullaniciKod = Guid.Parse(personel.KullaniciKod);
-
+                var satinAlmaPersonelBirim = new SatinAlmaBirimPersonel()
+                {
+                    SatinAlmaBirimKod = personel.SatinAlmaBirimKod,
+                };
+                new_personel.SatinAlmaBirimPersonel.Add(satinAlmaPersonelBirim);
                 satinAlmaDbContext.Personel.Add(new_personel);
                 satinAlmaDbContext.SaveChangesAsync();
 

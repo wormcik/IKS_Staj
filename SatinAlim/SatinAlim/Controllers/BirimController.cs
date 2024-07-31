@@ -67,7 +67,7 @@ namespace SatinAlim.Controllers
 
 
         [HttpPost]
-        [CustomAuthorize("BirimListele")]
+        /*[CustomAuthorize("BirimListele")]*/
         [ProducesResponseType(typeof(ProcessResult<List<BirimListeleModelDTO>>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProcessResult<List<BirimListeleModelDTO>>>> BirimListele(BirimListeleSorguModel sorgu)
         {
