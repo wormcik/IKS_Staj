@@ -213,7 +213,7 @@ namespace SatinAlim.Services
                 .Include(x => x.SatinAlmaTalepHizmet)
                     .ThenInclude(x => x.SatinAlmaHizmet)
                         .ThenInclude(x => x.SatinAlmaBirimHizmet)
-                            .ThenInclude(x => x.SatinAlmaBirim)
+                            .ThenInclude(x => x.SatinAlmaBirim) 
                 .ToListAsync();
 
             if(TalepListe == null)

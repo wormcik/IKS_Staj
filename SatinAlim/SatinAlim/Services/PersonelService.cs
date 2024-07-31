@@ -30,11 +30,11 @@ namespace SatinAlim.Services
                 {
                     return new ProcessResult<PersonelEkleModelDTO>().Failed("Boyle bir personel var!");
                 }
-
                 var new_personel = new Personel();
                 new_personel.Ad = personel.Ad;
                 new_personel.Soyad = personel.Soyad;
                 new_personel.Pozisyon = personel.Pozisyon;
+                new_personel.KullaniciKod = Guid.Parse(personel.KullaniciKod);
 
                 satinAlmaDbContext.Personel.Add(new_personel);
                 satinAlmaDbContext.SaveChangesAsync();

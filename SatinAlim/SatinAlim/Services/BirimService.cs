@@ -49,7 +49,6 @@ namespace SatinAlim.Services
                 BirimEkleModelDTO yeniBirim = new BirimEkleModelDTO();
                 yeniBirim.BirimAd = birim.BirimAd;
                 yeniBirim.OnaySayi = birim.OnaySayi;
-                
                 return new ProcessResult<BirimEkleModelDTO>().Successful(yeniBirim);
             }
             catch (Exception ex)
