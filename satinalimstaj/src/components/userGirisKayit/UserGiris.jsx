@@ -26,7 +26,7 @@ const SignInForm = () => {
       if (Success && Model != null) {
         localStorage.setItem('jwt', Model);
         console.log('JWT:', Model);
-        window.location.reload();
+        //window.location.reload();
         navigate("/satinAlim");
 
             

@@ -25,7 +25,7 @@ namespace SatinAlim.Services
         {
             try
             {
-                var obj = await satinAlmaDbContext.Personel.FirstOrDefaultAsync(x => x.Ad == personel.Ad);
+                var obj = await satinAlmaDbContext.Personel.FirstOrDefaultAsync(x => x.KullaniciKod == personel.KullaniciKod);
                 if (obj != null)
                 {
                     return new ProcessResult<PersonelEkleModelDTO>().Failed("Boyle bir personel var!");
@@ -35,7 +35,7 @@ namespace SatinAlim.Services
                 new_personel.Soyad = personel.Soyad;
                 new_personel.Pozisyon = personel.Pozisyon;
                 new_personel.SatinAlmaBirimPersonel = new List<SatinAlmaBirimPersonel>();
-                new_personel.KullaniciKod = Guid.Parse(personel.KullaniciKod);
+                new_personel.KullaniciKod = personel.KullaniciKod;
                 var satinAlmaPersonelBirim = new SatinAlmaBirimPersonel()
                 {
                     SatinAlmaBirimKod = personel.SatinAlmaBirimKod,
