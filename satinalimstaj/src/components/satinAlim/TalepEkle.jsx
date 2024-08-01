@@ -137,14 +137,19 @@ const TalepEkle = () => {
     setSelectedUrun(null);
     setSelectedHizmet(null);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data submitted:', formData);
-    const TalelpResponse = axios.post('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepEkle' , {
-        formData
-    });
+    
+    try {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+      const talepResponse = await axios.post('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepEkle', formData);
+      console.log('Talep response:', talepResponse.data);
+    } catch (error) {
+      console.error('An error occurred while submitting the form:', error);
+      alert('An error occurred while submitting the form. Please try again.');
+    }
   };
+  
 
   const isBirimButtonsDisabled = () =>
     formData.talepUrunSorguModelListe.length > 0 || formData.talepHizmetSorguModelListe.length > 0;
