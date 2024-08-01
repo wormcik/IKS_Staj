@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SatinAlim.Entities;
 using SatinAlim.Helpers;
 using SatinAlim.Models;
+using SatinAlim.Models.DTO;
 
 namespace SatinAlim.Services
 {
@@ -157,6 +158,46 @@ namespace SatinAlim.Services
             {
                 throw ex;
             }
+        }
+
+
+
+        public async Task<ProcessResult<List<BirimUrunModelDTO>>>BirimUrunListeleAsync()
+        {
+            var BirimList = await satinAlimDbContext.SatinAlmaBirim.ToListAsync();
+            var BirimUrunList = new List<BirimUrunModelDTO>();
+            if (BirimList == null)
+            {
+                return new ProcessResult<List<BirimUrunModelDTO>>().Failed("Birim bulunamadi");
+            }
+            foreach(var Birim in BirimList)
+            {
+                var UrunKodList = await satinAlimDbContext.SatinAlmaBirimUrun.Where(x =>
+                x.SatinAlmaBirimKod == Birim.SatinAlmaBirimKod).ToListAsync();
+                
+                foreach (var UrunKod in UrunKodList)
+                {
+                    SatinAlmaUrun urun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(x=>
+                    x.SatinAlmaUrunKod == UrunKod.SatinAlmaUrunKod);
+                    
+                    if(urun != null)
+                    {
+                        var BirimUrun = new BirimUrunModelDTO();
+                        BirimUrun.Aciklama = urun.Aciklama;
+                        BirimUrun.Birim = urun.Birim;
+                        BirimUrun.SatinAlmaUrunKod = urun.SatinAlmaUrunKod;
+                        BirimUrun.Tanim = urun.Tanim;
+                        BirimUrun.BirimAd = Birim.BirimAd;
+                        BirimUrun.SatinAlmaBirimKod = Birim.SatinAlmaBirimKod;
+                        BirimUrunList.Add(BirimUrun);
+                    }
+                }
+            }
+            if(BirimUrunList == null)
+            {
+                return new ProcessResult<List<BirimUrunModelDTO>>().Failed("Urun bulunamadi");
+            }
+            return new ProcessResult<List<BirimUrunModelDTO>>().Successful(BirimUrunList);
         }
 
     }

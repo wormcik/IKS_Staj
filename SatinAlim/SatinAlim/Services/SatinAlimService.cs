@@ -82,9 +82,9 @@ namespace SatinAlim.Services
                     if (a != null)
                     {
                         var eklenecekUrun = new SatinAlmaTalepUrun();
-                        eklenecekUrun.BirimFiyat = sorgu.BirimFiyat;
-                        eklenecekUrun.Miktar = sorgu.Miktar;
-                        eklenecekUrun.PbKod = sorgu.OngorulenTutarPbKod;
+                        eklenecekUrun.BirimFiyat = urun.BirimFiyat;
+                        eklenecekUrun.Miktar = urun.Miktar;
+                        eklenecekUrun.PbKod = urun.PbKod;
                         talep.SatinAlmaTalepUrun.Add(eklenecekUrun);
                         if (dbdekiUrun.SatinAlmaTalepUrun == null)
                         {

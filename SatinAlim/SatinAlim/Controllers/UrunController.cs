@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using SatinAlim.Entities;
 using SatinAlim.Helpers;
 using SatinAlim.Models;
+using SatinAlim.Models.DTO;
 using SatinAlim.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -72,6 +73,14 @@ namespace SatinAlim.Controllers
         }
 
 
+        [HttpPost]
+        [CustomAuthorize("UrunListele")]
+        [ProducesResponseType(typeof(ProcessResult<List<BirimUrunModelDTO>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<List<BirimUrunModelDTO>>>> BirimUrunListele()
+        {
+            var result = await UrunService.BirimUrunListeleAsync();
+            return Ok(result);
+        }
 
     }
 }

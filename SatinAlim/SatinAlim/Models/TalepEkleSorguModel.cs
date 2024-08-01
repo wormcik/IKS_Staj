@@ -7,9 +7,10 @@ namespace SatinAlim.Models
 {
     public class TalepEkleSorguModel
     {
-
+        
         public int SatinAlmaBirimKod { get; set; }
-        public int SatinAlmaUrunKod{ get; set; }
+
+        //public int SatinAlmaUrunKod{ get; set; }
 
         public decimal OngorulenTutar { get; set; }
 

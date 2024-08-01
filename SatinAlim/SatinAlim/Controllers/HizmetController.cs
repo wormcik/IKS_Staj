@@ -70,5 +70,13 @@ namespace SatinAlim.Controllers
         }
 
 
+        [HttpPost]
+        [CustomAuthorize("HizmetListele")]
+        [ProducesResponseType(typeof(ProcessResult<List<BirimHizmetModelDTO>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<List<BirimHizmetModelDTO>>>> BirimHizmetListele()
+        {
+            var result = await hizmetService.BirimHizmetListeleAsync();
+            return Ok(result);
+        }
     }
 }
