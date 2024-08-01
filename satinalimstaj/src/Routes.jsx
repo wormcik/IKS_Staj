@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate} from "react-router-dom";
+import { Route, Routes, useNavigate,Navigate } from "react-router-dom";
 import SatinAlim from "./components/satinAlim/SatinAlim";
 import SatinAlimEkle from "./components/satinAlim/satinAlimEkle";
 import Temp from "./components/Temp";
@@ -24,6 +24,9 @@ const AppRoutes = () => {
     }
       else {
         setSigned_in(true);
+        if (currentPath === '/giris') {
+          navigation('/satinAlim');
+        }
         
       }
   }
@@ -39,12 +42,25 @@ const AppRoutes = () => {
 
 
   return (
-      <Routes>
-        {signed_in && currentPath == "/satinAlim" &&  <Route exact path="/satinAlim/" element={<SatinAlim />} />}
-        {!signed_in && <Route exact path="/giris" element={<UserGiris/>} />}
-        {!signed_in && <Route exact path="/kayit" element = {<UserKayit/>} />} 
-        {signed_in && currentPath == "/satinAlim/ekle" && <Route exact path="satinAlim/ekle" element = {<TalepEkle/>} />}
-      </Routes>
+    <Routes>
+    {console.log(currentPath, "asdasdsad", signed_in)}
+    {signed_in && (
+        <>
+            <Route exact path="/satinAlim" element={<SatinAlim />} />
+            <Route exact path="/" element={<Navigate to="/satinAlim" />} />
+            {currentPath === "/satinAlim/ekle" && (
+                <Route exact path="/satinAlim/ekle" element={<TalepEkle />} />
+            )}
+        </>
+    )}
+    {!signed_in && (
+        <>
+            <Route exact path="/giris" element={<UserGiris />} />
+            <Route exact path="/kayit" element={<UserKayit />} />
+            <Route path="/" element={<Navigate to="/giris" />} />
+        </>
+    )}
+</Routes>
     
   );
 };
