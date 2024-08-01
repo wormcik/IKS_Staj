@@ -1,7 +1,82 @@
-.table-container {
+.satinalimcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   padding: 40px;
   font-family: Arial, sans-serif;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.leftButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.buttonRow {
+  display: flex;
+}
+
+.rightButton {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.actionInput {
+  padding: 15px 120px; /* Adjust as needed */
+  margin: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.newButton {
+  padding: 15px 60px; /* More padding for the larger button */
+  margin: 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 300px; /* Twice the width of the action buttons */
+}
+
+.addButton, .logOutButton {
+  position: absolute;
+  top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.addButton {
+  right: 20px;
+}
+
+.logOutButton {
+  left: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin: 20px 0;
 }
 
 table {
@@ -35,42 +110,9 @@ tr:hover {
   background-color: #f1f1f1;
 }
 
-h1 {
-  text-align: center;
-  color: #333;
+label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 5px;
 }
-
-.satinAlimContainer{
-  position:relative;
-}
-
-
-
-.addButton
-{
-  position: absolute;
-  top: 20px; 
-  right: 20px; 
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.logOutButton
-{
-  position: absolute;
-  top: 20px; 
-  left: 20px; 
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-

@@ -190,7 +190,7 @@ namespace SatinAlim.Services
 
 
 
-        public async Task<ProcessResult<List<TalepModelDTO>>> TalepListeleAsync(Guid KullaniciKod)
+        public async Task<ProcessResult<List<TalepModelDTO>>> TalepListeleAsync(Guid KullaniciKod, TalepListeleSorguModel sorgu)
         {
             var personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
             x.KullaniciKod == KullaniciKod);
@@ -205,18 +205,27 @@ namespace SatinAlim.Services
             {
                 return new ProcessResult<List<TalepModelDTO>>().Failed("Personel birimi bulunamadı.");
             }
-            var TalepListe = await satinAlimDbContext.SatinAlmaTalep.Where(x=> x.SatinAlmaBirimKod == BirimPersonel.SatinAlmaBirimKod)
-                .Include(x => x.SatinAlmaTalepUrun)
-                    .ThenInclude(x => x.SatinAlmaUrun)
-                        .ThenInclude(x => x.SatinAlmaBirimUrun)
-                            .ThenInclude(x => x.SatinAlmaBirim)
-                .Include(x => x.SatinAlmaTalepHizmet)
-                    .ThenInclude(x => x.SatinAlmaHizmet)
-                        .ThenInclude(x => x.SatinAlmaBirimHizmet)
-                            .ThenInclude(x => x.SatinAlmaBirim)
-                .ToListAsync();
 
-            if(TalepListe == null)
+            var TalepListe = await satinAlimDbContext.SatinAlmaTalep
+            .Where(x =>
+                (x.SatinAlmaBirimKod == BirimPersonel.SatinAlmaBirimKod) &&
+            (sorgu.StartDate == null || x.IslemTarih >= sorgu.StartDate) &&
+            (sorgu.EndDate == null || x.IslemTarih <= sorgu.EndDate) &&
+            (sorgu.MinAmount == null || x.OngorulenTutar >= sorgu.MinAmount) &&
+            (sorgu.MaxAmount == null || x.OngorulenTutar <= sorgu.MaxAmount)
+                )
+            .Include(x => x.SatinAlmaTalepUrun)
+            .ThenInclude(x => x.SatinAlmaUrun)
+            .ThenInclude(x => x.SatinAlmaBirimUrun)
+            .ThenInclude(x => x.SatinAlmaBirim)
+            .Include(x => x.SatinAlmaTalepHizmet)
+            .ThenInclude(x => x.SatinAlmaHizmet)
+            .ThenInclude(x => x.SatinAlmaBirimHizmet)
+            .ThenInclude(x => x.SatinAlmaBirim)
+            .ToListAsync();
+
+
+            if (TalepListe == null)
             {
                 return new ProcessResult<List<TalepModelDTO>>().Failed("Talep bulunamadı.");
 

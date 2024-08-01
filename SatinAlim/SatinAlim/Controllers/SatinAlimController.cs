@@ -6,6 +6,7 @@ using SatinAlim.Models.DTO;
 using SatinAlim.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Reflection;
 
 namespace SatinAlim.Controllers
 {
@@ -59,7 +60,7 @@ namespace SatinAlim.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(ProcessResult<List<TalepModelDTO>>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ProcessResult<List<TalepModelDTO>>>> TalepListele()
+        public async Task<ActionResult<ProcessResult<List<TalepModelDTO>>>> TalepListele(TalepListeleSorguModel sorgu)
         {
             var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
             var token = authorizationHeader?.StartsWith("Bearer ") == true
@@ -71,7 +72,7 @@ namespace SatinAlim.Controllers
             var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
             var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
 
-            var result =await satinAlimService.TalepListeleAsync(KullaniciKod);
+            var result =await satinAlimService.TalepListeleAsync(KullaniciKod, sorgu);
             return Ok(result);
         }
 
