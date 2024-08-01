@@ -26,11 +26,9 @@ const SignInForm = () => {
       if (Success && Model != null) {
         localStorage.setItem('jwt', Model);
         console.log('JWT:', Model);
+         navigate("/satinAlim/");
         window.location.reload();
-        navigate("/satinAlim");
-
-            
-        
+       
       }
       else {
         alert(response.data.message);
