@@ -1,0 +1,121 @@
+/* Background color for the entire page */
+.talep_body {
+    background-color: rgba(120, 202, 202, 0.564);
+}
+
+/* Container for the main form */
+.talep_container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f1f1; /* Light background for the form */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styles */
+.talep_h1, .talep_h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Button styles */
+.talep_button {
+    background-color: rgb(50, 199, 199); /* Default button color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%; /* Set to full width of the container or a specific width */
+    box-sizing: border-box; /* Includes padding and border in the width */
+}
+
+.talep_button:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+}
+
+/* Submit button specific styles */
+.talep_submit-button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    color: #fff;
+    background-color: #0d6a9b; /* Different color for the submit button */
+    width: 1000px; /* Adjust width to fit the content */
+}
+
+.talep_submit-button-container {
+    text-align: right;
+}
+
+.talep_submit-button-container .talep_submit-button {
+    margin-top: 20px;
+}
+
+/* Form group styles */
+.talep_form-group {
+    margin-bottom: 15px;
+}
+
+.talep_form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.talep_form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+
+
+.talep_input-number::-webkit-inner-spin-button,
+.talep_input-number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Lists */
+.talep_ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.talep_li {
+    background-color: #e9ecef;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+/* Specific section styles */
+.talep_birim-listesi {
+    margin-bottom: 20px;
+}
+
+.talep_urun-listesi, .talep_hizmet-listesi {
+    margin-bottom: 20px;
+}
+
+
+.talep_navigate-button {
+    background-color: #0d6a9b; /* Different color for the navigate button */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: auto; /* Adjust width to fit the content */
+    box-sizing: border-box; /* Includes padding and border in the width */
+    margin-right: 20px; /* Space between the button and the heading */
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './satinAlim.css';
-
+import './talepEkle.css';
 const TalepEkle = () => {
   const navigate = useNavigate();
   const [urunListesi, setUrunListesi] = useState([]);
@@ -97,6 +97,9 @@ const TalepEkle = () => {
     });
   };
 
+  const handleReturnButtonClick = () => {
+    navigate('/satinAlim');
+  }
   const filteredUrunListesi = selectedBirimAd 
     ? urunListesi.filter(urun => urun.birimAd === selectedBirimAd)
     : [];
@@ -120,6 +123,7 @@ const TalepEkle = () => {
       [name]: value
     }));
   };
+  
 
   const handleAddItem = () => {
     if (selectedUrun) {
@@ -144,6 +148,8 @@ const TalepEkle = () => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
       const talepResponse = await axios.post('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepEkle', formData);
       console.log('Talep response:', talepResponse.data);
+      if(talepResponse != null){
+      }
     } catch (error) {
       console.error('An error occurred while submitting the form:', error);
       alert('An error occurred while submitting the form. Please try again.');
@@ -155,181 +161,200 @@ const TalepEkle = () => {
     formData.talepUrunSorguModelListe.length > 0 || formData.talepHizmetSorguModelListe.length > 0;
 
   return (
-    <div>
-      <h1>Birim Listesi</h1>
-      <div className="birim-listesi">
-        {BirimData.map((item, index) => (
+    <div className='talep_body'>
+    <div className="talep_container">
+    <button className="talep_navigate-button" onClick={handleReturnButtonClick}>
+          Return
+        </button>
+    <h1 className="talep_h1">Birim Listesi</h1>
+    <div className="talep_birim-listesi">
+      {BirimData.map((item, index) => (
+        <div key={index} style={{ marginBottom: '10px' }}>
+          <button 
+            className="talep_button" 
+            onClick={() => handleButtonClick(item.birimAd)} 
+            disabled={isBirimButtonsDisabled()}
+          >
+            {item.birimAd}
+          </button>
+        </div>
+      ))}
+    </div>
+  
+    <h2 className="talep_h2">{selectedBirimAd} Ürün Listesi</h2>
+    <div className="talep_urun-listesi">
+      {filteredUrunListesi.length > 0 ? (
+        filteredUrunListesi.map((urun, index) => (
           <div key={index} style={{ marginBottom: '10px' }}>
             <button 
-              onClick={() => handleButtonClick(item.birimAd)} 
-              disabled={isBirimButtonsDisabled()}
+              className="talep_button" 
+              onClick={() => handleUrunButtonClick(urun)} 
+              disabled={false}
             >
-              {item.birimAd}
+              {urun.tanim}
             </button>
           </div>
-        ))}
-      </div>
-
-      <h2>Ürün Listesi for {selectedBirimAd}</h2>
-      <div className="urun-listesi">
-        {filteredUrunListesi.length > 0 ? (
-          filteredUrunListesi.map((urun, index) => (
-            <div key={index} style={{ marginBottom: '10px' }}>
-              <button 
-                onClick={() => handleUrunButtonClick(urun)} 
-                disabled={false} 
-              >
-                {urun.tanim}
-              </button>
-            </div>
-          ))
-        ) : (
-          <p>No products available for the selected Birim.</p>
-        )}
-      </div>
-
-      <h2>Hizmet Listesi for {selectedBirimAd}</h2>
-      <div className="hizmet-listesi">
-        {filteredHizmetListesi.length > 0 ? (
-          filteredHizmetListesi.map((hizmet, index) => (
-            <div key={index} style={{ marginBottom: '10px' }}>
-              <button 
-                onClick={() => handleHizmetButtonClick(hizmet)} 
-                disabled={false} 
-              >
-                {hizmet.tanim}
-              </button>
-            </div>
-          ))
-        ) : (
-          <p>No services available for the selected Birim.</p>
-        )}
-      </div>
-
-      {(selectedUrun || selectedHizmet) && (
-        <div>
-          <h2>Add {selectedUrun ? 'Ürün' : 'Hizmet'} Details</h2>
-          <div className="form-group">
-            <label htmlFor="miktar">Miktar:</label>
-            <input
-              type="number"
-              id="miktar"
-              name="miktar"
-              value={currentItem.miktar || ''}
-              onChange={handleCurrentItemChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="pbKod">Pb Kod:</label>
-            <input
-              type="text"
-              id="pbKod"
-              name="pbKod"
-              value={currentItem.pbKod || ''}
-              onChange={handleCurrentItemChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="birimFiyat">Birim Fiyat:</label>
-            <input
-              type="number"
-              id="birimFiyat"
-              name="birimFiyat"
-              value={currentItem.birimFiyat || ''}
-              onChange={handleCurrentItemChange}
-              required
-            />
-          </div>
-          <button onClick={handleAddItem}>Add to List</button>
-        </div>
+        ))
+      ) : (
+        <p>Bu birimde urun bulunmamaktadir</p>
       )}
-
-      <form onSubmit={handleSubmit}>
-        <h2>General Form Details</h2>
-        <div className="form-group">
-          <label htmlFor="ongorulenTutar">Ongorulen Tutar:</label>
-          <input
-            type="text"
-            id="ongorulenTutar"
-            name="ongorulenTutar"
-            value={formData.ongorulenTutar}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="ongorulenTutarPbKod">Ongorulen Tutar Pb Kod:</label>
-          <input
-            type="text"
-            id="ongorulenTutarPbKod"
-            name="ongorulenTutarPbKod"
-            value={formData.ongorulenTutarPbKod}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="aciklama">Aciklama:</label>
-          <input
-            type="text"
-            id="aciklama"
-            name="aciklama"
-            value={formData.aciklama}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className="form-group">
+    </div>
+  
+    <h2 className="talep_h2">{selectedBirimAd} Hizmet Listesi </h2> 
+    <div className="talep_hizmet-listesi">
+      {filteredHizmetListesi.length > 0 ? (
+        filteredHizmetListesi.map((hizmet, index) => (
+          <div key={index} style={{ marginBottom: '10px' }}>
+            <button 
+              className="talep_button" 
+              onClick={() => handleHizmetButtonClick(hizmet)} 
+              disabled={false}
+            >
+              {hizmet.tanim}
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>Bu birimde hizmet bulunmamaktadir</p>
+      )}
+    </div>
+  
+    {(selectedUrun || selectedHizmet) && (
+      <div>
+        <h2 className="talep_h2">Add {selectedUrun ? 'Ürün' : 'Hizmet'} Details</h2>
+        <div className="talep_form-group">
           <label htmlFor="miktar">Miktar:</label>
           <input
             type="number"
             id="miktar"
             name="miktar"
-            value={formData.miktar}
-            onChange={handleInputChange}
+            value={currentItem.miktar || ''}
+            onChange={handleCurrentItemChange}
+            required
+            className="talep_input-number"
+          />
+        </div>
+        <div className="talep_form-group">
+          <label htmlFor="pbKod">Pb Kod:</label>
+          <input
+            type="text"
+            id="pbKod"
+            name="pbKod"
+            value={currentItem.pbKod || ''}
+            onChange={handleCurrentItemChange}
             required
           />
         </div>
-        <div className="form-group">
+        <div className="talep_form-group">
           <label htmlFor="birimFiyat">Birim Fiyat:</label>
           <input
             type="number"
             id="birimFiyat"
             name="birimFiyat"
-            value={formData.birimFiyat}
-            onChange={handleInputChange}
+            value={currentItem.birimFiyat || ''}
+            onChange={handleCurrentItemChange}
             required
+            className="talep_input-number"
           />
         </div>
-        <button type="submit">Submit</button>
-      </form>
-
-      <div>
-        <h2>Ürün List</h2>
-        {formData.talepUrunSorguModelListe.length > 0 && (
-          <ul>
-            {formData.talepUrunSorguModelListe.map((item, index) => (
-              <li key={index}>
-                Ürün Kod: {item.satinAlmaUrunKod}, Miktar: {item.miktar}, Pb Kod: {item.pbKod}, Birim Fiyat: {item.birimFiyat}
-              </li>
-            ))}
-          </ul>
-        )}
-        <h2>Hizmet List</h2>
-        {formData.talepHizmetSorguModelListe.length > 0 && (
-          <ul>
-            {formData.talepHizmetSorguModelListe.map((item, index) => (
-              <li key={index}>
-                Hizmet Kod: {item.satinAlmaHizmetKod}, Miktar: {item.miktar}, Pb Kod: {item.pbKod}, Birim Fiyat: {item.birimFiyat}
-              </li>
-            ))}
-          </ul>
-        )}
+        <button  className="talep_submit-button" onClick={handleAddItem}>Listeye Ekle</button>
       </div>
+    )}
+  
+    <form onSubmit={handleSubmit}>
+      <h2 className="talep_h2">Genel Detay Formu</h2>
+      <div className="talep_form-group">
+        <label htmlFor="ongorulenTutar">Ongorulen Tutar:</label>
+        <input
+          type="text"
+          id="ongorulenTutar"
+          name="ongorulenTutar"
+          value={formData.ongorulenTutar}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="talep_form-group">
+        <label htmlFor="ongorulenTutarPbKod">Ongorulen Tutar Pb Kod:</label>
+        <input
+          type="text"
+          id="ongorulenTutarPbKod"
+          name="ongorulenTutarPbKod"
+          value={formData.ongorulenTutarPbKod}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="talep_form-group">
+        <label htmlFor="aciklama">Aciklama:</label>
+        <input
+          type="text"
+          id="aciklama"
+          name="aciklama"
+          value={formData.aciklama}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className="talep_form-group">
+        <label htmlFor="miktar">Miktar:</label>
+        <input
+          type="number"
+          id="miktar"
+          name="miktar"
+          value={formData.miktar}
+          onChange={handleInputChange}
+          required
+          className="talep_input-number"
+        />
+      </div>
+      <div className="talep_form-group">
+        <label htmlFor="birimFiyat">Birim Fiyat:</label>
+        <input
+          type="number"
+          id="birimFiyat"
+          name="birimFiyat"
+          value={formData.birimFiyat}
+          onChange={handleInputChange}
+          required
+          className="talep_input-number"
+        />
+      </div>
+      <div className="talep_submit-button-container">
+        <button type="submit" className="talep_submit-button">Gönder</button>
+      </div>
+    </form>
+  
+    <div>
+      <h2 className="talep_h2">Ürün Listesi</h2>
+      {formData.talepUrunSorguModelListe.length > 0 && (
+        <ul className="talep_ul">
+          {formData.talepUrunSorguModelListe.map((item, index) => (
+            <li key={index} className="talep_li">
+              Ürün Kod: {item.satinAlmaUrunKod} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
+  
+    <div>
+      <h2 className="talep_h2">Hizmet Listesi</h2>
+      {formData.talepHizmetSorguModelListe.length > 0 && (
+        <ul className="talep_ul">
+          {formData.talepHizmetSorguModelListe.map((item, index) => (
+            <li key={index} className="talep_li">
+              Hizmet Kod: {item.satinAlmaHizmetKod} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </div>
+  </div>
   );
+  
+  
 };
 
 export default TalepEkle;
