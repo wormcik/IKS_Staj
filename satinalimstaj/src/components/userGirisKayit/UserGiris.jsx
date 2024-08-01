@@ -3,12 +3,12 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './userGirisKayit.css'; // Correctly import the CSS file
 import { Link } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const SignInForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('Username:', username);
@@ -26,9 +26,11 @@ const SignInForm = () => {
       if (Success && Model != null) {
         localStorage.setItem('jwt', Model);
         console.log('JWT:', Model);
-        navigate("/satinAlim");
         window.location.reload();
+        navigate("/satinAlim");
 
+            
+        
       }
       else {
         alert(response.data.message);
@@ -62,7 +64,7 @@ const SignInForm = () => {
         />
       </div>
       <button type="submit">Sign In</button>
-      <Link to="/kayit">Go to Kullanici Kayit</Link>
+      <Link to="/kayit">Sign Up</Link>
     </form>
   );
 };

@@ -1,46 +1,66 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './userGirisKayit.css'; // Correctly import the CSS file
 import { Link } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-const UserTypeOptions = [
-  { value: 'Select User Type', label: 'Select User Type' },
-  { value: 'Admin', label: 'Admin' },
-  { value: 'Birim', label: 'Birim' },
-];
+const SignUpForm = (props) => {
+  const [BirimData, setBirimData] = useState([]);
+  const [kayitModel, setKayitModel] = useState({});
+  const [personelKayitModel, setPersonelKayitModel] = useState({
+    ad: null,
+    soyad: null,
+    pozisyon: null,
+    satinAlmaBirimKod: 1,
+    userName: null,
+  });
 
-const SignUpForm = () => {
-  const [Username, setUsername] = useState('');
-  const [Password, setPassword] = useState('');
-  const [Name, setName] = useState('');
-  const [LastName, setLastName] = useState('');
-  const [UserType, setUserType] = useState('');
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (BirimData.length > 0) {
+      return;
+    }
+    const fetchBirimData = async () => {
+      try {
+        const response = await axios.post('https://localhost:7092/api/v1/satinAlim/Birim/BirimListele',{}) ;
+        
+        if (response?.data?.success) {
+          setBirimData(response.data.model);
+        } else {
+          alert(response?.data?.message);
+        }
+      } catch (error) {
+        console.error('Error fetching Birim data:', error);
+        alert('An error occurred while fetching Birim data.');
+      }
+    };
+
+    fetchBirimData();
+  }, []);
+
+
+    
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log('Username:', Username);
-    console.log('Name : ', Name);
-    console.log('LastName : ', LastName);
-    console.log('Password:', Password);
-    console.log('User Type:', UserType);
-
     try {
-      const response = await axios.post("https://localhost:7212/api/v1/yetki/Yetki/SignUp", {
-        Username,
-        Name,
-        LastName,
-        Password,
-        UserType
-      });
+      let eklenecekUser = {
+        userName: kayitModel.userName,
+        name: kayitModel.name,
+        lastName: kayitModel.lastName,
+        password: kayitModel.password,
+        userType: "Birim"
+      }
+
+      const response = await axios.post("https://localhost:7212/api/v1/yetki/Yetki/SignUp", eklenecekUser);
+
       const success = response.data.success;
       if (success) {
         try {
           const response = await axios.post('https://localhost:7212/api/v1/yetki/Yetki/SingIn', {
-            Username,
-            Password
+            userName: eklenecekUser.userName,
+            password: eklenecekUser.password
           });
 
           const Success = response.data.success;
@@ -49,7 +69,22 @@ const SignUpForm = () => {
           if (Success && Model != null) {
             localStorage.setItem('jwt', Model);
             console.log('JWT:', Model);
-            navigate("/");
+            const jwt = Model
+            let eklenecekPersonel = {
+              ad: personelKayitModel.ad,
+              soyad: personelKayitModel.soyad,
+              pozisyon: personelKayitModel.pozisyon,
+              satinAlmaBirimKod: parseInt(personelKayitModel.satinAlmaBirimKod),
+              kullaniciKod: uuidv4(jwtDecode(jwt).KullaniciKod)
+            }
+            try {
+              axios.defaults.headers.common['Authorization'] = `Bearer ${jwt}`;
+              const response = await axios.post("https://localhost:7092/api/v1/satinAlim/Personel/PersonelEkle", eklenecekPersonel);
+
+            }
+            catch (error) {
+              console.error('Personel error:', error);
+            }
           }
 
         } catch (error) {
@@ -67,12 +102,14 @@ const SignUpForm = () => {
   return (
     <form onSubmit={handleSubmit} className="user_form">
       <div className="user_form__input">
-        <label htmlFor="username">Username:</label>
+        <label htmlFor="userName">Username:</label>
         <input
           type="text"
-          id="username"
-          value={Username}
-          onChange={(e) => setUsername(e.target.value)}
+          id="userName"
+          value={kayitModel.userName}
+          onChange={(e) => {setKayitModel({ ...kayitModel, userName: e.target.value });
+            
+          }}
           required
         />
       </div>
@@ -81,18 +118,22 @@ const SignUpForm = () => {
         <input
           type="text"
           id="name"
-          value={Name}
-          onChange={(e) => setName(e.target.value)}
+          value={kayitModel.name}
+          onChange={(e) => {setKayitModel({ ...kayitModel, name: e.target.value });
+           setPersonelKayitModel({ ...personelKayitModel, ad: e.target.value });
+          }}          
           required
         />
       </div>
       <div className="user_form__input">
-        <label htmlFor="lastname">Lastname:</label>
+        <label htmlFor="lastName">Lastname:</label>
         <input
           type="text"
-          id="lastname"
-          value={LastName}
-          onChange={(e) => setLastName(e.target.value)}
+          id="lastName"
+          value={kayitModel.lastName}
+          onChange={(e) => {setKayitModel({ ...kayitModel, lastName: e.target.value });
+          setPersonelKayitModel({ ...personelKayitModel, soyad: e.target.value });
+          }}
           required
         />
       </div>
@@ -101,28 +142,41 @@ const SignUpForm = () => {
         <input
           type="password"
           id="password"
-          value={Password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          value={kayitModel.password}
+          onChange={(e) => {setKayitModel({ ...kayitModel, password: e.target.value });
+          }}
+        required
         />
       </div>
       <div className="user_form__input">
-        <label htmlFor="userType">User Type:</label>
+        <label htmlFor="pozisyon">Pozisyon:</label>
+        <input
+          type="pozisyon"
+          id="pozisyon"
+          value={personelKayitModel.pozisyon}
+          onChange={(e) => {setPersonelKayitModel({ ...personelKayitModel, pozisyon: e.target.value });
+          }}
+        />
+      </div>
+      <div className="user_form__input">
+        <label htmlFor="Pozisyon">Birim :</label>
         <select
-          id="userType"
-          value={UserType}
-          onChange={(e) => setUserType(e.target.value)}
+          id="pozisyon"
+          value={personelKayitModel.satinAlmaBirimKod ?? null}
+          onChange={(e) => {
+            setPersonelKayitModel({ ...personelKayitModel, satinAlmaBirimKod: e.target.value});
+          }}
           required
         >
-          {UserTypeOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
+          {BirimData?.map((option) => (
+            <option value={option.satinAlmaBirimKod}>
+              {option.birimAd}
             </option>
           ))}
         </select>
       </div>
       <button type="submit">Sign Up</button>
-      <Link to="/giris">Go to Kullanici Giris</Link>
+      <Link to="/giris">Sign In</Link>
     </form>
   );
 };

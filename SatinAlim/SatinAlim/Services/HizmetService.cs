@@ -174,5 +174,47 @@ namespace SatinAlimHizmet.Services
             }
         }
 
+
+
+        public async Task<ProcessResult<List<BirimHizmetModelDTO>>> BirimHizmetListeleAsync()
+        {
+            var BirimList = await satinAlmaDbContext.SatinAlmaBirim.ToListAsync();
+            var BirimHizmetList = new List<BirimHizmetModelDTO>();
+            if (BirimList == null)
+            {
+                return new ProcessResult<List<BirimHizmetModelDTO>>().Failed("Birim bulunamadi");
+            }
+            foreach (var Birim in BirimList)
+            {
+                var BirimKodList = await satinAlmaDbContext.SatinAlmaBirimHizmet.Where(x =>
+                x.SatinAlmaBirimKod == Birim.SatinAlmaBirimKod).ToListAsync();
+
+                foreach (var HizmetKod in BirimKodList)
+                {
+                    SatinAlmaHizmet hizmet = await satinAlmaDbContext.SatinAlmaHizmet.FirstOrDefaultAsync(x =>
+                    x.SatinAlmaHizmetKod == HizmetKod.SatinAlmaHizmetKod);
+
+                    if (hizmet != null)
+                    {
+                        var BirimHizmet = new BirimHizmetModelDTO();
+                        BirimHizmet.Aciklama = hizmet.Aciklama;
+                        BirimHizmet.Birim = hizmet.Birim;
+                        BirimHizmet.BirimAd = Birim.BirimAd;
+                        BirimHizmet.OnaySayi = Birim.OnaySayi;
+                        BirimHizmet.SatinAlmaBirimKod = Birim.SatinAlmaBirimKod;
+                        BirimHizmet.SatinAlmaHizmetKod = hizmet.SatinAlmaHizmetKod;
+                        BirimHizmet.Tanim = hizmet.Tanim;
+                        BirimHizmetList.Add(BirimHizmet);
+                    }
+                }
+            }
+
+            if (BirimHizmetList == null)
+            {
+                return new ProcessResult<List<BirimHizmetModelDTO>>().Failed("Urun bulunamadi");
+            }
+            return new ProcessResult<List<BirimHizmetModelDTO>>().Successful(BirimHizmetList);
+
+        }
     }
 }

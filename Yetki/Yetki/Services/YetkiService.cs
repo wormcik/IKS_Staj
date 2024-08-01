@@ -45,7 +45,7 @@ namespace Yetki.Services
 
             try
             {
-                var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.Username);
+                var objUser = await yetkiDbContext.User.FirstOrDefaultAsync(x => x.Username == registrationModel.UserName);
                 if (objUser != null)
                 {
                     return new ProcessResult<bool>().Failed("User already exists in the database.");
@@ -62,7 +62,7 @@ namespace Yetki.Services
                 }
 
                 var user = new User();
-                user.Username = registrationModel.Username;
+                user.Username = registrationModel.UserName;
                 user.Name = registrationModel.Name;
                 user.LastName = registrationModel.LastName;
                 user.Password = ComputeSha256Hash(registrationModel.Password);

@@ -5,11 +5,15 @@ import SatinAlimEkle from "./components/satinAlim/satinAlimEkle";
 import Temp from "./components/Temp";
 import UserGiris from "./components/userGirisKayit/UserGiris";
 import UserKayit from "./components/userGirisKayit/UserKayit";
+import TalepEkle from "./components/satinAlim/TalepEkle";
 import { jwtDecode } from "jwt-decode";
+import { useParams } from "react-router-dom";
 
 const AppRoutes = () => {
+  const currentPath = window.location.pathname;
+  console.log(currentPath);
   const navigation = useNavigate();
-const [signed_in,setSigned_in] = useState(false);
+  const [signed_in,setSigned_in] = useState(false);
   useEffect(() => {
   const jwt = localStorage.getItem('jwt');
   if(jwt){
@@ -20,7 +24,7 @@ const [signed_in,setSigned_in] = useState(false);
     }
       else {
         setSigned_in(true);
-        navigation('/satinAlim');
+        
       }
   }
   if(!jwt){
@@ -36,9 +40,10 @@ const [signed_in,setSigned_in] = useState(false);
 
   return (
       <Routes>
-        {signed_in &&  <Route exact path="/satinAlim/" element={<SatinAlim />} />}
+        {signed_in && currentPath == "/satinAlim" &&  <Route exact path="/satinAlim/" element={<SatinAlim />} />}
         {!signed_in && <Route exact path="/giris" element={<UserGiris/>} />}
         {!signed_in && <Route exact path="/kayit" element = {<UserKayit/>} />} 
+        {signed_in && currentPath == "/satinAlim/ekle" && <Route exact path="satinAlim/ekle" element = {<TalepEkle/>} />}
       </Routes>
     
   );
