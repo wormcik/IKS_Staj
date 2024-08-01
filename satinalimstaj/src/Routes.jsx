@@ -13,6 +13,8 @@ const [signed_in,setSigned_in] = useState(false);
   useEffect(() => {
   const jwt = localStorage.getItem('jwt');
   if(jwt){
+    const currentPath = window.location.pathname;
+
     const jwt = jwtDecode(localStorage.getItem('jwt'));
     const currentTime = Date.now() / 1000;
     if (jwt.exp < currentTime) {
@@ -20,6 +22,9 @@ const [signed_in,setSigned_in] = useState(false);
     }
       else {
         setSigned_in(true);
+        if (currentPath === "/" || currentPath === "/giris" || currentPath === "/kayit") {
+          navigation("/satinAlim");
+        }
       }
   }
   if(!jwt){
