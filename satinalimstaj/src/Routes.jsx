@@ -6,7 +6,9 @@ import Temp from "./components/Temp";
 import UserGiris from "./components/userGirisKayit/UserGiris";
 import UserKayit from "./components/userGirisKayit/UserKayit";
 import TalepEkle from "./components/satinAlim/TalepEkle";
+import TalepDetay from "./components/satinAlim/TalepDetay";
 import { jwtDecode } from "jwt-decode";
+import SatinAlimTaleplerim from "./components/satinAlim/SatinAlimTaleplerim";
 const AppRoutes = () => {
   const navigation = useNavigate();
 const [signed_in,setSigned_in] = useState(false);
@@ -44,6 +46,8 @@ const [signed_in,setSigned_in] = useState(false);
         {!signed_in && <Route exact path="/giris" element={<UserGiris/>} />}
         {!signed_in && <Route exact path="/kayit" element = {<UserKayit/>} />} 
         {signed_in &&  <Route exact path="satinAlim/ekle" element = {<TalepEkle/>} />}
+        {signed_in &&  <Route exact path="satinAlim/detay/:TalepKod" element = {<TalepDetay/>} />}
+        {signed_in &&  <Route exact path="satinAlim/taleplerim" element = {<SatinAlimTaleplerim/>}/>}
       </Routes>
     
   );

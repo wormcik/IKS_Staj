@@ -101,6 +101,31 @@ namespace SatinAlim.Services
             }
         }
 
+
+
+        public async Task<ProcessResult<PersonelGetirModelDTO>> UserPersonelGetirAsync(Guid KullaniciKod)
+        {
+            var obj = await satinAlmaDbContext.Personel.FirstOrDefaultAsync(x => x.KullaniciKod == KullaniciKod);
+            if (obj == null)
+            {
+                return new ProcessResult<PersonelGetirModelDTO>().Failed("Getirilecek Personel Yok!!");
+            }
+            PersonelGetirModelDTO personel = new PersonelGetirModelDTO();
+            personel.PersonelKod = obj.PersonelKod;
+            personel.Ad = obj.Ad;
+            personel.Soyad = obj.Soyad;
+            personel.Pozisyon = obj.Pozisyon;
+            var onayci = await satinAlmaDbContext.SatinAlmaBirimOnayci.FirstOrDefaultAsync(x =>
+            x.PersonelKod == obj.PersonelKod);
+            personel.OnaySira= onayci.OnaySira;
+            return new ProcessResult<PersonelGetirModelDTO>().Successful(personel);
+        }
+
+
+
+
+
+
         public async Task<ProcessResult<PersonelGuncelleModelDTO>> PersonelGuncelleAsync(PersonelGuncelleSorguModel personel)
         {
             try

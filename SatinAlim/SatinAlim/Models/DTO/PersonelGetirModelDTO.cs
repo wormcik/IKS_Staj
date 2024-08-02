@@ -7,5 +7,6 @@
 
         public string Soyad {  get; set; }  
         public string Pozisyon {  get; set; }
+        public int? OnaySira { get; set; }
     }
 }

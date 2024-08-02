@@ -78,9 +78,9 @@ namespace SatinAlim.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(ProcessResult<TalepModelDTO>), (int)HttpStatusCode.OK)]
-
+        
         public async Task<ActionResult<ProcessResult<TalepModelDTO>>> TalepGetir(long TalepKod)
-        {
+                {
 
             var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
             var token = authorizationHeader?.StartsWith("Bearer ") == true
@@ -91,11 +91,11 @@ namespace SatinAlim.Controllers
 
             var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
             var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
-
+            
             var result = await satinAlimService.TalepGetirAsync(TalepKod,KullaniciKod);
             return Ok(result);
         }
-
+        
 
         [HttpPut]
         [ProducesResponseType(typeof(ProcessResult<bool>), (int)HttpStatusCode.OK)]
@@ -133,6 +133,27 @@ namespace SatinAlim.Controllers
 
             var result = await satinAlimService.TalepReddetAsync(TalepKod, KullaniciKod);
 
+            return Ok(result);
+        }
+
+
+
+
+        [HttpPost]
+        [ProducesResponseType(typeof(ProcessResult<List<TalepModelDTO>>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<List<TalepModelDTO>>>> PersonelTalepListele(TalepListeleSorguModel sorgu)
+        {
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
+            var result = await satinAlimService.PersonelTalepListeleAsync(KullaniciKod, sorgu);
             return Ok(result);
         }
     }

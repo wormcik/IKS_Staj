@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using SatinAlim.Helpers;
 using SatinAlim.Models;
 using SatinAlim.Models.DTO;
 using SatinAlim.Services;
+using System.IdentityModel.Tokens.Jwt;
 // using SatinAlimHizmet.Services;
 using System.Net;
 
@@ -15,10 +17,12 @@ namespace SatinAlim.Controllers
     public class PersonelController : ControllerBase
     {
         private readonly PersonelService personelService;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public PersonelController(PersonelService personelService )
+        public PersonelController(PersonelService personelService, IHttpContextAccessor httpContextAccessor)
         {
             this.personelService = personelService;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost]
@@ -39,6 +43,30 @@ namespace SatinAlim.Controllers
                 var result = await personelService.PersonelGetirAsync(id);
                 return Ok(result);
         }
+
+
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ProcessResult<PersonelGetirModelDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ProcessResult<PersonelGetirModelDTO>>> UserPersonelGetir()
+        {
+
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            /*User.Claims.FirstOrDefault(c => c.Type == "role");*/
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
+            var result = await personelService.UserPersonelGetirAsync(KullaniciKod);
+            return Ok(result);
+        }
+
+
 
         [HttpPost]
         [CustomAuthorize("PersonelListele")]

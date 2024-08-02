@@ -1,6 +1,7 @@
 /* Background color for the entire page */
 .talep_body {
     background-color: rgba(120, 202, 202, 0.564);
+    min-height: 100vh; /* Ensure the body takes up full viewport height */
 }
 
 /* Container for the main form */
@@ -11,6 +12,8 @@
     background-color: #f9f1f1; /* Light background for the form */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 100vh;
+
 }
 
 /* Heading styles */
@@ -21,22 +24,45 @@
 
 /* Button styles */
 .talep_button {
-    background-color: rgb(50, 199, 199); /* Default button color */
+    margin: 5px;
+    background-color: rgb(50, 199, 199); 
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    width: 100%; /* Set to full width of the container or a specific width */
-    box-sizing: border-box; /* Includes padding and border in the width */
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
+.talep_submit-button:disabled {
+    background-color: #d6d6d6;
+    cursor: not-allowed;
+}
 .talep_button:disabled {
     background-color: #d6d6d6;
     cursor: not-allowed;
 }
 
+.talep_reddet-button:disabled {
+    background-color: #d0b5b5;
+    cursor: not-allowed;
+}
+
+.talep_reddet-button{
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    color: #fff;
+    margin: 5px;
+    box-sizing: border-box;
+    background-color: #9b0d0d; 
+    width: 1000px; 
+}
 /* Submit button specific styles */
 .talep_submit-button {
     border: none;
@@ -46,8 +72,10 @@
     font-size: 16px;
     width: 100%;
     color: #fff;
-    background-color: #0d6a9b; /* Different color for the submit button */
-    width: 1000px; /* Adjust width to fit the content */
+    margin: 5px;
+    box-sizing: border-box;
+    background-color: #0d6a9b; 
+    width: 1000px; 
 }
 
 .talep_submit-button-container {

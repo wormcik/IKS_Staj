@@ -11,7 +11,7 @@ namespace SatinAlim.Models.DTO
 
         public string? BirimAd { get; set; }
 
-        public int OnaySayi { get; set; }
+            public int OnaySayi { get; set; }
     }
 }
 
