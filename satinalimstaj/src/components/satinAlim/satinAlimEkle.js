@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './satinAlimEkle.css';
 
 const SatinAlimEkle = () => {
-  const navigate = useNavigate(); // Use the navigate hook to programmatically navigate
+  const navigate = useNavigate(); 
 
-  // Function to handle the redirection based on the category
   const handleRedirect = (category) => {
     navigate(`/satinAlim/${category}`);
   };

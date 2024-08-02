@@ -1,3 +1,4 @@
+/* Container styling */
 .satinalimcontainer {
   display: flex;
   flex-direction: column;
@@ -5,8 +6,12 @@
   position: relative;
   padding: 40px;
   font-family: Arial, sans-serif;
+  background-color: #f8f9fa; /* Light background */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
+/* Button container styling */
 .buttonContainer {
   display: flex;
   justify-content: space-between;
@@ -22,6 +27,7 @@
 
 .buttonRow {
   display: flex;
+  margin-bottom: 10px; /* Add some space between rows */
 }
 
 .rightButton {
@@ -32,25 +38,37 @@
 }
 
 .actionInput {
-  padding: 15px 120px; /* Adjust as needed */
+  padding: 10px 20px; /* Adjust padding for consistency */
   margin: 5px;
-  background-color: #f0f0f0;
+  background-color: #fff; /* White background for inputs */
   color: #333;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for inputs */
+  transition: border-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.actionInput:focus {
+  border-color: #007bff; /* Blue border on focus */
+  outline: none; /* Remove default outline */
 }
 
 .newButton {
-  padding: 15px 60px; /* More padding for the larger button */
+  padding: 7.5px 30px; /* Reduced padding by half */
   margin: 5px;
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: #007bff; /* Blue background */
+  color: #fff; /* White text */
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
-  width: 300px; /* Twice the width of the action buttons */
+  font-size: 16px; /* Keep font size the same to avoid deforming the text */
+  width: 100px; /* Reduced width by half */
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.newButton:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 .addButton, .logOutButton {
@@ -58,11 +76,16 @@
   top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  background-color: #007bff; /* Blue background */
+  color: #fff; /* White text */
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.addButton:hover, .logOutButton:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 .addButton {
@@ -80,34 +103,48 @@ h1 {
 }
 
 table {
+  border-radius: 5px;
   width: 100%;
   border-collapse: collapse;
   margin: 40px 0;
   font-size: 16px;
+  background-color: #fff; /* White background for table */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
+  border-radius: 10px; /* Rounded corners */
+  overflow: hidden; /* Hide overflow */
 }
 
-th, td {
+th, tdUrun, tdHizmet {
   text-align: center;
   border: 1px solid #ddd;
   padding: 12px;
 }
 
 th {
-  text-align: center;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #87ceeb;; /* Blue background for headers */
+  color: #fff; /* White text */
 }
 
 td {
-  text-align: center;
 }
 
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+/* Ensure alternating row colors are not overriding the type-based colors */
+tbody tr:nth-child(even) {
+  background-color: inherit;
 }
 
 tr:hover {
-  background-color: #f1f1f1;
+  background-color: #e9ecef; /* Light grey on hover */
+}
+
+/* Styling for rows based on type */
+tbody tr.urunRow {
+  background-color: #ed0909 !important; /* Black for ürun */
+}
+
+
+tbody tr.hizmetRow {
+  background-color: #ffa008 !important; /* Light orange for hizmet */
 }
 
 label {
@@ -115,4 +152,20 @@ label {
   flex-direction: column;
   align-items: flex-start;
   margin: 5px;
+}
+
+/* CSS for the buttons in the rightmost column */
+.tableButton {
+  padding: 5px 10px; /* Adjust padding */
+  background-color: #90ee90; /* Blue background */
+  color: #fff; /* White text */
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+}
+
+.tableButton:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }

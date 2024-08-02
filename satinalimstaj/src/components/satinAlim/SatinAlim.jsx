@@ -40,6 +40,23 @@ const SatinAlim = () => {
     }
   };
 
+  const handleCellButtonClick = (talepKod) => {
+    navigate(`/satinAlim/detay/${talepKod}`);
+  };
+
+  const formatDate = (dateString) => {
+    const [datePart] = dateString.split('T');
+    const [year, month, day] = datePart.split('-');
+    return `${day}.${month}.${year}`;
+  };
+
+  const getRowClass = (item) => {
+    if (item.talepUrunListe.length > 0) return 'urunRow'; // Ensure item.talepUrunListe exists
+    if (item.talepHizmetListe.length > 0) return 'hizmetRow'; // Ensure item.talepHizmetListe exists
+    return '';
+  };
+  
+
   return (
     <div className='satinalimcontainer'>
       <button className="addButton" onClick={handleButtonClick}>Ekle</button>
@@ -50,7 +67,7 @@ const SatinAlim = () => {
           <div className='buttonRow'>
             <label>
               <input
-                type="text"
+                type="date"
                 className="actionInput"
                 placeholder="Baslangic Tarihi"
                 value={startDate}
@@ -70,7 +87,7 @@ const SatinAlim = () => {
           <div className='buttonRow'>
             <label>
               <input
-                type="text"
+                type="date"
                 className="actionInput"
                 placeholder="Bitisi Tarihi"
                 value={endDate}
@@ -101,17 +118,21 @@ const SatinAlim = () => {
             <th>Açıklama</th>
             <th>Transaction ID</th>
             <th>Onay Sıra</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {talepListesi?.map((item, index) => (
-            <tr key={index}>
-              <td>{item.talepTarih}</td>
+            <tr key={index} style={{ textAlign:'center', backgroundColor: item.talepHizmetListe.length > 0 ? "#fc3328" : "#67ff5c" }}>
+              <td>{formatDate(item.talepTarih)}</td>
               <td>{item.ongorulenTutar}</td>
               <td>{item.ongorulenTutarPbKod}</td>
               <td>{item.aciklama}</td>
               <td>{item.transactionId}</td>
               <td>{item.onaySira}</td>
+              <td>
+                <button className="tableButton" onClick={() => handleCellButtonClick(index)}>Detay</button>
+              </td>
             </tr>
           ))}
         </tbody>
