@@ -16,6 +16,10 @@ const SatinAlim = () => {
     navigate('/satinAlim/ekle');
   };
 
+  const handleTaleplerimClick = () => {
+    navigate('/satinAlim/taleplerim');
+  };
+
   const handleLogOutButtonClick = () => {
     localStorage.removeItem('jwt');
     window.location.reload();
@@ -55,12 +59,21 @@ const SatinAlim = () => {
     if (item.talepHizmetListe.length > 0) return 'hizmetRow'; // Ensure item.talepHizmetListe exists
     return '';
   };
-  
+
+  useEffect(() => {handleSorgulaClick()},[jwtToken]);
+
+
 
   return (
     <div className='satinalimcontainer'>
-      <button className="addButton" onClick={handleButtonClick}>Ekle</button>
-      <button className="logOutButton" onClick={handleLogOutButtonClick}>Güvenli Çıkış</button>
+      <div className='buttonWrapper'>
+        <div className='buttonContainer'>
+          <button className="taleplerimButton" onClick={handleTaleplerimClick}>Taleplerim</button>
+
+          <button className="addButton" onClick={handleButtonClick}>Ekle</button>
+          <button className="logOutButton" onClick={handleLogOutButtonClick}>Güvenli Çıkış</button>
+        </div>
+      </div>
       <h1>Satin Alim</h1>
       <div className='buttonContainer'>
         <div className='leftButtons'>
@@ -131,7 +144,7 @@ const SatinAlim = () => {
               <td>{item.transactionId}</td>
               <td>{item.onaySira}</td>
               <td>
-                <button className="tableButton" onClick={() => handleCellButtonClick(index)}>Detay</button>
+                <button className="tableButton" onClick={() => handleCellButtonClick(item.satinAlmaTalepKod)}>Detay</button>
               </td>
             </tr>
           ))}
@@ -142,3 +155,4 @@ const SatinAlim = () => {
 };
 
 export default SatinAlim;
+  

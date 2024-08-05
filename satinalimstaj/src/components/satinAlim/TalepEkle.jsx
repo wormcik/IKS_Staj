@@ -64,8 +64,20 @@ const TalepEkle = () => {
       }
     };
 
+
+
+
+
+
     updateSatinAlmaBirimKod();
   }, [formData.talepUrunSorguModelListe, formData.talepHizmetSorguModelListe]);
+
+
+    const getTanimForKod = (kod, list) => {
+      const item = list.find((i) => i.satinAlmaUrunKod === kod || i.satinAlmaHizmetKod === kod);
+      return item ? item.tanim : '';
+  };
+
 
   const handleButtonClick = (birimAd) => {
     setSelectedBirimAd(birimAd);
@@ -148,6 +160,7 @@ const TalepEkle = () => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
       const talepResponse = await axios.post('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepEkle', formData);
       console.log('Talep response:', talepResponse.data);
+      window.location.reload();
       if(talepResponse != null){
       }
     } catch (error) {
@@ -159,6 +172,12 @@ const TalepEkle = () => {
 
   const isBirimButtonsDisabled = () =>
     formData.talepUrunSorguModelListe.length > 0 || formData.talepHizmetSorguModelListe.length > 0;
+
+  const isGonderGuttonDisabled = () =>
+    formData.talepUrunSorguModelListe.length == 0 && formData.talepHizmetSorguModelListe.length == 0;
+
+  const isListeyeEkleDisabled = () =>
+    currentItem.birimFiyat == null || currentItem.pbKod == null || currentItem.miktar == null
 
   return (
     <div className='talep_body'>
@@ -257,7 +276,9 @@ const TalepEkle = () => {
             className="talep_input-number"
           />
         </div>
-        <button  className="talep_submit-button" onClick={handleAddItem}>Listeye Ekle</button>
+        <button  className="talep_submit-button" 
+        onClick={handleAddItem}
+        disabled={isListeyeEkleDisabled()}>Listeye Ekle</button>
       </div>
     )}
   
@@ -321,7 +342,8 @@ const TalepEkle = () => {
         />
       </div>
       <div className="talep_submit-button-container">
-        <button type="submit" className="talep_submit-button">Gönder</button>
+        <button type="submit" className="talep_submit-button" disabled={isGonderGuttonDisabled()}>Gönder</button>
+        
       </div>
     </form>
   
@@ -331,7 +353,7 @@ const TalepEkle = () => {
         <ul className="talep_ul">
           {formData.talepUrunSorguModelListe.map((item, index) => (
             <li key={index} className="talep_li">
-              Ürün Kod: {item.satinAlmaUrunKod} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
+              Ürün Kod: {getTanimForKod(item.satinAlmaUrunKod,urunListesi)} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
             </li>
           ))}
         </ul>
@@ -344,7 +366,7 @@ const TalepEkle = () => {
         <ul className="talep_ul">
           {formData.talepHizmetSorguModelListe.map((item, index) => (
             <li key={index} className="talep_li">
-              Hizmet Kod: {item.satinAlmaHizmetKod} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
+              Hizmet Kod: {getTanimForKod(item.satinAlmaHizmetKod,HizmetListesi)} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
             </li>
           ))}
         </ul>

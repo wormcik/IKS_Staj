@@ -156,5 +156,26 @@ namespace SatinAlim.Controllers
             var result = await satinAlimService.PersonelTalepListeleAsync(KullaniciKod, sorgu);
             return Ok(result);
         }
+
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ProcessResult<TalepModelDTO>), (int)HttpStatusCode.OK)]
+
+        public async Task<ActionResult<ProcessResult<TalepModelDTO>>> PersonelTalepGetir(long TalepKod)
+        {
+
+            var authorizationHeader = httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var token = authorizationHeader?.StartsWith("Bearer ") == true
+                ? authorizationHeader.Substring("Bearer ".Length).Trim()
+                : null;
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtHandler.ReadJwtToken(token);
+
+            var KullaniciKod_Value = jwtToken.Claims.FirstOrDefault(c => c.Type == "KullaniciKod");
+            var KullaniciKod = Guid.Parse(KullaniciKod_Value.Value);
+
+            var result = await satinAlimService.PersonelTalepGetirAsync(TalepKod, KullaniciKod);
+            return Ok(result);
+        }
     }
 }

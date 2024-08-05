@@ -126,6 +126,7 @@ th {
 }
 
 td {
+  text-align: center;
 }
 
 /* Ensure alternating row colors are not overriding the type-based colors */
