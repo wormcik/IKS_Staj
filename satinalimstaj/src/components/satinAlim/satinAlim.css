@@ -6,9 +6,9 @@
   position: relative;
   padding: 40px;
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa; /* Light background */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  background-color: #f8f9fa; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 
@@ -66,7 +66,7 @@
   padding: 7.5px 0px; 
   margin: 5px;
   background-color: #007bff; 
-  color: #fff; /* White text */
+  color: #fff; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -87,16 +87,16 @@
   top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff; /* Blue background */
-  color: #fff; /* White text */
+  background-color: #007bff; 
+  color: #fff; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+  transition: background-color 0.3s ease-in-out; 
 }
 
 .addButton:hover, .logOutButton:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3; 
 }
 
 .addButton {
@@ -119,10 +119,10 @@ table {
   border-collapse: collapse;
   margin: 40px 0;
   font-size: 16px;
-  background-color: #fff; /* White background for table */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow */
-  border-radius: 10px; /* Rounded corners */
-  overflow: hidden; /* Hide overflow */
+  background-color: #fff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 10px; 
+  overflow: hidden; 
 }
 
 th, tdUrun, tdHizmet {
@@ -132,8 +132,8 @@ th, tdUrun, tdHizmet {
 }
 
 th {
-  background-color: #393232; /* Blue background for headers */
-  color: #fff; /* White text */
+  background-color: #393232; 
+  color: #fff; 
 }
 
 td {
@@ -149,7 +149,6 @@ tr:hover {
   background-color: #e9ecef; 
 }
 
-/* Styling for rows based on type */
 tbody tr.urunRow {
   background-color: #ed0909 !important; 
 }
@@ -165,18 +164,17 @@ label {
   margin: 5px;
 }
 
-/* CSS for the buttons in the rightmost column */
 .tableButton {
-  padding: 5px 10px; /* Adjust padding */
-  background-color: #0b00a4; /* Blue background */
-  color: #fff; /* White text */
+  padding: 5px 10px; 
+  background-color: #0b00a4; 
+  color: #fff; 
   border: none;
   border-radius: 3px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.3s ease-in-out; /* Smooth transition */
+  transition: background-color 0.3s ease-in-out; 
 }
 
 .tableButton:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background-color: #0056b3; 
 }

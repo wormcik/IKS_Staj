@@ -54,6 +54,14 @@ const SatinAlim = () => {
     return `${day}.${month}.${year}`;
   };
 
+  function booleanToString(bool) {
+    if(bool == true)
+      return "evet";
+    else
+      return "yanlış";
+  }
+  
+
   const getRowClass = (item) => {
     if (item.talepUrunListe.length > 0) return 'urunRow'; // Ensure item.talepUrunListe exists
     if (item.talepHizmetListe.length > 0) return 'hizmetRow'; // Ensure item.talepHizmetListe exists
@@ -61,6 +69,7 @@ const SatinAlim = () => {
   };
 
   useEffect(() => {handleSorgulaClick()},[jwtToken]);
+
 
 
 
@@ -130,7 +139,8 @@ const SatinAlim = () => {
             <th>Öngörülen Tutar</th>
             <th>Öngörülen Tutar Pb Kod</th>
             <th>Açıklama</th>
-            <th>Transaction ID</th>
+            <th>Onaylandı</th>
+            <th>Reddedildi</th>
             <th>Onay Sıra</th>
             <th></th>
           </tr>
@@ -142,7 +152,8 @@ const SatinAlim = () => {
               <td>{item.ongorulenTutar}</td>
               <td>{item.ongorulenTutarPbKod}</td>
               <td>{item.aciklama}</td>
-              <td>{item.transactionId}</td>
+              <td>{booleanToString(item.onaylandi)}</td>
+              <td>{booleanToString(item.reddedildi)}</td>
               <td>{item.onaySira}</td>
               <td>
                 <button className="tableButton" onClick={() => handleCellButtonClick(item.satinAlmaTalepKod)}>Detay</button>
