@@ -149,7 +149,7 @@ const SignUpForm = (props) => {
         />
       </div>
       <div className="user_form__input">
-        <label htmlFor="pozisyon">Pozisyon:</label>
+        <label htmlFor="pozisyon">Ünvan:</label>
         <input
           type="pozisyon"
           id="pozisyon"
