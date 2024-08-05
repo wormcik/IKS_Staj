@@ -160,8 +160,8 @@ const TalepEkle = () => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
       const talepResponse = await axios.post('https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepEkle', formData);
       console.log('Talep response:', talepResponse.data);
-      navigate('/satinAlim/taleplerim');
       if(talepResponse != null){
+        navigate(`/satinAlim/detay/${talepResponse.data.model.satinAlmaTalepKod}`)
       }
     } catch (error) {
       console.error('An error occurred while submitting the form:', error);
