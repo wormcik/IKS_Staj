@@ -89,7 +89,7 @@ const TalepDetay = () => {
         <div className='talep_body'>
             <div className="talep_container">
            <button className="talep_navigate-button" onClick={handleLogOutButtonClick}>Geri</button>
-                <h1>Talep Details</h1>
+                <h1>Talep Detayları</h1>
                  
                 <div className="talep_form-group">
                     <label htmlFor="status">Durum:</label>
@@ -104,7 +104,7 @@ const TalepDetay = () => {
                 </div>
 
                 <div className="talep_form-group">
-                    <label htmlFor="aciklama">Aciklama:</label>
+                    <label htmlFor="aciklama">Açıklama:</label>
                     <input
                         type="text"
                         id="aciklama"
@@ -116,7 +116,7 @@ const TalepDetay = () => {
                 </div>
 
                 <div className="talep_form-group">
-                    <label htmlFor="islemTarih">Islem Tarih:</label>
+                    <label htmlFor="islemTarih">İşlem Tarih:</label>
                     <input
                         type="text"
                         id="islemTarih"
@@ -128,7 +128,7 @@ const TalepDetay = () => {
                 </div>
 
                 <div className="talep_form-group">
-                    <label htmlFor="onaySira">Onay Sira:</label>
+                    <label htmlFor="onaySira">Onay Sıra:</label>
                     <input
                         type="number"
                         id="onaySira"
@@ -140,7 +140,7 @@ const TalepDetay = () => {
                 </div>
 
                 <div className="talep_form-group">
-                    <label htmlFor="ongorulenTutar">Ongorulen Tutar:</label>
+                    <label htmlFor="ongorulenTutar">Öngörülen Tutar:</label>
                     <input
                         type="text"
                         id="ongorulenTutar"
@@ -152,7 +152,7 @@ const TalepDetay = () => {
                 </div>
 
                 <div className="talep_form-group">
-                    <label htmlFor="ongorulenTutarPbKod">Ongorulen Tutar Pb Kod:</label>
+                    <label htmlFor="ongorulenTutarPbKod">Para Birim:</label>
                     <input
                         type="text"
                         id="ongorulenTutarPbKod"
@@ -164,7 +164,7 @@ const TalepDetay = () => {
                 </div>
 
                 <div className="talep_form-group">
-                    <label htmlFor="satinAlmaBirim">Satin Alma Birim:</label>
+                    <label htmlFor="satinAlmaBirim">Satın Alma Birim:</label>
                     <input
                         type="text"
                         id="satinAlmaBirim"
@@ -212,7 +212,7 @@ const TalepDetay = () => {
                             <tr>
                                 <th>Ürün</th>
                                 <th>Miktar</th>
-                                <th>Pb Kod</th>
+                                <th>Para Birim</th>
                                 <th>Birim Fiyat</th>
                             </tr>
                         </thead>
@@ -238,7 +238,7 @@ const TalepDetay = () => {
                             <tr>
                                 <th>Hizmet</th>
                                 <th>Miktar</th>
-                                <th>Pb Kod</th>
+                                <th>Para Birim</th>
                                 <th>Birim Fiyat</th>
                             </tr>
                         </thead>

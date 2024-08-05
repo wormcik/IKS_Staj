@@ -240,7 +240,7 @@ const TalepEkle = () => {
   
     {(selectedUrun || selectedHizmet) && (
       <div>
-        <h2 className="talep_h2">Add {selectedUrun ? 'Ürün' : 'Hizmet'} Details</h2>
+        <h2 className="talep_h2">{selectedUrun ? 'Ürün' : 'Hizmet'} Ekle Detaylar</h2>
         <div className="talep_form-group">
           <label htmlFor="miktar">Miktar:</label>
           <input
@@ -254,7 +254,7 @@ const TalepEkle = () => {
           />
         </div>
         <div className="talep_form-group">
-          <label htmlFor="pbKod">Pb Kod:</label>
+          <label htmlFor="pbKod">Para Birim:</label>
           <input
             type="text"
             id="pbKod"
@@ -296,7 +296,7 @@ const TalepEkle = () => {
         />
       </div>
       <div className="talep_form-group">
-        <label htmlFor="ongorulenTutarPbKod">Ongorulen Tutar Pb Kod:</label>
+        <label htmlFor="ongorulenTutarPbKod">Para Birim:</label>
         <input
           type="text"
           id="ongorulenTutarPbKod"
@@ -353,7 +353,7 @@ const TalepEkle = () => {
         <ul className="talep_ul">
           {formData.talepUrunSorguModelListe.map((item, index) => (
             <li key={index} className="talep_li">
-              Ürün Kod: {getTanimForKod(item.satinAlmaUrunKod,urunListesi)} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
+              Ürün: {getTanimForKod(item.satinAlmaUrunKod,urunListesi)} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
             </li>
           ))}
         </ul>
@@ -366,7 +366,7 @@ const TalepEkle = () => {
         <ul className="talep_ul">
           {formData.talepHizmetSorguModelListe.map((item, index) => (
             <li key={index} className="talep_li">
-              Hizmet Kod: {getTanimForKod(item.satinAlmaHizmetKod,HizmetListesi)} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
+              Hizmet: {getTanimForKod(item.satinAlmaHizmetKod,HizmetListesi)} - Miktar: {item.miktar} - Birim Fiyat: {item.birimFiyat}
             </li>
           ))}
         </ul>

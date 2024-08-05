@@ -86,22 +86,20 @@ const SatinAlim = () => {
             </label>
             <label>
               <input
-                type="text"
-                className="actionInput"
-                placeholder="Minimum"
-                value={minAmount}
-                onChange={(e) => setMinAmount(e.target.value)}
-              />
-            </label>
-          </div>
-          <div className='buttonRow'>
-            <label>
-              <input
                 type="date"
                 className="actionInput"
                 placeholder="Bitisi Tarihi"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
+              />
+            </label>
+            <label>
+              <input
+                type="text"
+                className="actionInput"
+                placeholder="Minimum"
+                value={minAmount}
+                onChange={(e) => setMinAmount(e.target.value)}
               />
             </label>
             <label>
@@ -114,6 +112,9 @@ const SatinAlim = () => {
               />
             </label>
           </div>
+          <div className='buttonRow'>
+
+          </div>
         </div>
         <div className='rightButton'>
           <button className="newButton" onClick={handleSorgulaClick}>Sorgula</button>
@@ -124,7 +125,7 @@ const SatinAlim = () => {
           <tr>
             <th>Talep Tarih</th>
             <th>Öngörülen Tutar</th>
-            <th>Öngörülen Tutar Pb Kod</th>
+            <th>Para Birim</th>
             <th>Açıklama</th>
             <th>Onaylandı</th>
             <th>Reddedildi</th>
