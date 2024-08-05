@@ -55,8 +55,16 @@ const SatinAlim = () => {
     return '';
   };
   
+  const onaylandiPrint = (item) => {
+    if(item.onaylandi==false) return 'Hayır';
+    return 'Evet';
+  }
+  const reddedildiPrint = (item) => {
+    if(item.reddedildi==false) return 'Hayır';
+    return 'Evet';
+  }
 
-  useEffect(() => {handleSorgulaClick()},[jwtToken]);
+  useEffect(() => {handleSorgulaClick();console.log(talepListesi);},[jwtToken]);
 
 
   return (
@@ -118,7 +126,8 @@ const SatinAlim = () => {
             <th>Öngörülen Tutar</th>
             <th>Öngörülen Tutar Pb Kod</th>
             <th>Açıklama</th>
-            <th>Transaction ID</th>
+            <th>Onaylandı</th>
+            <th>Reddedildi</th>
             <th>Onay Sıra</th>
             <th></th>
           </tr>
@@ -130,7 +139,8 @@ const SatinAlim = () => {
               <td>{item.ongorulenTutar}</td>
               <td>{item.ongorulenTutarPbKod}</td>
               <td>{item.aciklama}</td>
-              <td>{item.transactionId}</td>
+              <td>{onaylandiPrint(item)}</td>
+              <td>{reddedildiPrint(item)}</td>
               <td>{item.onaySira}</td>
               <td>
                 <button className="tableButton" onClick={() => handleCellButtonClick(item.satinAlmaTalepKod)}>Detay</button>

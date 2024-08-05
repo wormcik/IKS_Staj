@@ -83,7 +83,7 @@ const SatinAlim = () => {
           <button className="logOutButton" onClick={handleLogOutButtonClick}>Güvenli Çıkış</button>
         </div>
       </div>
-      <h1>Satin Alim</h1>
+      <h1>Satın Alım</h1>
       <div className='buttonContainer'>
         <div className='leftButtons'>
           <div className='buttonRow'>
