@@ -132,7 +132,7 @@ th, tdUrun, tdHizmet {
 }
 
 th {
-  background-color: #87ceeb; /* Blue background for headers */
+  background-color: #393232; /* Blue background for headers */
   color: #fff; /* White text */
 }
 
@@ -168,7 +168,7 @@ label {
 /* CSS for the buttons in the rightmost column */
 .tableButton {
   padding: 5px 10px; /* Adjust padding */
-  background-color: #FF69B4; /* Blue background */
+  background-color: #0b00a4; /* Blue background */
   color: #fff; /* White text */
   border: none;
   border-radius: 3px;

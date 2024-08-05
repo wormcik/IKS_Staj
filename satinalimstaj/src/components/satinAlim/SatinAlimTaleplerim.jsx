@@ -125,7 +125,7 @@ const SatinAlim = () => {
         </thead>
         <tbody>
           {talepListesi?.map((item, index) => (
-            <tr key={index} style={{ textAlign:'center', backgroundColor: item.talepHizmetListe.length > 0 ? "#fc3328" : "#67ff5c" }}>
+            <tr key={index} style={{ textAlign:'center', backgroundColor: item.talepHizmetListe.length > 0 ? "#32C7C7" : "#FFD700" }}>
               <td>{formatDate(item.talepTarih)}</td>
               <td>{item.ongorulenTutar}</td>
               <td>{item.ongorulenTutarPbKod}</td>
