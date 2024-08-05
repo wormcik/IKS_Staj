@@ -193,7 +193,7 @@ namespace SatinAlimHizmet.Services
                 {
                     SatinAlmaHizmet hizmet = await satinAlmaDbContext.SatinAlmaHizmet.FirstOrDefaultAsync(x =>
                     x.SatinAlmaHizmetKod == HizmetKod.SatinAlmaHizmetKod);
-
+                        
                     if (hizmet != null)
                     {
                         var BirimHizmet = new BirimHizmetModelDTO();

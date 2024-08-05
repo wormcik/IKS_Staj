@@ -33,6 +33,8 @@ namespace SatinAlim.Models.DTO
 
         public bool? Reddedildi { get; set; }
 
+        public int personelKod { get; set; }
+
         public List<TalepUrunModelDTO> TalepUrunListe { get; set; }
 
         public List<TalepHizmetModelDTO> TalepHizmetListe { get; set; }

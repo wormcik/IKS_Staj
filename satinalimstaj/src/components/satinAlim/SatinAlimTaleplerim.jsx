@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './satinAlim.css';
 
-const SatinAlimTaleplerim = () => {
+const SatinAlim = () => {
   const navigate = useNavigate();
   const [talepListesi, setTalepListesi] = useState([]);
   const [startDate, setStartDate] = useState('');
@@ -11,8 +11,10 @@ const SatinAlimTaleplerim = () => {
   const [endDate, setEndDate] = useState('');
   const [maxAmount, setMaxAmount] = useState('');
   const jwtToken = localStorage.getItem('jwt');
-
-
+  
+  const handleButtonClick = () => {
+    navigate('/satinAlim/ekle');
+  };
 
   const handleLogOutButtonClick = () => {
     navigate('/satinAlim');
@@ -37,16 +39,37 @@ const SatinAlimTaleplerim = () => {
     }
   };
 
+  const handleCellButtonClick = (talepKod) => {
+    navigate(`/satinAlim/detay/${talepKod}`);
+  };
+
+  const formatDate = (dateString) => {
+    const [datePart] = dateString.split('T');
+    const [year, month, day] = datePart.split('-');
+    return `${day}.${month}.${year}`;
+  };
+
+  const getRowClass = (item) => {
+    if (item.talepUrunListe.length > 0) return 'urunRow'; // Ensure item.talepUrunListe exists
+    if (item.talepHizmetListe.length > 0) return 'hizmetRow'; // Ensure item.talepHizmetListe exists
+    return '';
+  };
+  
+
+  useEffect(() => {handleSorgulaClick()},[jwtToken]);
+
+
   return (
     <div className='satinalimcontainer'>
+      <button className="addButton" onClick={handleButtonClick}>Ekle</button>
       <button className="logOutButton" onClick={handleLogOutButtonClick}>Geri</button>
-      <h1>Satin Alim</h1>
+      <h1>Taleplerim</h1>
       <div className='buttonContainer'>
         <div className='leftButtons'>
           <div className='buttonRow'>
             <label>
               <input
-                type="text"
+                type="date"
                 className="actionInput"
                 placeholder="Baslangic Tarihi"
                 value={startDate}
@@ -66,7 +89,7 @@ const SatinAlimTaleplerim = () => {
           <div className='buttonRow'>
             <label>
               <input
-                type="text"
+                type="date"
                 className="actionInput"
                 placeholder="Bitisi Tarihi"
                 value={endDate}
@@ -97,17 +120,21 @@ const SatinAlimTaleplerim = () => {
             <th>Açıklama</th>
             <th>Transaction ID</th>
             <th>Onay Sıra</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {talepListesi?.map((item, index) => (
-            <tr key={index}>
-              <td>{item.talepTarih}</td>
+            <tr key={index} style={{ textAlign:'center', backgroundColor: item.talepHizmetListe.length > 0 ? "#fc3328" : "#67ff5c" }}>
+              <td>{formatDate(item.talepTarih)}</td>
               <td>{item.ongorulenTutar}</td>
               <td>{item.ongorulenTutarPbKod}</td>
               <td>{item.aciklama}</td>
               <td>{item.transactionId}</td>
               <td>{item.onaySira}</td>
+              <td>
+                <button className="tableButton" onClick={() => handleCellButtonClick(item.satinAlmaTalepKod)}>Detay</button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -116,4 +143,4 @@ const SatinAlimTaleplerim = () => {
   );
 };
 
-export default SatinAlimTaleplerim;
+export default SatinAlim;

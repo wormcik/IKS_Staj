@@ -147,3 +147,20 @@
     box-sizing: border-box; /* Includes padding and border in the width */
     margin-right: 20px; /* Space between the button and the heading */
 }
+
+
+.taleplerimButton {
+    /* Example styling */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px; /* Space between buttons */
+    cursor: pointer;
+    border-radius: 4px;
+    right: 200px;
+  }
+  
+  .taleplerimButton:hover {
+    background-color: #0056b3;
+  }

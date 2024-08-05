@@ -61,19 +61,19 @@ namespace SatinAlim.Services
                 talep.OngorulenTutar = sorgu.OngorulenTutar;
                 talep.OngorulenTutarPbKod = sorgu.OngorulenTutarPbKod;
                 talep.SatinAlmaBirimKod = sorgu.SatinAlmaBirimKod;
-                talep.TalepTarih = sorgu.TalepTarih;
+                talep.TalepTarih = DateTime.Now;
                 talep.TransactionId = Guid.NewGuid();
                 talep.SatinAlmaTalepUrun = new List<SatinAlmaTalepUrun>();
                 talep.SatinAlmaTalepHizmet = new List<SatinAlmaTalepHizmet>();
                 talep.Onaylandi = false;
                 talep.Reddedildi = false;
-
+                talep.PersonelKod = personel.PersonelKod;
                 var talepTarihce = new SatinAlmaTalepTarihce();
                 talepTarihce.Aciklama = talep.Aciklama;
                 talepTarihce.IslemTarih = talep.IslemTarih;
                 talepTarihce.OnaySira = talep.OnaySira;
                 talepTarihce.PersonelKod = personel.PersonelKod;
-
+                talepTarihce.SatinAlmaTalep = talep;
                 foreach (var urun in sorgu.TalepUrunSorguModelListe)
                 {
                     var dbdekiUrun = await satinAlimDbContext.SatinAlmaUrun.FirstOrDefaultAsync(q => q.SatinAlmaUrunKod == urun.SatinAlmaUrunKod);
@@ -330,6 +330,7 @@ namespace SatinAlim.Services
             result.TransactionId = talep.TransactionId;
             result.Onaylandi = talep.Onaylandi;
             result.Reddedildi = talep.Reddedildi;
+            result.personelKod = talep.PersonelKod;
             result.TalepUrunListe = new List<TalepUrunModelDTO>();
             foreach (var urun in talep.SatinAlmaTalepUrun)
             {
@@ -587,6 +588,82 @@ namespace SatinAlim.Services
                 TalepModelDTOListe.Add(result);
             }
             return new ProcessResult<List<TalepModelDTO>>().Successful(TalepModelDTOListe);
+        }
+
+
+
+
+        public async Task<ProcessResult<TalepModelDTO>> PersonelTalepGetirAsync(long TalepKod, Guid KullanıcıKod)
+        {
+            var talep = await satinAlimDbContext.SatinAlmaTalep
+    .Include(x => x.SatinAlmaTalepUrun)
+        .ThenInclude(x => x.SatinAlmaUrun)
+            .ThenInclude(x => x.SatinAlmaBirimUrun)
+                .ThenInclude(x => x.SatinAlmaBirim)
+    .Include(x => x.SatinAlmaTalepHizmet)
+        .ThenInclude(x => x.SatinAlmaHizmet)
+            .ThenInclude(x => x.SatinAlmaBirimHizmet)
+                .ThenInclude(x => x.SatinAlmaBirim).FirstOrDefaultAsync(x => x.SatinAlmaTalepKod == TalepKod);
+
+            if (talep == null)
+            {
+                return new ProcessResult<TalepModelDTO>().Failed("Talep bulunamamdı.");
+            }
+
+            var Personel = await satinAlimDbContext.Personel.FirstOrDefaultAsync(x =>
+            x.KullaniciKod == KullanıcıKod);
+
+            if (Personel == null)
+            {
+                return new ProcessResult<TalepModelDTO>().Failed("Personel bulunamamdı.");
+
+            }
+
+            var BirimPersonel = await satinAlimDbContext.SatinAlmaBirimPersonel.FirstOrDefaultAsync(x =>
+            x.PersonelKod == Personel.PersonelKod);
+
+            var result = new TalepModelDTO();
+            result.SatinAlmaTalepKod = talep.SatinAlmaTalepKod;
+            var birim = await satinAlimDbContext.SatinAlmaBirim.FirstOrDefaultAsync(x => x.SatinAlmaBirimKod == talep.SatinAlmaBirimKod);
+            result.BirimAd = birim.BirimAd;
+            result.Aciklama = talep.Aciklama;
+            result.IslemTarih = talep.IslemTarih;
+            result.OnaySira = talep.OnaySira;
+            result.OngorulenTutar = talep.OngorulenTutar;
+            result.OngorulenTutarPbKod = talep.OngorulenTutarPbKod;
+            result.SatinAlmaBirimKod = talep.SatinAlmaBirimKod;
+            result.TalepTarih = talep.TalepTarih;
+            result.TransactionId = talep.TransactionId;
+            result.Onaylandi = talep.Onaylandi;
+            result.Reddedildi = talep.Reddedildi;
+            result.TalepUrunListe = new List<TalepUrunModelDTO>();
+             result.personelKod = talep.PersonelKod; 
+            foreach (var urun in talep.SatinAlmaTalepUrun)
+            {
+                var TalepUrun = new TalepUrunModelDTO();
+                TalepUrun.BirimFiyat = urun.BirimFiyat;
+                TalepUrun.Miktar = urun.Miktar;
+                TalepUrun.PbKod = urun.PbKod;
+                TalepUrun.SatinAlmaTalepUrunKod = urun.SatinAlmaTalepUrunKod;
+                TalepUrun.SatinAlmaUrunKod = urun.SatinAlmaUrunKod;
+                result.TalepUrunListe.Add(TalepUrun);
+            }
+            result.TalepHizmetListe = new List<TalepHizmetModelDTO>();
+            foreach (var hizmet in talep.SatinAlmaTalepHizmet)
+            {
+                var TalepHizmet = new TalepHizmetModelDTO();
+                TalepHizmet.BirimFiyat = hizmet.BirimFiyat;
+                TalepHizmet.Miktar = hizmet.Miktar;
+                TalepHizmet.PbKod = hizmet.PbKod;
+                TalepHizmet.SatinAlmaHizmetKod = hizmet.SatinAlmaHizmetKod;
+                TalepHizmet.SatinAlmaTalepHizmetKod = hizmet.SatinAlmaTalepKod;
+                result.TalepHizmetListe.Add(TalepHizmet);
+            }
+
+
+
+            return new ProcessResult<TalepModelDTO>().Successful(result);
+
         }
     }
 }

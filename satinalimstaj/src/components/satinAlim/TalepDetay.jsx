@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TalepDetay = () => {
     const { TalepKod } = useParams();
@@ -10,17 +10,24 @@ const TalepDetay = () => {
     const [Personel, setPersonel] = useState(null);
     const [UrunListesi, setUrunListesi] = useState([]);
     const [HizmetListesi, setHizmetListesi] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchData = async () => {
             try {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
+                
+                const PersonelTalepresponse = await axios.get(`https://localhost:7092/api/v1/satinAlim/SatinAlim/PersonelTalepGetir?TalepKod=${talepKod}`);
+
                 const response = await axios.get(`https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepGetir?talepKod=${talepKod}`);
                 setTalep(response.data.model);
                 
+                if(Talep == null){
+                    setTalep(PersonelTalepresponse.data.model);
+                }
+
                 const personelResponse = await axios.get('https://localhost:7092/api/v1/satinAlim/Personel/UserPersonelGetir');
                 setPersonel(personelResponse.data.model);
-                
+                console.log(Talep);
                 const UrunListesiResponse = await axios.post('https://localhost:7092/api/v1/satinAlim/Urun/BirimUrunListele');
                 setUrunListesi(UrunListesiResponse.data.model);
                 
@@ -49,9 +56,8 @@ const TalepDetay = () => {
     const handleOnayla = async () => {
         try {
             axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
-            await axios.put(`https://localhost:7092/api/v1/satinAlim/SatinAlim/Onayla`, { talepKod });
-            const response = await axios.get(`https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepGetir?talepKod=${talepKod}`);
-            setTalep(response.data.model);
+            await axios.put(`https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepOnayla?TalepKod=${ talepKod }`);
+            window.location.reload();
         } catch (error) {
             console.error('Onayla error:', error);
         }
@@ -60,15 +66,14 @@ const TalepDetay = () => {
     const handleReddet = async () => {
         try {
             axios.defaults.headers.common['Authorization'] = `Bearer ${jwtToken}`;
-            await axios.put(`https://localhost:7092/api/v1/satinAlim/SatinAlim/Reddet`, { talepKod });
-            const response = await axios.get(`https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepGetir?talepKod=${talepKod}`);
-            setTalep(response.data.model);
+            await axios.put(`https://localhost:7092/api/v1/satinAlim/SatinAlim/TalepReddet?TalepKod=${ talepKod }` );
+            window.location.reload();
         } catch (error) {
             console.error('Reddet error:', error);
         }
     };
-
-    const isActionDisabled = Talep.onaylandi || Talep.reddedildi || Personel.onaySira !== Talep.onaySira;
+    
+    const isActionDisabled = Talep.onaylandi || Talep.reddedildi || Personel.onaySira !== Talep.onaySira || Personel.personelKod == Talep.personelKod;
 
     const statusText = Talep.onaylandi ? 'Onaylandi' : Talep.reddedildi ? 'Reddedildi' : 'Onay Bekliyor';
 
@@ -77,10 +82,15 @@ const TalepDetay = () => {
         return item ? item.tanim : '';
     };
 
+    const handleLogOutButtonClick = () => {
+        navigate('/satinAlim');
+      };
     return (
         <div className='talep_body'>
             <div className="talep_container">
+           <button className="talep_navigate-button" onClick={handleLogOutButtonClick}>Geri</button>
                 <h1>Talep Details</h1>
+                 
                 <div className="talep_form-group">
                     <label htmlFor="status">Durum:</label>
                     <input
