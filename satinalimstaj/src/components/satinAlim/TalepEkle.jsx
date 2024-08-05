@@ -177,7 +177,7 @@ const TalepEkle = () => {
     formData.talepUrunSorguModelListe.length == 0 && formData.talepHizmetSorguModelListe.length == 0;
 
   const isListeyeEkleDisabled = () =>
-    currentItem.birimFiyat == null || currentItem.pbKod == null || currentItem.miktar == null
+    currentItem.birimFiyat == '' || currentItem.pbKod == '' || currentItem.miktar == '';
 
   return (
     <div className='talep_body'>

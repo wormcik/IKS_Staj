@@ -253,6 +253,8 @@ namespace SatinAlim.Services
                 result.TalepTarih = temp.TalepTarih;
                 result.TransactionId = temp.TransactionId;
                 result.TalepUrunListe = new List<TalepUrunModelDTO>();
+                result.Onaylandi = temp.Onaylandi;
+                result.Reddedildi = temp.Reddedildi;
                 foreach (var urun in temp.SatinAlmaTalepUrun)
                 {
                     var TalepUrun = new TalepUrunModelDTO();
@@ -563,6 +565,8 @@ namespace SatinAlim.Services
                 result.SatinAlmaBirimKod = temp.SatinAlmaBirimKod;
                 result.TalepTarih = temp.TalepTarih;
                 result.TransactionId = temp.TransactionId;
+                result.Onaylandi = temp.Onaylandi;
+                result.Reddedildi = temp.Reddedildi;
                 result.TalepUrunListe = new List<TalepUrunModelDTO>();
                 foreach (var urun in temp.SatinAlmaTalepUrun)
                 {
