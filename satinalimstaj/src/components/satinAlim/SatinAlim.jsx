@@ -55,7 +55,10 @@ const SatinAlim = () => {
     if (item.talepHizmetListe.length > 0) return 'hizmetRow'; // Ensure item.talepHizmetListe exists
     return '';
   };
-  
+
+  useEffect(() => {
+    handleSorgulaClick(); // Trigger Sorgula button click when component mounts
+  }, []); // Empty dependency array ensures this runs only once
 
   return (
     <div className='satinalimcontainer'>
@@ -76,17 +79,6 @@ const SatinAlim = () => {
             </label>
             <label>
               <input
-                type="text"
-                className="actionInput"
-                placeholder="Minimum"
-                value={minAmount}
-                onChange={(e) => setMinAmount(e.target.value)}
-              />
-            </label>
-          </div>
-          <div className='buttonRow'>
-            <label>
-              <input
                 type="date"
                 className="actionInput"
                 placeholder="Bitisi Tarihi"
@@ -98,11 +90,23 @@ const SatinAlim = () => {
               <input
                 type="text"
                 className="actionInput"
+                placeholder="Minimum"
+                value={minAmount}
+                onChange={(e) => setMinAmount(e.target.value)}
+              />
+            </label>
+            <label>
+              <input
+                type="text"
+                className="actionInput"
                 placeholder="Maximum"
                 value={maxAmount}
                 onChange={(e) => setMaxAmount(e.target.value)}
               />
             </label>
+          </div>
+          <div className='buttonRow'>
+
           </div>
         </div>
         <div className='rightButton'>
@@ -123,7 +127,7 @@ const SatinAlim = () => {
         </thead>
         <tbody>
           {talepListesi?.map((item, index) => (
-            <tr key={index} style={{ textAlign:'center', backgroundColor: item.talepHizmetListe.length > 0 ? "#fc3328" : "#67ff5c" }}>
+            <tr key={index} style={{ textAlign:'center', backgroundColor: item.talepHizmetListe.length > 0 ? "#32C7C7" : "#FFD700" }}>
               <td>{formatDate(item.talepTarih)}</td>
               <td>{item.ongorulenTutar}</td>
               <td>{item.ongorulenTutarPbKod}</td>
