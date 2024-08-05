@@ -94,7 +94,13 @@
   cursor: pointer;
   transition: background-color 0.3s ease-in-out; 
 }
+.addButton{
+background-color: #377b83;
+}
 
+.logOutButton{
+  background-color: #5e6161;
+}
 .addButton:hover, .logOutButton:hover {
   background-color: #0056b3; 
 }
@@ -166,7 +172,7 @@ label {
 
 .tableButton {
   padding: 5px 10px; 
-  background-color: #0b00a4; 
+  background-color: #516091; 
   color: #fff; 
   border: none;
   border-radius: 3px;

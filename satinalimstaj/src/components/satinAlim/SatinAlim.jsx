@@ -77,13 +77,14 @@ const SatinAlim = () => {
     <div className='satinalimcontainer'>
       <div className='buttonWrapper'>
         <div className='buttonContainer'>
-          <button className="taleplerimButton" onClick={handleTaleplerimClick}>Taleplerim</button>
-
+          
           <button className="addButton" onClick={handleButtonClick}>Ekle</button>
+         <button className="taleplerimButton" onClick={handleTaleplerimClick}>Taleplerim</button>
           <button className="logOutButton" onClick={handleLogOutButtonClick}>Güvenli Çıkış</button>
         </div>
       </div>
       <h1>Satın Alım</h1>
+       
       <div className='buttonContainer'>
         <div className='leftButtons'>
           <div className='buttonRow'>

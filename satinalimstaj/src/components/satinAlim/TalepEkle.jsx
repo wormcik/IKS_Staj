@@ -183,7 +183,7 @@ const TalepEkle = () => {
     <div className='talep_body'>
     <div className="talep_container">
     <button className="talep_navigate-button" onClick={handleReturnButtonClick}>
-          Return
+          Geri
         </button>
     <h1 className="talep_h1">Birim Listesi</h1>
     <div className="talep_birim-listesi">

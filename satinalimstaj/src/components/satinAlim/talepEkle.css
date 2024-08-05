@@ -136,7 +136,8 @@
 
 
 .talep_navigate-button {
-    background-color: #0d6a9b; /* Different color for the navigate button */
+    background-color: #5e6161
+    ; /* Different color for the navigate button */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -151,14 +152,15 @@
 
 .taleplerimButton {
     /* Example styling */
-    background-color: #007bff;
+    background-color: #3f979b;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 15px 30px;
     margin-right: 10px; /* Space between buttons */
     cursor: pointer;
+    font-size:medium;
     border-radius: 4px;
-    right: 200px;
+    right: 20px;
   }
   
   .taleplerimButton:hover {
