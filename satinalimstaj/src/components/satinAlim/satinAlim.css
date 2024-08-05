@@ -132,8 +132,8 @@ th, tdUrun, tdHizmet {
 }
 
 th {
-  background-color: #393232; 
-  color: #fff; 
+  background-color: #74bec1; /* Blue background for headers */
+  color: #fff; /* White text */
 }
 
 td {
