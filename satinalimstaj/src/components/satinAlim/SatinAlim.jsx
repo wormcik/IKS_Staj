@@ -56,9 +56,9 @@ const SatinAlim = () => {
 
   function booleanToString(bool) {
     if(bool == true)
-      return "evet";
+      return "Evet";
     else
-      return "yanlış";
+      return "Hayır";
   }
   
 
