@@ -138,7 +138,7 @@ const SatinAlim = () => {
           <tr>
             <th>Talep Tarih</th>
             <th>Öngörülen Tutar</th>
-            <th>Para Birim Kod</th>
+            <th>Para Birim</th>
             <th>Açıklama</th>
             <th>Onaylandı</th>
             <th>Reddedildi</th>
